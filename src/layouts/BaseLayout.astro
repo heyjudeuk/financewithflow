@@ -171,6 +171,12 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://financew
           transform: none !important;
         }
       }
+
+      /* Ensure all Elementor background images and circles render reliably */
+      .e-con.e-parent:not(.e-lazyloaded),
+      .e-con.e-parent:not(.e-lazyloaded) * {
+        background-image: revert;
+      }
     </style>
   </head>
   <body class={bodyClass}>
@@ -180,9 +186,17 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://financew
     </main>
     <Footer />
 
-    <!-- Elementor Animation Trigger Client Script -->
+    <!-- Elementor Animation and Container Initialization Script -->
     <script>
+      function initElementorContainers() {
+        // Ensure all Elementor containers are marked as loaded so background images display immediately
+        document.querySelectorAll('.e-con').forEach(el => {
+          el.classList.add('e-lazyloaded', 'e-no-lazyload');
+        });
+      }
+
       function initElementorAnimations() {
+        initElementorContainers();
         const animatedElements = document.querySelectorAll('[data-settings*="animation"]');
         if (!animatedElements.length) return;
 
