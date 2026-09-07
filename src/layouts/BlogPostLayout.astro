@@ -5,11 +5,12 @@ interface Props {
   title: string;
   publishedDate: string | Date;
   author?: string;
+  category?: string;
   featuredImage?: string;
   excerpt?: string;
 }
 
-const { title, publishedDate, author = 'Roz Johnson', featuredImage, excerpt } = Astro.props;
+const { title, publishedDate, author = 'Roz Johnson', category = 'Featured', featuredImage, excerpt } = Astro.props;
 
 const dateStr = typeof publishedDate === 'string' 
   ? new Date(publishedDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
@@ -29,12 +30,17 @@ const dateStr = typeof publishedDate === 'string'
         
         <!-- Post Info Meta -->
         <div class="elementor-element elementor-widget elementor-widget-post-info" style="margin-bottom: 16px;">
-          <div class="elementor-widget-container" style="color: #31CDB0; font-size: 14px; font-weight: 600;">
+          <div class="elementor-widget-container" style="display: flex; align-items: center; flex-wrap: wrap; gap: 8px; color: #31CDB0; font-size: 14px; font-weight: 600;">
+            {category && (
+              <span style="background: #31CDB0; color: #160F3F; padding: 4px 12px; border-radius: 9999px; font-weight: 700; font-size: 12px; text-transform: uppercase;">
+                {category}
+              </span>
+            )}
             <span>✍️ {author}</span>
-            <span style="margin: 0 8px; color: rgba(255,255,255,0.4);">•</span>
+            <span style="color: rgba(255,255,255,0.4);">•</span>
             <span>📅 {dateStr}</span>
-            <span style="margin: 0 8px; color: rgba(255,255,255,0.4);">•</span>
-            <a href="/blog" style="color: #31CDB0; text-decoration: underline;">Insights & Blog</a>
+            <span style="color: rgba(255,255,255,0.4);">•</span>
+            <a href="/blog" style="color: #31CDB0; text-decoration: underline;">Insights &amp; Blog</a>
           </div>
         </div>
 

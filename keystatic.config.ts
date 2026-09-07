@@ -25,6 +25,22 @@ export default config({
           label: 'Author',
           defaultValue: 'Finance with Flow',
         }),
+        category: fields.select({
+          label: 'Category',
+          options: [
+            { label: 'Blogs from the MD', value: 'Blogs from the MD' },
+            { label: 'Outsourcing', value: 'Outsourcing' },
+            { label: 'Social Mobility', value: 'Social Mobility' },
+            { label: 'Construction Specialists', value: 'Construction Specialists' },
+            { label: 'Insights', value: 'Insights' },
+            { label: 'Featured', value: 'Featured' },
+            { label: 'Year End', value: 'Year End' },
+            { label: 'Guest Writer', value: 'Guest Writer' },
+            { label: 'Case Study', value: 'Case Study' },
+            { label: 'CIS and PAYE', value: 'CIS and PAYE' },
+          ],
+          defaultValue: 'Featured',
+        }),
         featuredImage: fields.image({
           label: 'Featured Image',
           directory: 'public/images/posts',
