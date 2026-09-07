@@ -8,130 +8,60 @@ const sortedPosts = allPosts.sort((a, b) => {
   const dateB = new Date(b.data.publishedDate).getTime();
   return dateB - dateA;
 });
-
-const featuredPost = sortedPosts[0];
-const remainingPosts = sortedPosts.slice(1);
 ---
 
 <BaseLayout 
-  title="Insights & Blog | Finance with Flow" 
-  description="Stay informed with expert guidance on outsourced finance, construction accounting, cashflow management, VAT, and business growth."
+  title="Insights | Finance with Flow"
+  description="Explore our news & insights on outsourced finance, construction accounting, cashflow, and business growth."
+  bodyClass="page-template-default page page-id-1210 elementor-default elementor-kit-7 elementor-page elementor-page-1210"
 >
-  <!-- Hero Section -->
-  <section class="bg-[#FEF9F3] py-16 lg:py-20 border-b border-slate-200">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <span class="inline-block px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider text-[#3456A7] bg-[#3456A7]/10 mb-4">
-        Our Blog & Knowledge Base
-      </span>
-      <h1 class="text-4xl sm:text-5xl font-extrabold text-[#160F3F] tracking-tight mb-4">
-        Insights & Financial Clarity
-      </h1>
-      <p class="text-lg text-slate-600 max-w-2xl mx-auto">
-        Actionable financial insights, construction sector analysis, accounting best practices, and stories from the team at Finance with Flow.
-      </p>
-    </div>
-  </section>
-
-  <!-- Featured Post -->
-  {featuredPost && (
-    <section class="py-12 bg-white border-b border-slate-100">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 class="text-xs font-bold uppercase tracking-widest text-[#3456A7] mb-6">Latest Article</h2>
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-slate-50 rounded-3xl p-6 sm:p-8 lg:p-10 border border-slate-100 hover:shadow-lg transition-all duration-300">
-          {featuredPost.data.featuredImage && (
-            <div class="lg:col-span-7 rounded-2xl overflow-hidden aspect-video">
-              <img 
-                src={featuredPost.data.featuredImage} 
-                alt={featuredPost.data.title}
-                class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" 
-              />
-            </div>
-          )}
-          <div class={featuredPost.data.featuredImage ? "lg:col-span-5 space-y-4" : "lg:col-span-12 space-y-4"}>
-            <div class="flex items-center gap-3 text-xs text-slate-500 font-medium">
-              <span>✍️ {featuredPost.data.author}</span>
-              <span>•</span>
-              <time datetime={String(featuredPost.data.publishedDate)}>
-                {new Date(featuredPost.data.publishedDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
-              </time>
-            </div>
-            <h3 class="text-2xl sm:text-3xl font-bold text-[#160F3F] leading-snug">
-              <a href={`/blog/${featuredPost.id}`} class="hover:text-[#3456A7] transition-colors">
-                {featuredPost.data.title}
-              </a>
-            </h3>
-            <p class="text-slate-600 text-sm leading-relaxed line-clamp-3">
-              {featuredPost.data.excerpt}
-            </p>
-            <div class="pt-2">
-              <a 
-                href={`/blog/${featuredPost.id}`} 
-                class="inline-flex items-center gap-2 text-sm font-bold text-[#3456A7] hover:text-[#31CDB0] transition-colors"
-              >
-                Read Full Article <span>→</span>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  )}
-
-  <!-- Posts Grid -->
-  <section class="py-16 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between mb-10">
-        <h2 class="text-2xl font-bold text-[#160F3F]">All Articles ({sortedPosts.length})</h2>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {remainingPosts.map(post => {
-          const dateStr = new Date(post.data.publishedDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
-          return (
-            <article class="flex flex-col bg-white rounded-2xl overflow-hidden border border-slate-200/80 hover:shadow-xl hover:border-[#31CDB0]/50 transition-all duration-300 group">
-              {post.data.featuredImage ? (
-                <a href={`/blog/${post.id}`} class="aspect-video overflow-hidden bg-slate-100 block">
+  <div class="page-content">
+    <Fragment set:html={`<div data-elementor-type="wp-page" data-elementor-id="1210" class="elementor elementor-1210" data-elementor-post-type="page"><div class="elementor-element elementor-element-6f97368 e-flex e-con-boxed e-con e-parent" data-id="6f97368" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}"><div class="e-con-inner"><div class="elementor-element elementor-element-74e8657 e-flex e-con-boxed e-con e-child" data-id="74e8657" data-element_type="container"><div class="e-con-inner"><div class="elementor-element elementor-element-469b88b elementor-widget elementor-widget-heading" data-id="469b88b" data-element_type="widget" data-widget_type="heading.default"><div class="elementor-widget-container"><h2 class="elementor-heading-title elementor-size-default">Blog</h2></div></div><div class="elementor-element elementor-element-38f1d61 elementor-widget elementor-widget-image" data-id="38f1d61" data-element_type="widget" data-widget_type="image.default"><div class="elementor-widget-container"> <img class="attachment-large size-large wp-image-1656 " src="/wp-content/uploads/2023/12/logo-white-1024x279-2.webp" decoding="async" width="800" height="216"   alt="" srcset="/wp-content/uploads/2023/12/logo-white-1024x279-2.webp 1024w, /wp-content/uploads/2023/12/logo-white-1024x279-2-300x81.webp 300w, /wp-content/uploads/2023/12/logo-white-1024x279-2-768x207.webp 768w" sizes="(max-width: 800px) 100vw, 800px" /></div></div><div class="elementor-element elementor-element-657f4a3 elementor-widget elementor-widget-heading" data-id="657f4a3" data-element_type="widget" data-widget_type="heading.default"><div class="elementor-widget-container"><h1 class="elementor-heading-title elementor-size-default">Explore our news &amp; insights</h1></div></div><div class="elementor-element elementor-element-af84f07 elementor-widget elementor-widget-button" data-id="af84f07" data-element_type="widget" data-widget_type="button.default"><div class="elementor-widget-container"><div class="elementor-button-wrapper"> <a class="elementor-button elementor-button-link elementor-size-sm" href="/finance-with-flow-newsletter-sign-up/"> <span class="elementor-button-content-wrapper"> <span class="elementor-button-text">Join our newsletter here</span> </span> </a></div></div></div></div></div></div></div><div class="elementor-element elementor-element-340bbb7 e-flex e-con-boxed e-con e-parent" data-id="340bbb7" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}"><div class="e-con-inner"><div class="elementor-element elementor-element-c0f41bb e-flex e-con-boxed elementor-invisible e-con e-child" data-id="c0f41bb" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;,&quot;animation&quot;:&quot;fadeInRight&quot;}"><div class="e-con-inner"><div class="elementor-element elementor-element-44b0776 elementor-widget elementor-widget-heading" data-id="44b0776" data-element_type="widget" data-widget_type="heading.default"><div class="elementor-widget-container"><h2 class="elementor-heading-title elementor-size-default">Featured News &amp; Insights</h2></div></div></div></div><div class="elementor-element elementor-element-f781887 e-flex e-con-boxed e-con e-child" data-id="f781887" data-element_type="container"><div class="e-con-inner"><div class="elementor-element elementor-element-55c78da elementor-widget__width-inherit elementor-grid-3 elementor-grid-tablet-2 elementor-grid-mobile-1 elementor-posts--thumbnail-top elementor-card-shadow-yes elementor-posts__hover-gradient elementor-widget elementor-widget-posts" data-id="55c78da" data-element_type="widget" data-settings="{&quot;pagination_type&quot;:&quot;prev_next&quot;,&quot;cards_columns&quot;:&quot;3&quot;,&quot;cards_columns_tablet&quot;:&quot;2&quot;,&quot;cards_columns_mobile&quot;:&quot;1&quot;,&quot;cards_row_gap&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:35,&quot;sizes&quot;:[]},&quot;cards_row_gap_laptop&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;cards_row_gap_tablet&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;cards_row_gap_mobile&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]}}" data-widget_type="posts.cards"><div class="elementor-widget-container">`} />
+    
+    <div class="elementor-posts-container elementor-posts elementor-posts--skin-cards elementor-grid">
+      {sortedPosts.map(post => {
+        const dateStr = new Date(post.data.publishedDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+        const imgUrl = post.data.featuredImage || '/wp-content/uploads/2023/12/what-we-do.png';
+        return (
+          <article class="elementor-post elementor-grid-item post type-post status-publish format-standard has-post-thumbnail" role="listitem">
+            <div class="elementor-post__card">
+              <a class="elementor-post__thumbnail__link" href={`/blog/${post.id}`} tabindex="-1">
+                <div class="elementor-post__thumbnail">
                   <img 
-                    src={post.data.featuredImage} 
+                    src={imgUrl} 
                     alt={post.data.title} 
-                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    loading="lazy"
+                    loading="lazy" 
+                    width="400" 
+                    height="267" 
+                    style="width: 100%; height: 100%; object-fit: cover;"
                   />
-                </a>
-              ) : (
-                <div class="aspect-video bg-gradient-to-br from-[#160F3F] to-[#3456A7] flex items-center justify-center p-6 text-white text-center font-bold text-lg">
-                  Finance with Flow
                 </div>
-              )}
-              <div class="p-6 flex-1 flex flex-col justify-between">
-                <div>
-                  <div class="flex items-center gap-2 text-xs text-slate-500 font-medium mb-3">
-                    <span>{dateStr}</span>
-                    <span>•</span>
-                    <span>{post.data.author}</span>
-                  </div>
-                  <h3 class="text-xl font-bold text-[#160F3F] leading-snug mb-3 group-hover:text-[#3456A7] transition-colors">
-                    <a href={`/blog/${post.id}`}>
-                      {post.data.title}
-                    </a>
-                  </h3>
-                  <p class="text-slate-600 text-sm leading-relaxed line-clamp-3 mb-4">
-                    {post.data.excerpt}
-                  </p>
-                </div>
-                <div class="pt-4 border-t border-slate-100 flex items-center justify-between">
-                  <a 
-                    href={`/blog/${post.id}`} 
-                    class="text-xs font-bold uppercase tracking-wider text-[#3456A7] group-hover:text-[#31CDB0] transition-colors inline-flex items-center gap-1"
-                  >
-                    Read Story →
+              </a>
+              <div class="elementor-post__badge">Finance & Business</div>
+              <div class="elementor-post__text">
+                <h3 class="elementor-post__title">
+                  <a href={`/blog/${post.id}`}>
+                    {post.data.title}
                   </a>
-                </div>
+                </h3>
+                {post.data.excerpt && (
+                  <div class="elementor-post__excerpt" style="font-size: 14px; color: #4a5568; margin-top: 8px; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
+                    <p>{post.data.excerpt}</p>
+                  </div>
+                )}
+                <a class="elementor-post__read-more" href={`/blog/${post.id}`} aria-label={`Read more about ${post.data.title}`} tabindex="-1">
+                  Read More »
+                </a>
               </div>
-            </article>
-          );
-        })}
-      </div>
+              <div class="elementor-post__meta-data">
+                <span class="elementor-post-date">{dateStr}</span>
+              </div>
+            </div>
+          </article>
+        );
+      })}
     </div>
-  </section>
+
+    <Fragment set:html={`</div></div></div></div></div></div><div class="elementor-element elementor-element-a192b6a e-flex e-con-boxed e-con e-parent" data-id="a192b6a" data-element_type="container"><div class="e-con-inner"><div class="elementor-element elementor-element-1a1da0a e-flex e-con-boxed e-con e-child" data-id="1a1da0a" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}"><div class="e-con-inner"><div class="elementor-element elementor-element-a61ee83 e-flex e-con-boxed e-con e-child" data-id="a61ee83" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}"><div class="e-con-inner"><div class="elementor-element elementor-element-68ec8da elementor-widget elementor-widget-heading" data-id="68ec8da" data-element_type="widget" data-widget_type="heading.default"><div class="elementor-widget-container"><h2 class="elementor-heading-title elementor-size-default">Join the Finance with Flow Journey</h2></div></div></div></div><div class="elementor-element elementor-element-262e97d e-flex e-con-boxed e-con e-child" data-id="262e97d" data-element_type="container"><div class="e-con-inner"><div class="elementor-element elementor-element-bdec65e elementor-invisible elementor-widget elementor-widget-text-editor" data-id="bdec65e" data-element_type="widget" data-settings="{&quot;_animation&quot;:&quot;fadeInRight&quot;,&quot;_animation_delay&quot;:250}" data-widget_type="text-editor.default"><div class="elementor-widget-container"><p>Let’s work together to not only achieve financial goals but to exceed them while staying true to the heart and soul of your business.</p><p>We’re here to help – contact us to today, to discuss your requirements and let’s shape your success together.</p></div></div><div class="elementor-element elementor-element-ea0040e elementor-align-center elementor-widget elementor-widget-button" data-id="ea0040e" data-element_type="widget" data-widget_type="button.default"><div class="elementor-widget-container"><div class="elementor-button-wrapper"> <a class="elementor-button elementor-button-link elementor-size-md" href="/contact/"> <span class="elementor-button-content-wrapper"> <span class="elementor-button-text">Contact us today</span> </span> </a></div></div></div></div></div></div></div></div></div></div>`} />
+  </div>
 </BaseLayout>

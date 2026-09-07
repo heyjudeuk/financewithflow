@@ -9,93 +9,109 @@ interface Props {
   excerpt?: string;
 }
 
-const { title, publishedDate, author = 'Finance with Flow', featuredImage, excerpt } = Astro.props;
+const { title, publishedDate, author = 'Roz Johnson', featuredImage, excerpt } = Astro.props;
 
 const dateStr = typeof publishedDate === 'string' 
   ? new Date(publishedDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
   : publishedDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 ---
 
-<BaseLayout title={`${title} | Finance with Flow Insights`} description={excerpt} image={featuredImage}>
-  <article class="py-12 lg:py-16 bg-white">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-      
-      <!-- Breadcrumb -->
-      <nav class="flex items-center gap-2 text-sm text-slate-500 mb-6">
-        <a href="/" class="hover:text-[#3456A7]">Home</a>
-        <span>/</span>
-        <a href="/blog" class="hover:text-[#3456A7]">Insights</a>
-        <span>/</span>
-        <span class="text-slate-800 font-medium truncate max-w-xs">{title}</span>
-      </nav>
-
-      <!-- Post Header -->
-      <header class="mb-8">
-        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#160F3F] leading-tight mb-4">
-          {title}
-        </h1>
-
-        <div class="flex flex-wrap items-center gap-4 text-sm text-slate-600 border-b border-slate-100 pb-6">
-          <span class="inline-flex items-center gap-1.5 font-medium text-[#3456A7]">
-            ✍️ {author}
-          </span>
-          <span class="text-slate-300">•</span>
-          <time datetime={String(publishedDate)} class="text-slate-500">
-            📅 {dateStr}
-          </time>
+<BaseLayout 
+  title={`${title} | Finance with Flow`} 
+  description={excerpt}
+  bodyClass="post-template-default single single-post elementor-default elementor-kit-7 elementor-page"
+>
+  <div data-elementor-type="single-post" data-elementor-id="1191" class="elementor elementor-1191 elementor-location-single">
+    
+    <!-- Top Hero Section -->
+    <div class="elementor-element e-flex e-con-boxed e-con e-parent" data-settings='{"background_background":"classic"}' style="background: #160F3F; padding: 60px 0 40px 0; color: #ffffff;">
+      <div class="e-con-inner" style="max-width: 900px; margin: 0 auto; padding: 0 20px;">
+        
+        <!-- Post Info Meta -->
+        <div class="elementor-element elementor-widget elementor-widget-post-info" style="margin-bottom: 16px;">
+          <div class="elementor-widget-container" style="color: #31CDB0; font-size: 14px; font-weight: 600;">
+            <span>✍️ {author}</span>
+            <span style="margin: 0 8px; color: rgba(255,255,255,0.4);">•</span>
+            <span>📅 {dateStr}</span>
+            <span style="margin: 0 8px; color: rgba(255,255,255,0.4);">•</span>
+            <a href="/blog" style="color: #31CDB0; text-decoration: underline;">Insights & Blog</a>
+          </div>
         </div>
-      </header>
 
-      <!-- Featured Image -->
-      {featuredImage && (
-        <div class="mb-10 rounded-2xl overflow-hidden shadow-lg border border-slate-100 bg-slate-50">
-          <img 
-            src={featuredImage} 
-            alt={title} 
-            class="w-full h-auto max-h-[500px] object-cover"
-            loading="eager"
-          />
+        <!-- Post Title -->
+        <div class="elementor-element elementor-widget elementor-widget-heading" style="margin-bottom: 24px;">
+          <div class="elementor-widget-container">
+            <h1 class="elementor-heading-title" style="color: #ffffff; font-size: 38px; line-height: 1.25; font-weight: 700; margin: 0;">
+              {title}
+            </h1>
+          </div>
         </div>
-      )}
 
-      <!-- Post Content -->
-      <div class="prose max-w-none text-slate-700 text-lg leading-relaxed space-y-6">
-        <slot />
+        <!-- Featured Image -->
+        {featuredImage && (
+          <div class="elementor-element elementor-widget elementor-widget-image" style="margin-top: 30px; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.3);">
+            <div class="elementor-widget-container">
+              <img 
+                src={featuredImage} 
+                alt={title} 
+                style="width: 100%; height: auto; max-height: 520px; object-fit: cover; display: block;" 
+                loading="eager"
+              />
+            </div>
+          </div>
+        )}
+
       </div>
+    </div>
 
-      <!-- Author Bio & Call To Action -->
-      <div class="mt-16 p-8 rounded-2xl bg-[#FEF9F3] border border-[#31CDB0]/30 shadow-xs">
-        <div class="flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left">
-          <div class="w-20 h-20 rounded-full overflow-hidden shrink-0 border-2 border-[#3456A7]">
-            <img src="/images/branding/fwf-icon.webp" alt="Finance with Flow" class="w-full h-full object-cover" />
-          </div>
-          <div class="flex-1">
-            <h3 class="text-xl font-bold text-[#160F3F]">Need Clarity Over Your Business Finances?</h3>
-            <p class="text-sm text-slate-600 mt-1">
-              Finance with Flow acts as your complete outsourced finance department — from everyday bookkeeping and CIS to high-level strategic management accounts.
-            </p>
-          </div>
-          <div class="shrink-0">
-            <a 
-              href="/contact" 
-              class="inline-block px-6 py-3 rounded-full text-sm font-semibold text-white bg-[#3456A7] hover:bg-[#160F3F] transition-all shadow-sm"
-            >
-              Get in Touch
-            </a>
+    <!-- Excerpt Section -->
+    {excerpt && (
+      <div class="elementor-element e-flex e-con-boxed e-con e-parent" style="background: #FEF9F3; padding: 30px 0; border-bottom: 1px solid #e2e8f0;">
+        <div class="e-con-inner" style="max-width: 800px; margin: 0 auto; padding: 0 20px;">
+          <div class="elementor-element elementor-widget elementor-widget-theme-post-excerpt">
+            <div class="elementor-widget-container" style="font-size: 18px; font-style: italic; color: #160F3F; line-height: 1.6; font-weight: 500;">
+              "{excerpt}"
+            </div>
           </div>
         </div>
       </div>
+    )}
 
-      <!-- Navigation back to all articles -->
-      <div class="mt-12 text-center">
-        <a 
-          href="/blog" 
-          class="inline-flex items-center gap-2 text-sm font-semibold text-[#3456A7] hover:text-[#31CDB0] transition-colors"
-        >
-          ← Back to all Insights & Articles
+    <!-- Content Section -->
+    <div class="elementor-element e-flex e-con-boxed e-con e-parent" style="background: #ffffff; padding: 60px 0;">
+      <div class="e-con-inner" style="max-width: 800px; margin: 0 auto; padding: 0 20px;">
+        <div class="elementor-element elementor-widget elementor-widget-theme-post-content">
+          <div class="elementor-widget-container prose" style="font-size: 16px; line-height: 1.8; color: #2d3748;">
+            <slot />
+          </div>
+        </div>
+
+        <!-- Navigation back to all articles -->
+        <div style="margin-top: 50px; padding-top: 30px; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center;">
+          <a href="/blog" style="color: #3456A7; font-weight: 700; text-decoration: none; font-size: 15px;">
+            ← Back to all Insights
+          </a>
+          <a href="/contact" style="background: #3456A7; color: #ffffff; padding: 10px 22px; border-radius: 9999px; text-decoration: none; font-size: 14px; font-weight: 600;">
+            Book Discovery Call
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom CTA Container: Join the Finance with Flow Journey -->
+    <div class="elementor-element elementor-element-a192b6a e-flex e-con-boxed e-con e-parent" data-id="a192b6a" data-element_type="container" style="background: #160F3F; padding: 60px 0; color: #ffffff; text-align: center;">
+      <div class="e-con-inner" style="max-width: 700px; margin: 0 auto; padding: 0 20px;">
+        <h2 style="font-size: 32px; font-weight: 700; color: #ffffff; margin-bottom: 16px;">
+          Join the Finance with Flow Journey
+        </h2>
+        <p style="font-size: 16px; color: #cbd5e0; line-height: 1.6; margin-bottom: 28px;">
+          Let’s work together to not only achieve financial goals but to exceed them while staying true to the heart and soul of your business.
+        </p>
+        <a href="/contact" style="display: inline-block; background: #31CDB0; color: #160F3F; font-weight: 700; font-size: 15px; padding: 14px 32px; border-radius: 9999px; text-decoration: none;">
+          Contact Us Today
         </a>
       </div>
-
     </div>
-  </article>
+
+  </div>
 </BaseLayout>

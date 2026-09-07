@@ -1,18 +1,17 @@
 ---
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import '../styles/global.css';
 
 interface Props {
   title?: string;
   description?: string;
-  image?: string;
+  bodyClass?: string;
 }
 
 const {
-  title = "Finance with Flow | Outsourced Finance Department",
-  description = "Specialist outsourced finance services, bookkeeping, payroll, and strategic financial control that empowers businesses and helps them thrive.",
-  image = "/images/branding/logo-colour.webp",
+  title = "Home | Outsourced Finance | Finance with Flow",
+  description = "At Finance with Flow we specialise in providing comprehensive outsourced finance services that empower businesses and allow them to thrive.",
+  bodyClass = "page-template-default page elementor-default elementor-kit-7"
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://financewithflow.com');
@@ -23,36 +22,52 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://financew
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/png" href="/images/branding/favicon-192.png" />
+    <link rel="icon" type="image/png" href="/wp-content/uploads/2023/12/cropped-cropped-logo-colour-32x32.png" sizes="32x32" />
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalURL} />
 
-    <!-- Google Fonts -->
+    <!-- Google Fonts as used by Elementor kit -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link 
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Quicksand:wght@500;600;700&display=swap" 
-      rel="stylesheet" 
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Quicksand:wght@500;600;700&family=Roboto:wght@300;400;500;700&family=Roboto+Slab:wght@400;700&display=swap" rel="stylesheet" />
 
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content={canonicalURL} />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    <meta property="og:image" content={image} />
+    <!-- Exact 1:1 Elementor CSS Bundle -->
+    <link rel="stylesheet" href="/styles/site-bundle.css" />
 
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content={canonicalURL} />
-    <meta property="twitter:title" content={title} />
-    <meta property="twitter:description" content={description} />
-    <meta property="twitter:image" content={image} />
+    <style is:global>
+      /* Ensure Elementor icons and layout render with 100% precision */
+      html, body {
+        margin: 0;
+        padding: 0;
+        font-family: "Poppins", sans-serif;
+      }
+      .e-font-icon-svg {
+        display: inline-block;
+        width: 1em;
+        height: 1em;
+        fill: currentColor;
+      }
+      .elementor-menu-toggle__icon--close {
+        display: none;
+      }
+      .elementor-menu-toggle.elementor-active .elementor-menu-toggle__icon--close {
+        display: block;
+      }
+      .elementor-menu-toggle.elementor-active .elementor-menu-toggle__icon--open {
+        display: none;
+      }
+      .elementor-nav-menu--dropdown {
+        display: none;
+      }
+      .elementor-nav-menu--dropdown.elementor-active {
+        display: block;
+      }
+    </style>
   </head>
-  <body class="min-h-screen flex flex-col bg-white text-[#160F3F] antialiased">
+  <body class={bodyClass}>
     <Header />
-    <main class="flex-1">
+    <main id="content" class="site-main">
       <slot />
     </main>
     <Footer />

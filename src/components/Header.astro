@@ -1,100 +1,27 @@
 ---
-const navItems = [
-  { name: 'Home', href: '/' },
-  { name: 'About', href: '/about' },
-  { name: 'Meet The Team', href: '/meet-the-team' },
-  { name: 'Services', href: '/services' },
-  { name: 'Packages', href: '/packages' },
-  { name: 'Insights', href: '/blog' },
-  { name: 'Contact', href: '/contact' },
-];
-
-const currentPath = Astro.url.pathname;
+// Exact 1:1 Elementor Header from financewithflow.com
 ---
-
-<header class="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-slate-100 shadow-xs transition-all">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex items-center justify-between h-20">
-      <!-- Logo -->
-      <a href="/" class="flex items-center gap-3">
-        <img 
-          src="/images/branding/logo-colour.webp" 
-          alt="Finance with Flow" 
-          class="h-12 w-auto object-contain"
-          loading="eager"
-        />
-      </a>
-
-      <!-- Desktop Navigation -->
-      <nav class="hidden lg:flex items-center gap-8">
-        {navItems.map(item => {
-          const isActive = currentPath === item.href || (item.href !== '/' && currentPath.startsWith(item.href));
-          return (
-            <a 
-              href={item.href} 
-              class={`text-sm font-semibold tracking-wide transition-colors duration-200 ${
-                isActive 
-                  ? 'text-[#3456A7] font-bold border-b-2 border-[#31CDB0] pb-1' 
-                  : 'text-[#160F3F] hover:text-[#3456A7]'
-              }`}
-            >
-              {item.name}
-            </a>
-          );
-        })}
-      </nav>
-
-      <!-- Action Button -->
-      <div class="hidden lg:flex items-center gap-4">
-        <a 
-          href="/contact" 
-          class="inline-flex items-center justify-center px-5 py-2.5 rounded-full text-sm font-semibold text-white bg-[#3456A7] hover:bg-[#160F3F] transition-all shadow-sm hover:shadow-md"
-        >
-          Book Discovery Call
-        </a>
-      </div>
-
-      <!-- Mobile Menu Button -->
-      <div class="flex lg:hidden items-center">
-        <button 
-          id="mobile-menu-button"
-          type="button" 
-          class="p-2 rounded-lg text-slate-700 hover:text-[#3456A7] focus:outline-hidden" 
-          aria-label="Toggle Navigation Menu"
-        >
-          <svg class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-          </svg>
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Mobile Menu Dropdown -->
-  <div id="mobile-menu" class="hidden lg:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-6 space-y-2">
-    {navItems.map(item => (
-      <a 
-        href={item.href} 
-        class="block px-3 py-2 rounded-md text-base font-medium text-[#160F3F] hover:bg-slate-50 hover:text-[#3456A7]"
-      >
-        {item.name}
-      </a>
-    ))}
-    <div class="pt-4">
-      <a 
-        href="/contact" 
-        class="block w-full text-center px-5 py-3 rounded-full text-sm font-semibold text-white bg-[#3456A7] hover:bg-[#160F3F]"
-      >
-        Book Discovery Call
-      </a>
-    </div>
-  </div>
-</header>
+<div class="elementor-site-header">
+  <Fragment set:html={`<header data-elementor-type="header" data-elementor-id="16" class="elementor elementor-16 elementor-location-header" data-elementor-post-type="elementor_library"><div class="elementor-element elementor-element-0c3614b elementor-hidden-tablet elementor-hidden-mobile e-con-full e-flex e-con e-parent" data-id="0c3614b" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;gradient&quot;}"><div class="elementor-element elementor-element-0cc661a e-con-full e-flex e-con e-child" data-id="0cc661a" data-element_type="container"><div class="elementor-element elementor-element-1d830f2 elementor-widget elementor-widget-image" data-id="1d830f2" data-element_type="widget" data-widget_type="image.default"><div class="elementor-widget-container"> <a href="/"> <img class="attachment-large size-large wp-image-1679 " src="/wp-content/uploads/2023/12/logo-colour-construction-1024x279.webp" fetchpriority="high" width="800" height="218"   alt="" srcset="/wp-content/uploads/2023/12/logo-colour-construction-1024x279.webp 1024w, /wp-content/uploads/2023/12/logo-colour-construction-300x82.webp 300w, /wp-content/uploads/2023/12/logo-colour-construction-768x209.webp 768w, /wp-content/uploads/2023/12/logo-colour-construction-1536x419.webp 1536w, /wp-content/uploads/2023/12/logo-colour-construction-2048x559.webp 2048w" sizes="(max-width: 800px) 100vw, 800px" /> </a></div></div></div><div class="elementor-element elementor-element-5b275ab e-con-full e-flex e-con e-child" data-id="5b275ab" data-element_type="container"><div class="elementor-element elementor-element-d7fc6b1 elementor-nav-menu__align-center elementor-nav-menu--stretch elementor-nav-menu--dropdown-tablet elementor-nav-menu__text-align-aside elementor-nav-menu--toggle elementor-nav-menu--burger elementor-widget elementor-widget-nav-menu" data-id="d7fc6b1" data-element_type="widget" data-settings="{&quot;full_width&quot;:&quot;stretch&quot;,&quot;layout&quot;:&quot;horizontal&quot;,&quot;submenu_icon&quot;:{&quot;value&quot;:&quot;&lt;svg aria-hidden=\&quot;true\&quot; class=\&quot;e-font-icon-svg e-fas-caret-down\&quot; viewBox=\&quot;0 0 320 512\&quot; xmlns=\&quot;http:\/\/www.w3.org\/2000\/svg\&quot;&gt;&lt;path d=\&quot;M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z\&quot;&gt;&lt;\/path&gt;&lt;\/svg&gt;&quot;,&quot;library&quot;:&quot;fa-solid&quot;},&quot;toggle&quot;:&quot;burger&quot;}" data-widget_type="nav-menu.default"><div class="elementor-widget-container"><nav aria-label="Menu" class="elementor-nav-menu--main elementor-nav-menu__container elementor-nav-menu--layout-horizontal e--pointer-text e--animation-grow"><ul id="menu-1-d7fc6b1" class="elementor-nav-menu"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home current-menu-item page_item page-item-8 current_page_item menu-item-35"><a href="/" aria-current="page" class="elementor-item elementor-item-active">Home</a></li><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="/about/" class="elementor-item">About</a></li><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-33"><a href="/meet-the-team/" class="elementor-item">Meet The Team</a></li><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-32"><a href="/services/" class="elementor-item">Services</a></li><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-31"><a href="/packages/" class="elementor-item">Packages</a></li><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1255"><a href="/blog/" class="elementor-item">Insights</a></li></ul></nav><div class="elementor-menu-toggle" role="button" tabindex="0" aria-label="Menu Toggle" aria-expanded="false"> <span class="elementor-menu-toggle__icon--open"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:serif="http://www.serif.com/" width="100%" height="100%" viewBox="0 0 200 200" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;"> <g transform="matrix(-0.364994,-2.79481e-16,2.79481e-16,-0.364994,245.294,248.989)"> <g id="SVGRepo_iconCarrier"> <path d="M176,392C162.745,392 152,402.746 152,416C152,429.254 162.745,440 176,440L176,392ZM624,440C637.254,440 648,429.254 648,416C648,402.746 637.254,392 624,392L624,440ZM176,264C162.745,264 152,274.745 152,288C152,301.255 162.745,312 176,312L176,264ZM474.656,312C487.91,312 498.656,301.255 498.656,288C498.656,274.745 487.91,264 474.656,264L474.656,312ZM176,520C162.745,520 152,530.746 152,544C152,557.254 162.745,568 176,568L176,520ZM474.656,568C487.91,568 498.656,557.254 498.656,544C498.656,530.746 487.91,520 474.656,520L474.656,568ZM176,440L624,440L624,392L176,392L176,440ZM176,312L474.656,312L474.656,264L176,264L176,312ZM176,568L474.656,568L474.656,520L176,520L176,568Z" style="fill:white;fill-rule:nonzero;stroke:white;stroke-width:1px;"></path> </g> </g></svg></span><svg aria-hidden="true" role="presentation" class="elementor-menu-toggle__icon--close e-font-icon-svg e-eicon-close" viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg"><path d="M742 167L500 408 258 167C246 154 233 150 217 150 196 150 179 158 167 167 154 179 150 196 150 212 150 229 154 242 171 254L408 500 167 742C138 771 138 800 167 829 196 858 225 858 254 829L496 587 738 829C750 842 767 846 783 846 800 846 817 842 829 829 842 817 846 804 846 783 846 767 842 750 829 737L588 500 833 258C863 229 863 200 833 171 804 137 775 137 742 167Z"></path></svg></div><nav class="elementor-nav-menu--dropdown elementor-nav-menu__container" aria-hidden="true"><ul id="menu-2-d7fc6b1" class="elementor-nav-menu"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home current-menu-item page_item page-item-8 current_page_item menu-item-35"><a href="/" aria-current="page" class="elementor-item elementor-item-active" tabindex="-1">Home</a></li><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="/about/" class="elementor-item" tabindex="-1">About</a></li><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-33"><a href="/meet-the-team/" class="elementor-item" tabindex="-1">Meet The Team</a></li><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-32"><a href="/services/" class="elementor-item" tabindex="-1">Services</a></li><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-31"><a href="/packages/" class="elementor-item" tabindex="-1">Packages</a></li><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1255"><a href="/blog/" class="elementor-item" tabindex="-1">Insights</a></li></ul></nav></div></div></div><div class="elementor-element elementor-element-3dfcf4d e-con-full elementor-hidden-mobile e-flex e-con e-child" data-id="3dfcf4d" data-element_type="container"><div class="elementor-element elementor-element-5921df9 elementor-widget elementor-widget-button" data-id="5921df9" data-element_type="widget" data-widget_type="button.default"><div class="elementor-widget-container"><div class="elementor-button-wrapper"> <a class="elementor-button elementor-button-link elementor-size-sm" href="/contact/"> <span class="elementor-button-content-wrapper"> <span class="elementor-button-text">Contact</span> </span> </a></div></div></div></div></div><div class="elementor-element elementor-element-02010da elementor-hidden-desktop elementor-hidden-laptop e-flex e-con-boxed e-con e-parent" data-id="02010da" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;gradient&quot;}"><div class="e-con-inner"><div class="elementor-element elementor-element-6b3318c e-con-full e-flex e-con e-child" data-id="6b3318c" data-element_type="container"><div class="elementor-element elementor-element-ac5b3f8 elementor-widget elementor-widget-image" data-id="ac5b3f8" data-element_type="widget" data-widget_type="image.default"><div class="elementor-widget-container"> <a href="/"> <img class="attachment-large size-large wp-image-54 " src="/wp-content/uploads/2023/12/logo-colour-1024x279.png" width="800" height="218"   alt="Finance with Flow colourful logo" srcset="/wp-content/uploads/2023/12/logo-colour-1024x279.png 1024w, /wp-content/uploads/2023/12/logo-colour-300x82.png 300w, /wp-content/uploads/2023/12/logo-colour-768x209.png 768w, /wp-content/uploads/2023/12/logo-colour-1536x419.png 1536w, /wp-content/uploads/2023/12/logo-colour-2048x559.png 2048w" sizes="(max-width: 800px) 100vw, 800px" /> </a></div></div></div><div class="elementor-element elementor-element-3b1e3ff e-con-full e-flex e-con e-child" data-id="3b1e3ff" data-element_type="container"><div class="elementor-element elementor-element-ed1f5ef elementor-nav-menu__align-center elementor-nav-menu--stretch elementor-nav-menu--dropdown-tablet elementor-nav-menu__text-align-aside elementor-nav-menu--toggle elementor-nav-menu--burger elementor-widget elementor-widget-nav-menu" data-id="ed1f5ef" data-element_type="widget" data-settings="{&quot;full_width&quot;:&quot;stretch&quot;,&quot;layout&quot;:&quot;horizontal&quot;,&quot;submenu_icon&quot;:{&quot;value&quot;:&quot;&lt;svg aria-hidden=\&quot;true\&quot; class=\&quot;e-font-icon-svg e-fas-caret-down\&quot; viewBox=\&quot;0 0 320 512\&quot; xmlns=\&quot;http:\/\/www.w3.org\/2000\/svg\&quot;&gt;&lt;path d=\&quot;M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z\&quot;&gt;&lt;\/path&gt;&lt;\/svg&gt;&quot;,&quot;library&quot;:&quot;fa-solid&quot;},&quot;toggle&quot;:&quot;burger&quot;}" data-widget_type="nav-menu.default"><div class="elementor-widget-container"><nav aria-label="Menu" class="elementor-nav-menu--main elementor-nav-menu__container elementor-nav-menu--layout-horizontal e--pointer-text e--animation-grow"><ul id="menu-1-ed1f5ef" class="elementor-nav-menu"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home current-menu-item page_item page-item-8 current_page_item menu-item-1067"><a href="/" aria-current="page" class="elementor-item elementor-item-active">Home</a></li><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1068"><a href="/about/" class="elementor-item">About</a></li><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1070"><a href="/meet-the-team/" class="elementor-item">Meet The Team</a></li><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1072"><a href="/services/" class="elementor-item">Services</a></li><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1071"><a href="/packages/" class="elementor-item">Packages</a></li><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1254"><a href="/blog/" class="elementor-item">Insights</a></li><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1069"><a href="/contact/" class="elementor-item">Contact</a></li></ul></nav><div class="elementor-menu-toggle" role="button" tabindex="0" aria-label="Menu Toggle" aria-expanded="false"> <span class="elementor-menu-toggle__icon--open"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:serif="http://www.serif.com/" width="100%" height="100%" viewBox="0 0 200 200" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;"> <g transform="matrix(-0.364994,-2.79481e-16,2.79481e-16,-0.364994,245.294,248.989)"> <g id="SVGRepo_iconCarrier"> <path d="M176,392C162.745,392 152,402.746 152,416C152,429.254 162.745,440 176,440L176,392ZM624,440C637.254,440 648,429.254 648,416C648,402.746 637.254,392 624,392L624,440ZM176,264C162.745,264 152,274.745 152,288C152,301.255 162.745,312 176,312L176,264ZM474.656,312C487.91,312 498.656,301.255 498.656,288C498.656,274.745 487.91,264 474.656,264L474.656,312ZM176,520C162.745,520 152,530.746 152,544C152,557.254 162.745,568 176,568L176,520ZM474.656,568C487.91,568 498.656,557.254 498.656,544C498.656,530.746 487.91,520 474.656,520L474.656,568ZM176,440L624,440L624,392L176,392L176,440ZM176,312L474.656,312L474.656,264L176,264L176,312ZM176,568L474.656,568L474.656,520L176,520L176,568Z" style="fill:white;fill-rule:nonzero;stroke:white;stroke-width:1px;"></path> </g> </g></svg></span><svg aria-hidden="true" role="presentation" class="elementor-menu-toggle__icon--close e-font-icon-svg e-eicon-close" viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg"><path d="M742 167L500 408 258 167C246 154 233 150 217 150 196 150 179 158 167 167 154 179 150 196 150 212 150 229 154 242 171 254L408 500 167 742C138 771 138 800 167 829 196 858 225 858 254 829L496 587 738 829C750 842 767 846 783 846 800 846 817 842 829 829 842 817 846 804 846 783 846 767 842 750 829 737L588 500 833 258C863 229 863 200 833 171 804 137 775 137 742 167Z"></path></svg></div><nav class="elementor-nav-menu--dropdown elementor-nav-menu__container" aria-hidden="true"><ul id="menu-2-ed1f5ef" class="elementor-nav-menu"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home current-menu-item page_item page-item-8 current_page_item menu-item-1067"><a href="/" aria-current="page" class="elementor-item elementor-item-active" tabindex="-1">Home</a></li><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1068"><a href="/about/" class="elementor-item" tabindex="-1">About</a></li><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1070"><a href="/meet-the-team/" class="elementor-item" tabindex="-1">Meet The Team</a></li><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1072"><a href="/services/" class="elementor-item" tabindex="-1">Services</a></li><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1071"><a href="/packages/" class="elementor-item" tabindex="-1">Packages</a></li><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1254"><a href="/blog/" class="elementor-item" tabindex="-1">Insights</a></li><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1069"><a href="/contact/" class="elementor-item" tabindex="-1">Contact</a></li></ul></nav></div></div></div><div class="elementor-element elementor-element-d416020 e-con-full elementor-hidden-mobile elementor-hidden-tablet e-flex e-con e-child" data-id="d416020" data-element_type="container"><div class="elementor-element elementor-element-92894d5 elementor-widget elementor-widget-button" data-id="92894d5" data-element_type="widget" data-widget_type="button.default"><div class="elementor-widget-container"><div class="elementor-button-wrapper"> <a class="elementor-button elementor-button-link elementor-size-sm" href="/contact/"> <span class="elementor-button-content-wrapper"> <span class="elementor-button-text">Contact</span> </span> </a></div></div></div></div></div></div></header>`} />
+</div>
 
 <script>
-  const btn = document.getElementById('mobile-menu-button');
-  const menu = document.getElementById('mobile-menu');
-  btn?.addEventListener('click', () => {
-    menu?.classList.toggle('hidden');
+  // Enable mobile burger menu toggle functionality
+  document.querySelectorAll('.elementor-menu-toggle').forEach(toggle => {
+    toggle.addEventListener('click', () => {
+      const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+      toggle.setAttribute('aria-expanded', String(!isExpanded));
+      toggle.classList.toggle('elementor-active');
+      const container = toggle.closest('.elementor-widget-nav-menu');
+      const dropdown = container?.querySelector('.elementor-nav-menu--dropdown');
+      if (dropdown) {
+        dropdown.classList.toggle('elementor-active');
+        if (dropdown.classList.contains('elementor-active')) {
+          (dropdown as HTMLElement).style.display = 'block';
+        } else {
+          (dropdown as HTMLElement).style.display = 'none';
+        }
+      }
+    });
   });
 </script>
