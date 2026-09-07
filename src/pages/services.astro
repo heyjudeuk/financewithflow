@@ -1,0 +1,87 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import services from '../data/services.json';
+---
+
+<BaseLayout 
+  title="Our Services | Finance with Flow"
+  description="Comprehensive outsourced finance services: Bookkeeping, Payroll, CIS, Management Accounts, Cash Flow Forecasting, and Virtual Finance Director support."
+>
+  <!-- Hero -->
+  <section class="bg-[#FEF9F3] py-16 lg:py-20 border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-3xl">
+      <span class="inline-block px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider text-[#3456A7] bg-[#3456A7]/10 mb-4">
+        Your Partner in Financial Success
+      </span>
+      <h1 class="text-4xl sm:text-5xl font-extrabold text-[#160F3F] tracking-tight mb-4">
+        Comprehensive Financial Solutions
+      </h1>
+      <p class="text-lg text-slate-600">
+        We offer a wide range of services in one integrated solution, allowing you to build a rock-solid foundation from which to scale your business.
+      </p>
+    </div>
+  </section>
+
+  <!-- Services Detailed Breakdown -->
+  <section class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+        {services.map(service => (
+          <div class="p-8 rounded-3xl border border-slate-200/90 bg-white hover:border-[#31CDB0] hover:shadow-xl transition-all duration-300 flex flex-col justify-between">
+            <div class="space-y-4">
+              <div class="flex items-center gap-4">
+                <span class="text-4xl p-3 bg-[#FEF9F3] rounded-2xl shrink-0">
+                  {service.icon}
+                </span>
+                <h2 class="text-2xl font-bold text-[#160F3F]">
+                  {service.title}
+                </h2>
+              </div>
+              <p class="text-base font-semibold text-[#3456A7]">
+                {service.shortDesc}
+              </p>
+              <p class="text-sm text-slate-600 leading-relaxed">
+                {service.fullDesc}
+              </p>
+            </div>
+            <div class="pt-6 mt-6 border-t border-slate-100 flex items-center justify-between">
+              <a 
+                href="/contact" 
+                class="text-sm font-bold text-[#3456A7] hover:text-[#31CDB0] inline-flex items-center gap-1.5"
+              >
+                Inquire about {service.title} →
+              </a>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Construction Focus Callout -->
+  <section class="py-16 bg-[#FEF9F3] border-t border-slate-200">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="bg-white rounded-3xl p-8 sm:p-12 border border-slate-200 shadow-md grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        <div class="lg:col-span-8 space-y-4">
+          <span class="inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-[#3456A7] bg-[#3456A7]/10">
+            Specialist Expertise
+          </span>
+          <h3 class="text-2xl sm:text-3xl font-bold text-[#160F3F]">
+            Construction & Trade Accounting Specialists
+          </h3>
+          <p class="text-slate-600 text-sm sm:text-base leading-relaxed">
+            The construction industry faces distinct cashflow and regulatory challenges: Construction Industry Scheme (CIS) deductions, reverse-charge VAT, retentions, and unpredictable stage payments. We understand these mechanics intimately, protecting your liquidity and ensuring total compliance.
+          </p>
+        </div>
+        <div class="lg:col-span-4 text-center lg:text-right">
+          <a 
+            href="/contact" 
+            class="inline-block px-8 py-4 rounded-full text-base font-bold text-white bg-[#3456A7] hover:bg-[#160F3F] transition-all shadow-md"
+          >
+            Talk to Our Specialists
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

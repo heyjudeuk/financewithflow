@@ -1,0 +1,50 @@
+[
+  {
+    "title": "Bookkeeping",
+    "shortDesc": "Meticulous bookkeeping forms the cornerstone of your business success.",
+    "fullDesc": "Our dedicated team ensures every financial detail is accurately recorded and organised, transforming numbers into a strategic roadmap for your business. With precise bookkeeping, we empower you to make informed decisions and seize new opportunities.",
+    "icon": "📚"
+  },
+  {
+    "title": "Payroll & Workplace Pensions",
+    "shortDesc": "We simplify your payroll processes to guarantee precision and adherence to regulations.",
+    "fullDesc": "Our streamlined payroll solutions ensure accurate, timely employee payments while maintaining full compliance with HMRC rules, auto-enrolment pensions, and PAYE reporting.",
+    "icon": "💼"
+  },
+  {
+    "title": "VAT & CIS (Construction Industry Scheme)",
+    "shortDesc": "Specialist compliance for subcontractors, contractors, and builders.",
+    "fullDesc": "The Construction Industry Scheme has stringent regulations. We manage CIS monthly returns, subcontractor verifications, domestic reverse charge VAT, and tax deductions with zero stress.",
+    "icon": "🏗️"
+  },
+  {
+    "title": "Management Accounts & KPIs",
+    "shortDesc": "Real-time visibility into your business profitability and operational margins.",
+    "fullDesc": "Beyond historical tax returns, management accounts provide timely monthly reports, balance sheets, profit & loss analysis, and project margin tracking so you always know where your business stands.",
+    "icon": "📊"
+  },
+  {
+    "title": "Cashflow Management & Forecasting",
+    "shortDesc": "Never run blind on cash flow again with predictive forward-looking models.",
+    "fullDesc": "Cash is king, especially in project-based industries. We build rolling 13-week and 12-month cashflow forecasts to predict pinch points, manage supplier commitments, and safeguard solvency.",
+    "icon": "📈"
+  },
+  {
+    "title": "Credit Control & Debt Recovery",
+    "shortDesc": "Improve your cash collection cycle without damaging valuable client relationships.",
+    "fullDesc": "We implement courteous, systematic invoice chasing, aged debtor analysis, and structured payment plans to ensure you get paid promptly for your work.",
+    "icon": "💳"
+  },
+  {
+    "title": "Virtual Finance Director (FD) Services",
+    "shortDesc": "Strategic board-level financial guidance at a fraction of the cost of a full-time hire.",
+    "fullDesc": "Roz and our senior chartered accountants provide high-level commercial acumen, attending board meetings, guiding expansions, advising on tax strategy, and assisting with banking relationships.",
+    "icon": "🎯"
+  },
+  {
+    "title": "Year-End Accounts & Corporation Tax",
+    "shortDesc": "Flawless compliance and strategic tax efficiency for your company.",
+    "fullDesc": "We prepare and submit your statutory annual accounts to Companies House and HMRC, ensuring all allowable business expenses and capital allowances are claimed to minimise tax liability.",
+    "icon": "🏛️"
+  }
+]

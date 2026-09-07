@@ -1,0 +1,47 @@
+[
+  {
+    "name": "Sunstone",
+    "tagline": "Best for smaller businesses seeking financial clarity & compliance",
+    "image": "/images/branding/package-bronze.jpg",
+    "features": [
+      "Dedicated Bookkeeping & Bank Reconciliation",
+      "Payroll & Pension Processing",
+      "VAT & CIS Returns",
+      "Year-End Statutory Accounts Preparation",
+      "Corporation Tax Compliance",
+      "Quarterly Performance Review",
+      "Cloud Accounting Setup & Support"
+    ],
+    "highlight": false
+  },
+  {
+    "name": "Carnelian",
+    "tagline": "Businesses looking to elevate their operations & profitability",
+    "image": "/images/branding/package-silver.jpg",
+    "features": [
+      "All Sunstone Services Included",
+      "Supplier Invoice Management & Payment Runs",
+      "Active Credit Control & Debt Chasing",
+      "Monthly Cashflow Management & Forecasting",
+      "Monthly Management Accounts & KPI Reporting",
+      "Annual Budget Formulation",
+      "Bi-Monthly Strategy Meetings"
+    ],
+    "highlight": true
+  },
+  {
+    "name": "Agate",
+    "tagline": "Designed for established businesses scaling up with full CFO direction",
+    "image": "/images/branding/package-gold.jpg",
+    "features": [
+      "All Carnelian Services Included",
+      "Complete Virtual Finance Director (FD) Leadership",
+      "Advanced Cashflow Modelling & Scenario Planning",
+      "Monthly Board Meeting Attendance & Presentation",
+      "Commercial Contract & Project Costing Analysis",
+      "Funding & Banking Relationship Management",
+      "Mergers, Acquisitions & Exit Readiness Advisory"
+    ],
+    "highlight": false
+  }
+]

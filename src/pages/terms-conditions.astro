@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import legal from '../data/legal.json';
+
+const pageData = legal.find(l => l.slug === 'terms-conditions');
+---
+
+<BaseLayout 
+  title="Terms & Conditions | Finance with Flow"
+  description="Terms and conditions governing the use of the Finance with Flow website and client engagement standards."
+>
+  <section class="bg-[#FEF9F3] py-14 border-b border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-[#160F3F]">
+        Terms & Conditions
+      </h1>
+      <p class="text-slate-600 text-sm mt-2">Finance with Flow Client & Website Terms</p>
+    </div>
+  </section>
+
+  <article class="py-16 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="prose max-w-none text-slate-700 space-y-6">
+        {pageData && <div set:html={pageData.content} />}
+      </div>
+    </div>
+  </article>
+</BaseLayout>

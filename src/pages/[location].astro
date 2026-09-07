@@ -1,0 +1,54 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import locations from '../data/locations.json';
+
+export async function getStaticPaths() {
+  return locations.map(loc => ({
+    params: { location: loc.slug },
+    props: { locationData: loc },
+  }));
+}
+
+const { locationData } = Astro.props;
+---
+
+<BaseLayout 
+  title={`${locationData.title} | Finance with Flow`}
+  description={`Specialised payroll outsourcing and dedicated outsourced finance department services from Finance with Flow.`}
+>
+  <section class="bg-[#FEF9F3] py-16 lg:py-20 border-b border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <span class="inline-block px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider text-[#3456A7] bg-[#3456A7]/10 mb-4">
+        Regional Payroll & Accounting
+      </span>
+      <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#160F3F] tracking-tight leading-tight">
+        {locationData.title}
+      </h1>
+    </div>
+  </section>
+
+  <article class="py-16 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="prose max-w-none text-slate-700 text-base sm:text-lg leading-relaxed space-y-6">
+        <div set:html={locationData.content} />
+      </div>
+
+      <div class="mt-16 p-8 rounded-3xl bg-[#FEF9F3] border border-[#31CDB0]/30 text-center space-y-4">
+        <h2 class="text-2xl font-bold text-[#160F3F]">
+          Ready to Streamline Your Payroll Operations?
+        </h2>
+        <p class="text-slate-600 text-sm sm:text-base max-w-xl mx-auto">
+          Contact our team today to learn how our tailored payroll and outsourced finance department can save your business time, stress, and overhead.
+        </p>
+        <div class="pt-2">
+          <a 
+            href="/contact" 
+            class="inline-block px-8 py-3.5 rounded-full text-sm font-bold text-white bg-[#3456A7] hover:bg-[#160F3F] transition-all shadow-sm"
+          >
+            Schedule A Consultation
+          </a>
+        </div>
+      </div>
+    </div>
+  </article>
+</BaseLayout>

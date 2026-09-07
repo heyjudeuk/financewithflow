@@ -1,0 +1,306 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import services from '../data/services.json';
+import packages from '../data/packages.json';
+
+const allPosts = await getCollection('posts');
+const latestPosts = allPosts
+  .sort((a, b) => new Date(b.data.publishedDate).getTime() - new Date(a.data.publishedDate).getTime())
+  .slice(0, 3);
+---
+
+<BaseLayout 
+  title="Outsourced Finance Department | Finance with Flow"
+  description="Finance with Flow specialises in providing comprehensive outsourced finance services that empower businesses and allow them to thrive."
+>
+  <!-- Hero Section -->
+  <section class="relative bg-gradient-to-b from-[#FEF9F3] to-white pt-20 pb-24 lg:pt-28 lg:pb-32 overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+          <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider text-[#3456A7] bg-[#3456A7]/10">
+            <span class="w-2 h-2 rounded-full bg-[#31CDB0] animate-pulse"></span>
+            Specialist Outsourced Finance & Accounting
+          </div>
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-[#160F3F] leading-tight tracking-tight">
+            Beyond just accountants. Your <span class="text-[#3456A7]">dedicated finance team</span>.
+          </h1>
+          <p class="text-lg sm:text-xl text-slate-600 leading-relaxed max-w-2xl mx-auto lg:mx-0">
+            Removing the stress of your accounting, finance, and taxes — helping you to keep more of what you earn while you focus on what you do best.
+          </p>
+          <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4">
+            <a 
+              href="/contact" 
+              class="w-full sm:w-auto px-8 py-4 rounded-full text-base font-bold text-white bg-[#3456A7] hover:bg-[#160F3F] transition-all shadow-md hover:shadow-lg text-center"
+            >
+              Book Discovery Call
+            </a>
+            <a 
+              href="/services" 
+              class="w-full sm:w-auto px-8 py-4 rounded-full text-base font-bold text-[#160F3F] bg-white border border-slate-200 hover:border-[#3456A7] hover:text-[#3456A7] transition-all text-center"
+            >
+              Explore Our Services
+            </a>
+          </div>
+
+          <!-- Trust highlights -->
+          <div class="pt-8 border-t border-slate-200/60 flex flex-wrap items-center justify-center lg:justify-start gap-6 text-xs text-slate-500">
+            <span class="flex items-center gap-1.5 font-medium">✅ Chartered Accountants (ICAEW)</span>
+            <span class="flex items-center gap-1.5 font-medium">✅ Certified Xero Bronze Partner</span>
+            <span class="flex items-center gap-1.5 font-medium">✅ Construction Sector Specialists</span>
+          </div>
+        </div>
+
+        <div class="lg:col-span-5 relative">
+          <div class="relative mx-auto max-w-md rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-slate-100">
+            <img 
+              src="/images/branding/construction-accountants.jpg" 
+              alt="Finance with Flow Team at Work" 
+              class="w-full h-auto object-cover"
+              loading="eager"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-[#160F3F]/80 via-transparent to-transparent flex items-end p-6">
+              <p class="text-white text-sm font-semibold">
+                "We don't just balance your books — we come as a complete, ready-made finance department."
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Accreditation Bar -->
+  <section class="py-8 bg-slate-50 border-y border-slate-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-center text-xs font-bold uppercase tracking-widest text-slate-400 mb-6">
+        Accreditations & Professional Partnerships
+      </p>
+      <div class="flex flex-wrap items-center justify-center gap-8 sm:gap-16 opacity-90">
+        <div class="bg-white px-4 py-2 rounded-xl shadow-xs border border-slate-100">
+          <img src="/images/branding/icaew-logo.png" alt="ICAEW Member" class="h-10 w-auto object-contain" />
+        </div>
+        <div class="bg-white px-4 py-2 rounded-xl shadow-xs border border-slate-100">
+          <img src="/images/branding/xero-bronze-partner.jpg" alt="Xero Bronze Partner" class="h-10 w-auto object-contain" />
+        </div>
+        <div class="bg-white px-4 py-2 rounded-xl shadow-xs border border-slate-100">
+          <img src="/images/branding/ift-associate.jpg" alt="IFT Associate" class="h-10 w-auto object-contain" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- What We Do / Value Proposition -->
+  <section class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+        <span class="text-xs font-bold uppercase tracking-widest text-[#3456A7]">What We Do</span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-[#160F3F]">
+          Comprehensive Outsourced Finance Solutions
+        </h2>
+        <p class="text-slate-600 text-base sm:text-lg">
+          Our team covers multiple skill sets, giving you all the advantages of an experienced in-house finance team at a fraction of the cost of direct hires.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        {services.slice(0, 8).map(service => (
+          <div class="p-6 rounded-2xl border border-slate-200/80 bg-white hover:border-[#31CDB0] hover:shadow-xl transition-all duration-300 flex flex-col justify-between group">
+            <div class="space-y-3">
+              <div class="text-3xl p-3 bg-[#FEF9F3] rounded-xl w-fit group-hover:scale-110 transition-transform">
+                {service.icon}
+              </div>
+              <h3 class="text-lg font-bold text-[#160F3F] group-hover:text-[#3456A7] transition-colors">
+                {service.title}
+              </h3>
+              <p class="text-sm text-slate-600 leading-relaxed">
+                {service.shortDesc}
+              </p>
+            </div>
+            <div class="pt-4 mt-4 border-t border-slate-100">
+              <a href="/services" class="text-xs font-bold text-[#3456A7] group-hover:text-[#31CDB0] inline-flex items-center gap-1">
+                Learn more →
+              </a>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Packages Section -->
+  <section class="py-20 bg-[#FEF9F3] border-y border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+        <span class="text-xs font-bold uppercase tracking-widest text-[#3456A7]">Tailored Solutions</span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-[#160F3F]">
+          Find The Right Package For Your Business
+        </h2>
+        <p class="text-slate-600 text-base sm:text-lg">
+          No two businesses are identical. Our modular outsourced finance packages are built to scale seamlessly alongside your business growth.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
+        {packages.map(pkg => (
+          <div class={`rounded-3xl p-8 flex flex-col justify-between transition-all duration-300 ${
+            pkg.highlight 
+              ? 'bg-[#160F3F] text-white shadow-2xl ring-4 ring-[#31CDB0]' 
+              : 'bg-white text-slate-800 border border-slate-200 shadow-md hover:shadow-xl'
+          }`}>
+            <div class="space-y-6">
+              {pkg.highlight && (
+                <span class="inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-[#160F3F] bg-[#31CDB0]">
+                  Most Popular Choice
+                </span>
+              )}
+              <div>
+                <h3 class={`text-2xl font-bold ${pkg.highlight ? 'text-white' : 'text-[#160F3F]'}`}>
+                  {pkg.name}
+                </h3>
+                <p class={`text-xs mt-2 ${pkg.highlight ? 'text-slate-300' : 'text-slate-500'}`}>
+                  {pkg.tagline}
+                </p>
+              </div>
+
+              <ul class="space-y-3 text-sm">
+                {pkg.features.map(f => (
+                  <li class="flex items-start gap-2.5">
+                    <span class={`font-bold ${pkg.highlight ? 'text-[#31CDB0]' : 'text-[#3456A7]'}`}>✓</span>
+                    <span class={pkg.highlight ? 'text-slate-200' : 'text-slate-700'}>{f}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div class="pt-8 mt-6 border-t border-slate-200/20">
+              <a 
+                href="/contact" 
+                class={`block w-full text-center py-3.5 rounded-full text-sm font-bold transition-all ${
+                  pkg.highlight 
+                    ? 'bg-[#31CDB0] text-[#160F3F] hover:bg-white hover:text-[#160F3F]' 
+                    : 'bg-[#3456A7] text-white hover:bg-[#160F3F]'
+                }`}
+              >
+                Inquire About {pkg.name}
+              </a>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Founder & Team Teaser -->
+  <section class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <div class="lg:col-span-5">
+          <div class="rounded-3xl overflow-hidden shadow-xl border-4 border-white">
+            <img 
+              src="/images/team/roz.jpg" 
+              alt="Roz Johnson, Managing Director" 
+              class="w-full h-auto object-cover"
+              loading="lazy"
+            />
+          </div>
+        </div>
+        <div class="lg:col-span-7 space-y-6">
+          <span class="text-xs font-bold uppercase tracking-widest text-[#3456A7]">Leadership & Expertise</span>
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-[#160F3F]">
+            Meet Founder Roz Johnson & The Team
+          </h2>
+          <p class="text-slate-600 leading-relaxed text-base sm:text-lg">
+            A Chartered Accountant (FCA) with over 20 years of experience heading finance teams across £500m+ construction groups and SME scale-ups, Roz founded Finance with Flow to provide growing businesses with corporate-grade financial mastery without corporate overhead.
+          </p>
+          <div class="pt-4 flex flex-wrap gap-4">
+            <a 
+              href="/meet-the-team" 
+              class="px-6 py-3 rounded-full text-sm font-bold text-white bg-[#3456A7] hover:bg-[#160F3F] transition-colors"
+            >
+              Meet The Full Team
+            </a>
+            <a 
+              href="/about" 
+              class="px-6 py-3 rounded-full text-sm font-bold text-[#160F3F] bg-slate-100 hover:bg-slate-200 transition-colors"
+            >
+              Our Story & Mission
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Latest Insights / Blog Preview -->
+  <section class="py-20 bg-slate-50 border-t border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-widest text-[#3456A7]">From The Blog</span>
+          <h2 class="text-3xl font-extrabold text-[#160F3F] mt-1">Latest Insights & Analysis</h2>
+        </div>
+        <a href="/blog" class="text-sm font-bold text-[#3456A7] hover:text-[#31CDB0] inline-flex items-center gap-1">
+          View all 32 articles →
+        </a>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {latestPosts.map(post => {
+          const dateStr = new Date(post.data.publishedDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+          return (
+            <article class="bg-white rounded-2xl overflow-hidden border border-slate-200 hover:shadow-lg transition-all duration-300 flex flex-col justify-between group">
+              {post.data.featuredImage && (
+                <a href={`/blog/${post.id}`} class="aspect-video overflow-hidden block">
+                  <img 
+                    src={post.data.featuredImage} 
+                    alt={post.data.title}
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+                    loading="lazy"
+                  />
+                </a>
+              )}
+              <div class="p-6 flex-1 flex flex-col justify-between">
+                <div>
+                  <p class="text-xs text-slate-500 mb-2">{dateStr} • {post.data.author}</p>
+                  <h3 class="text-lg font-bold text-[#160F3F] leading-snug mb-2 group-hover:text-[#3456A7] transition-colors">
+                    <a href={`/blog/${post.id}`}>{post.data.title}</a>
+                  </h3>
+                  <p class="text-slate-600 text-sm line-clamp-3 mb-4">
+                    {post.data.excerpt}
+                  </p>
+                </div>
+                <div class="pt-4 border-t border-slate-100">
+                  <a href={`/blog/${post.id}`} class="text-xs font-bold text-[#3456A7] group-hover:text-[#31CDB0]">
+                    Read Story →
+                  </a>
+                </div>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Banner -->
+  <section class="py-20 bg-[#160F3F] text-white text-center">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+      <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight">
+        Ready To Take Control Of Your Finances?
+      </h2>
+      <p class="text-lg text-slate-300 max-w-2xl mx-auto">
+        Book a free, zero-obligation discovery call with Roz today to discuss your bookkeeping, management accounts, and finance team needs.
+      </p>
+      <div class="pt-4">
+        <a 
+          href="/contact" 
+          class="inline-block px-8 py-4 rounded-full text-base font-bold text-[#160F3F] bg-[#31CDB0] hover:bg-white transition-all shadow-lg"
+        >
+          Book Your Discovery Call
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

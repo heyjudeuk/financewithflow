@@ -1,0 +1,80 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import teamMembers from '../data/team.json';
+---
+
+<BaseLayout 
+  title="Meet The Team | Finance with Flow"
+  description="Meet the dedicated professionals at Finance with Flow: chartered accountants, management accountants, tax specialists, and bookkeepers."
+>
+  <!-- Hero -->
+  <section class="bg-[#FEF9F3] py-16 lg:py-20 border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-3xl">
+      <span class="inline-block px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider text-[#3456A7] bg-[#3456A7]/10 mb-4">
+        Your Extended Finance Department
+      </span>
+      <h1 class="text-4xl sm:text-5xl font-extrabold text-[#160F3F] tracking-tight mb-4">
+        Meet Our Team
+      </h1>
+      <p class="text-lg text-slate-600">
+        Experienced, approachable, and passionate about numbers. We provide your business with a complete, ready-made finance office.
+      </p>
+    </div>
+  </section>
+
+  <!-- Team Grid -->
+  <section class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+        {teamMembers.map(member => (
+          <div class="bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group">
+            <div>
+              <div class="aspect-square overflow-hidden bg-slate-100">
+                <img 
+                  src={member.image} 
+                  alt={member.name} 
+                  class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                  loading="lazy"
+                />
+              </div>
+              <div class="p-6">
+                <span class="text-xs font-bold uppercase tracking-wider text-[#3456A7] block mb-1">
+                  {member.role}
+                </span>
+                <h3 class="text-2xl font-bold text-[#160F3F] mb-4">
+                  {member.name}
+                </h3>
+                <p class="text-sm text-slate-600 leading-relaxed">
+                  {member.bio}
+                </p>
+              </div>
+            </div>
+            <div class="p-6 pt-0">
+              <div class="w-full h-1 bg-gradient-to-r from-[#3456A7] to-[#31CDB0] rounded-full opacity-60"></div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Team culture banner -->
+  <section class="py-16 bg-slate-50 border-t border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
+      <h2 class="text-3xl font-bold text-[#160F3F]">
+        Want To Work With People Who Truly Care About Your Growth?
+      </h2>
+      <p class="text-slate-600 text-lg">
+        We integrate seamlessly into your day-to-day operations, answering queries quickly and keeping your financials running like clockwork.
+      </p>
+      <div class="pt-2">
+        <a 
+          href="/contact" 
+          class="inline-block px-8 py-4 rounded-full text-base font-bold text-white bg-[#3456A7] hover:bg-[#160F3F] transition-all shadow-md"
+        >
+          Book A Call With Roz
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

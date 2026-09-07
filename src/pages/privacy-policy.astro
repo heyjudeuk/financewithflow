@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import legal from '../data/legal.json';
+
+const pageData = legal.find(l => l.slug === 'privacy-policy');
+---
+
+<BaseLayout 
+  title="Privacy Policy | Finance with Flow"
+  description="Our privacy policy details how Finance with Flow collects, protects, and manages your personal data in accordance with UK GDPR."
+>
+  <section class="bg-[#FEF9F3] py-14 border-b border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-[#160F3F]">
+        Privacy Policy
+      </h1>
+      <p class="text-slate-600 text-sm mt-2">Last updated: January 2026</p>
+    </div>
+  </section>
+
+  <article class="py-16 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="prose max-w-none text-slate-700 space-y-6">
+        {pageData && <div set:html={pageData.content} />}
+      </div>
+    </div>
+  </article>
+</BaseLayout>

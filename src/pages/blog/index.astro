@@ -1,0 +1,137 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('posts');
+const sortedPosts = allPosts.sort((a, b) => {
+  const dateA = new Date(a.data.publishedDate).getTime();
+  const dateB = new Date(b.data.publishedDate).getTime();
+  return dateB - dateA;
+});
+
+const featuredPost = sortedPosts[0];
+const remainingPosts = sortedPosts.slice(1);
+---
+
+<BaseLayout 
+  title="Insights & Blog | Finance with Flow" 
+  description="Stay informed with expert guidance on outsourced finance, construction accounting, cashflow management, VAT, and business growth."
+>
+  <!-- Hero Section -->
+  <section class="bg-[#FEF9F3] py-16 lg:py-20 border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <span class="inline-block px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider text-[#3456A7] bg-[#3456A7]/10 mb-4">
+        Our Blog & Knowledge Base
+      </span>
+      <h1 class="text-4xl sm:text-5xl font-extrabold text-[#160F3F] tracking-tight mb-4">
+        Insights & Financial Clarity
+      </h1>
+      <p class="text-lg text-slate-600 max-w-2xl mx-auto">
+        Actionable financial insights, construction sector analysis, accounting best practices, and stories from the team at Finance with Flow.
+      </p>
+    </div>
+  </section>
+
+  <!-- Featured Post -->
+  {featuredPost && (
+    <section class="py-12 bg-white border-b border-slate-100">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-xs font-bold uppercase tracking-widest text-[#3456A7] mb-6">Latest Article</h2>
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-slate-50 rounded-3xl p-6 sm:p-8 lg:p-10 border border-slate-100 hover:shadow-lg transition-all duration-300">
+          {featuredPost.data.featuredImage && (
+            <div class="lg:col-span-7 rounded-2xl overflow-hidden aspect-video">
+              <img 
+                src={featuredPost.data.featuredImage} 
+                alt={featuredPost.data.title}
+                class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" 
+              />
+            </div>
+          )}
+          <div class={featuredPost.data.featuredImage ? "lg:col-span-5 space-y-4" : "lg:col-span-12 space-y-4"}>
+            <div class="flex items-center gap-3 text-xs text-slate-500 font-medium">
+              <span>✍️ {featuredPost.data.author}</span>
+              <span>•</span>
+              <time datetime={String(featuredPost.data.publishedDate)}>
+                {new Date(featuredPost.data.publishedDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
+              </time>
+            </div>
+            <h3 class="text-2xl sm:text-3xl font-bold text-[#160F3F] leading-snug">
+              <a href={`/blog/${featuredPost.id}`} class="hover:text-[#3456A7] transition-colors">
+                {featuredPost.data.title}
+              </a>
+            </h3>
+            <p class="text-slate-600 text-sm leading-relaxed line-clamp-3">
+              {featuredPost.data.excerpt}
+            </p>
+            <div class="pt-2">
+              <a 
+                href={`/blog/${featuredPost.id}`} 
+                class="inline-flex items-center gap-2 text-sm font-bold text-[#3456A7] hover:text-[#31CDB0] transition-colors"
+              >
+                Read Full Article <span>→</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Posts Grid -->
+  <section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between mb-10">
+        <h2 class="text-2xl font-bold text-[#160F3F]">All Articles ({sortedPosts.length})</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {remainingPosts.map(post => {
+          const dateStr = new Date(post.data.publishedDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+          return (
+            <article class="flex flex-col bg-white rounded-2xl overflow-hidden border border-slate-200/80 hover:shadow-xl hover:border-[#31CDB0]/50 transition-all duration-300 group">
+              {post.data.featuredImage ? (
+                <a href={`/blog/${post.id}`} class="aspect-video overflow-hidden bg-slate-100 block">
+                  <img 
+                    src={post.data.featuredImage} 
+                    alt={post.data.title} 
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    loading="lazy"
+                  />
+                </a>
+              ) : (
+                <div class="aspect-video bg-gradient-to-br from-[#160F3F] to-[#3456A7] flex items-center justify-center p-6 text-white text-center font-bold text-lg">
+                  Finance with Flow
+                </div>
+              )}
+              <div class="p-6 flex-1 flex flex-col justify-between">
+                <div>
+                  <div class="flex items-center gap-2 text-xs text-slate-500 font-medium mb-3">
+                    <span>{dateStr}</span>
+                    <span>•</span>
+                    <span>{post.data.author}</span>
+                  </div>
+                  <h3 class="text-xl font-bold text-[#160F3F] leading-snug mb-3 group-hover:text-[#3456A7] transition-colors">
+                    <a href={`/blog/${post.id}`}>
+                      {post.data.title}
+                    </a>
+                  </h3>
+                  <p class="text-slate-600 text-sm leading-relaxed line-clamp-3 mb-4">
+                    {post.data.excerpt}
+                  </p>
+                </div>
+                <div class="pt-4 border-t border-slate-100 flex items-center justify-between">
+                  <a 
+                    href={`/blog/${post.id}`} 
+                    class="text-xs font-bold uppercase tracking-wider text-[#3456A7] group-hover:text-[#31CDB0] transition-colors inline-flex items-center gap-1"
+                  >
+                    Read Story →
+                  </a>
+                </div>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
