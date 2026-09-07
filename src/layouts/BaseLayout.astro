@@ -36,7 +36,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://financew
     <link rel="stylesheet" href="/styles/site-bundle.css" />
 
     <style is:global>
-      /* Ensure Elementor icons and layout render with 100% precision */
       html, body {
         margin: 0;
         padding: 0;
@@ -63,6 +62,103 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://financew
       .elementor-nav-menu--dropdown.elementor-active {
         display: block;
       }
+
+      .elementor-widget-image {
+        text-align: center;
+      }
+      .elementor-widget-image a {
+        display: inline-block;
+      }
+      .elementor-widget-image a img[src$=".svg"] {
+        width: 48px;
+      }
+      .elementor-widget-image img {
+        display: inline-block;
+        vertical-align: middle;
+      }
+
+      /* Elementor Keyframe Animations */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      .fadeIn {
+        animation-name: fadeIn;
+      }
+
+      @keyframes fadeInLeft {
+        from {
+          opacity: 0;
+          transform: translate3d(-60px, 0, 0);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      .fadeInLeft {
+        animation-name: fadeInLeft;
+      }
+
+      @keyframes fadeInRight {
+        from {
+          opacity: 0;
+          transform: translate3d(60px, 0, 0);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      .fadeInRight {
+        animation-name: fadeInRight;
+      }
+
+      @keyframes fadeInDown {
+        from {
+          opacity: 0;
+          transform: translate3d(0, -60px, 0);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      .fadeInDown {
+        animation-name: fadeInDown;
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translate3d(0, 60px, 0);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      .fadeInUp {
+        animation-name: fadeInUp;
+      }
+
+      .animated {
+        animation-duration: 1.1s;
+        animation-fill-mode: both;
+      }
+
+      /* Never hide elements if JS is slow or reduced motion */
+      @media (prefers-reduced-motion: reduce) {
+        .animated {
+          animation: none !important;
+          opacity: 1 !important;
+          transform: none !important;
+        }
+      }
     </style>
   </head>
   <body class={bodyClass}>
@@ -71,5 +167,49 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://financew
       <slot />
     </main>
     <Footer />
+
+    <!-- Elementor Animation Trigger Client Script -->
+    <script>
+      function initElementorAnimations() {
+        const animatedElements = document.querySelectorAll('[data-settings*="animation"]');
+        if (!animatedElements.length) return;
+
+        if (!('IntersectionObserver' in window)) {
+          return;
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const el = entry.target as HTMLElement;
+              const settingsAttr = el.getAttribute('data-settings');
+              if (settingsAttr) {
+                try {
+                  const s = JSON.parse(settingsAttr);
+                  const anim = s._animation || s.animation || '';
+                  const delay = s._animation_delay || s.animation_delay || 0;
+                  if (anim && anim !== 'none') {
+                    if (delay) el.style.animationDelay = `${delay}ms`;
+                    el.classList.add('animated', anim);
+                  }
+                } catch(e) {}
+              }
+              observer.unobserve(el);
+            }
+          });
+        }, {
+          rootMargin: '0px 0px -30px 0px',
+          threshold: 0.05
+        });
+
+        animatedElements.forEach(el => observer.observe(el));
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initElementorAnimations);
+      } else {
+        initElementorAnimations();
+      }
+    </script>
   </body>
 </html>
