@@ -27,6 +27,10 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://financew
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalURL} />
 
+    <!-- Preload custom script font and decorative assets -->
+    <link rel="preload" href="/wp-content/uploads/2023/12/Angel-Heart-Regular.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="preload" href="/wp-content/uploads/2023/12/circle.png" as="image" />
+
     <!-- Google Fonts as used by Elementor kit -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -36,6 +40,14 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://financew
     <link rel="stylesheet" href="/styles/site-bundle.css" />
 
     <style is:global>
+      @font-face {
+        font-family: 'Angel';
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url('/wp-content/uploads/2023/12/Angel-Heart-Regular.ttf') format('truetype');
+      }
+
       html, body {
         margin: 0;
         padding: 0;
