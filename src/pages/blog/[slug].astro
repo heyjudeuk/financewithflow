@@ -3,19 +3,29 @@ import { getCollection, render } from 'astro:content';
 import BlogPostLayout from '../../layouts/BlogPostLayout.astro';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('posts');
+  const allPosts = await getCollection('posts');
+  // Only build non-draft posts (draft articles are not rendered on the live site)
+  const publishedPosts = allPosts.filter(p => p.data.status === 'published');
   // Sort posts by date descending
-  const sorted = [...posts].sort((a, b) => new Date(b.data.publishedDate).getTime() - new Date(a.data.publishedDate).getTime());
+  const sorted = [...publishedPosts].sort((a, b) => new Date(b.data.publishedDate).getTime() - new Date(a.data.publishedDate).getTime());
 
   return sorted.map((post, index) => {
     // Next is older (index + 1), Prev is newer (index - 1)
     const prevPost = index > 0 ? sorted[index - 1] : null;
     const nextPost = index < sorted.length - 1 ? sorted[index + 1] : null;
 
-    // Related posts: prioritize same category, then other posts, max 3
-    const sameCat = sorted.filter(p => p.id !== post.id && p.data.category === post.data.category);
-    const otherCat = sorted.filter(p => p.id !== post.id && p.data.category !== post.data.category);
-    const relatedPosts = [...sameCat, ...otherCat].slice(0, 3);
+    // Related posts: prioritize manual curation if specified, otherwise match by category
+    let relatedPosts = [];
+    if (post.data.relatedPosts && post.data.relatedPosts.length > 0) {
+      relatedPosts = post.data.relatedPosts
+        .map(slug => sorted.find(p => p.id === slug))
+        .filter(Boolean);
+    }
+    if (!relatedPosts || relatedPosts.length === 0) {
+      const sameCat = sorted.filter(p => p.id !== post.id && p.data.category === post.data.category);
+      const otherCat = sorted.filter(p => p.id !== post.id && p.data.category !== post.data.category);
+      relatedPosts = [...sameCat, ...otherCat].slice(0, 3);
+    }
 
     return {
       params: { slug: post.id },
@@ -42,4 +52,3 @@ const { Content } = await render(post);
 >
   <Content />
 </BlogPostLayout>
-

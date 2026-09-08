@@ -1,5 +1,6 @@
 ---
 import BaseLayout from './BaseLayout.astro';
+import { getCategoryDisplayName } from '../utils/categories';
 
 interface Props {
   title: string;
@@ -70,7 +71,7 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site || 'https://financew
                   <li class="elementor-icon-list-item elementor-repeater-item-0d5851b elementor-inline-item" itemprop="about">
                     <span class="elementor-icon-list-text elementor-post-info__item elementor-post-info__item--type-terms">
                       <span class="elementor-post-info__terms-list">
-                        <span class="elementor-post-info__terms-list-item">{category}</span>
+                        <span class="elementor-post-info__terms-list-item">{getCategoryDisplayName(category)}</span>
                       </span>
                     </span>
                   </li>
@@ -236,7 +237,7 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site || 'https://financew
                   const rD = new Date(rPost.data.publishedDate);
                   const rDateStr = rD.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
                   const rImgUrl = rPost.data.featuredImage || "/wp-content/uploads/2023/12/what-we-do.png";
-                  const rCat = rPost.data.category || "Featured";
+                  const rCat = getCategoryDisplayName(rPost.data.category);
                   const rUrl = `/blog/${rPost.id}/`;
 
                   return (

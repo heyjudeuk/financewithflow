@@ -1,13 +1,38 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
+import { getCategoryDisplayName, CATEGORY_NAMES } from "../../utils/categories";
 
 const allPosts = await getCollection("posts");
-const sortedPosts = allPosts.sort((a, b) => {
+
+// Filter only published posts (draft articles are never rendered on the live site)
+const publishedPosts = allPosts.filter(p => p.data.status === 'published');
+
+// Sort posts chronologically descending
+const sortedPosts = publishedPosts.sort((a, b) => {
   const dateA = new Date(a.data.publishedDate).getTime();
   const dateB = new Date(b.data.publishedDate).getTime();
   return dateB - dateA;
 });
+
+// Featured posts: articles where isFeatured is true (fallback to newest 3 if none flagged)
+let featuredPosts = sortedPosts.filter(p => p.data.isFeatured === true);
+if (featuredPosts.length === 0) {
+  featuredPosts = sortedPosts.slice(0, 3);
+}
+
+// Available categories with post count in published posts
+const categoriesMap = new Map<string, number>();
+sortedPosts.forEach(post => {
+  const cat = post.data.category || 'featured';
+  categoriesMap.set(cat, (categoriesMap.get(cat) || 0) + 1);
+});
+
+const availableCategories = Array.from(categoriesMap.entries()).map(([slug, count]) => ({
+  slug,
+  name: getCategoryDisplayName(slug),
+  count,
+})).sort((a, b) => a.name.localeCompare(b.name));
 ---
 
 <BaseLayout 
@@ -16,52 +41,409 @@ const sortedPosts = allPosts.sort((a, b) => {
   bodyClass="page-template-default page page-id-1210 elementor-default elementor-kit-7 elementor-page elementor-page-1210"
 >
   <div class="page-content">
-    <Fragment set:html={`<div data-elementor-type="wp-page" data-elementor-id="1210" class="elementor elementor-1210" data-elementor-post-type="page"><div class="elementor-element elementor-element-6f97368 e-flex e-con-boxed e-con e-parent" data-id="6f97368" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}"><div class="e-con-inner"><div class="elementor-element elementor-element-74e8657 e-flex e-con-boxed e-con e-child" data-id="74e8657" data-element_type="container"><div class="e-con-inner"><div class="elementor-element elementor-element-469b88b elementor-widget elementor-widget-heading" data-id="469b88b" data-element_type="widget" data-widget_type="heading.default"><div class="elementor-widget-container"><h2 class="elementor-heading-title elementor-size-default">Blog</h2></div></div><div class="elementor-element elementor-element-38f1d61 elementor-widget elementor-widget-image" data-id="38f1d61" data-element_type="widget" data-widget_type="image.default"><div class="elementor-widget-container"> <img class="attachment-large size-large wp-image-1656 " src="/wp-content/uploads/2023/12/logo-white-1024x279-2.webp" decoding="async" width="800" height="216"   alt="" srcset="/wp-content/uploads/2023/12/logo-white-1024x279-2.webp 1024w, /wp-content/uploads/2023/12/logo-white-1024x279-2-300x81.webp 300w, /wp-content/uploads/2023/12/logo-white-1024x279-2-768x207.webp 768w" sizes="(max-width: 800px) 100vw, 800px" /></div></div><div class="elementor-element elementor-element-657f4a3 elementor-widget elementor-widget-heading" data-id="657f4a3" data-element_type="widget" data-widget_type="heading.default"><div class="elementor-widget-container"><h1 class="elementor-heading-title elementor-size-default">Explore our news &amp; insights</h1></div></div><div class="elementor-element elementor-element-af84f07 elementor-widget elementor-widget-button" data-id="af84f07" data-element_type="widget" data-widget_type="button.default"><div class="elementor-widget-container"><div class="elementor-button-wrapper"> <a class="elementor-button elementor-button-link elementor-size-sm" href="/finance-with-flow-newsletter-sign-up/"> <span class="elementor-button-content-wrapper"> <span class="elementor-button-text">Join our newsletter here</span> </span> </a></div></div></div></div></div></div></div><div class="elementor-element elementor-element-340bbb7 e-flex e-con-boxed e-con e-parent" data-id="340bbb7" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}"><div class="e-con-inner"><div class="elementor-element elementor-element-c0f41bb e-flex e-con-boxed  e-con e-child" data-id="c0f41bb" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;,&quot;animation&quot;:&quot;fadeInRight&quot;}"><div class="e-con-inner"><div class="elementor-element elementor-element-44b0776 elementor-widget elementor-widget-heading" data-id="44b0776" data-element_type="widget" data-widget_type="heading.default"><div class="elementor-widget-container"><h2 class="elementor-heading-title elementor-size-default">Featured News &amp; Insights</h2></div></div></div></div><div class="elementor-element elementor-element-f781887 e-flex e-con-boxed e-con e-child" data-id="f781887" data-element_type="container"><div class="e-con-inner"><div class="elementor-element elementor-element-55c78da elementor-widget__width-inherit elementor-grid-3 elementor-grid-tablet-2 elementor-grid-mobile-1 elementor-posts--thumbnail-top elementor-card-shadow-yes elementor-posts__hover-gradient elementor-widget elementor-widget-posts" data-id="55c78da" data-element_type="widget" data-settings="{&quot;pagination_type&quot;:&quot;prev_next&quot;,&quot;cards_columns&quot;:&quot;3&quot;,&quot;cards_columns_tablet&quot;:&quot;2&quot;,&quot;cards_columns_mobile&quot;:&quot;1&quot;,&quot;cards_row_gap&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:35,&quot;sizes&quot;:[]},&quot;cards_row_gap_laptop&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;cards_row_gap_tablet&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;cards_row_gap_mobile&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]}}" data-widget_type="posts.cards"><div class="elementor-widget-container">`} />
+    <!-- Hero Banner -->
+    <Fragment set:html={`<div data-elementor-type="wp-page" data-elementor-id="1210" class="elementor elementor-1210" data-elementor-post-type="page"><div class="elementor-element elementor-element-6f97368 e-flex e-con-boxed e-con e-parent" data-id="6f97368" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}"><div class="e-con-inner"><div class="elementor-element elementor-element-74e8657 e-flex e-con-boxed e-con e-child" data-id="74e8657" data-element_type="container"><div class="e-con-inner"><div class="elementor-element elementor-element-469b88b elementor-widget elementor-widget-heading" data-id="469b88b" data-element_type="widget" data-widget_type="heading.default"><div class="elementor-widget-container"><h2 class="elementor-heading-title elementor-size-default">Blog</h2></div></div><div class="elementor-element elementor-element-38f1d61 elementor-widget elementor-widget-image" data-id="38f1d61" data-element_type="widget" data-widget_type="image.default"><div class="elementor-widget-container"> <img class="attachment-large size-large wp-image-1656 " src="/wp-content/uploads/2023/12/logo-white-1024x279-2.webp" decoding="async" width="800" height="216"   alt="" srcset="/wp-content/uploads/2023/12/logo-white-1024x279-2.webp 1024w, /wp-content/uploads/2023/12/logo-white-1024x279-2-300x81.webp 300w, /wp-content/uploads/2023/12/logo-white-1024x279-2-768x207.webp 768w" sizes="(max-width: 800px) 100vw, 800px" /></div></div><div class="elementor-element elementor-element-657f4a3 elementor-widget elementor-widget-heading" data-id="657f4a3" data-element_type="widget" data-widget_type="heading.default"><div class="elementor-widget-container"><h1 class="elementor-heading-title elementor-size-default">Explore our news &amp; insights</h1></div></div><div class="elementor-element elementor-element-af84f07 elementor-widget elementor-widget-button" data-id="af84f07" data-element_type="widget" data-widget_type="button.default"><div class="elementor-widget-container"><div class="elementor-button-wrapper"> <a class="elementor-button elementor-button-link elementor-size-sm" href="/finance-with-flow-newsletter-sign-up/"> <span class="elementor-button-content-wrapper"> <span class="elementor-button-text">Join our newsletter here</span> </span> </a></div></div></div></div></div></div></div>`} />
 
-    <div class="elementor-posts-container elementor-posts elementor-posts--skin-cards elementor-grid elementor-has-item-ratio" role="list">
-      {sortedPosts.map(post => {
-        const d = new Date(post.data.publishedDate);
-        const dateStr = d.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
-        const imgUrl = post.data.featuredImage || "/wp-content/uploads/2023/12/what-we-do.png";
-        const category = post.data.category || "Featured";
-        const postUrl = `/blog/${post.id}/`;
-
-        return (
-          <article class="elementor-post elementor-grid-item post type-post status-publish format-standard has-post-thumbnail hentry" role="listitem">
-            <div class="elementor-post__card">
-              <a class="elementor-post__thumbnail__link" href={postUrl} tabindex="-1">
-                <div class="elementor-post__thumbnail">
-                  <img 
-                    src={imgUrl} 
-                    alt={post.data.title} 
-                    loading="lazy" 
-                    decoding="async"
-                    width="300" 
-                    height="200" 
-                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transform: none;"
-                  />
-                </div>
-              </a>
-              <div class="elementor-post__badge">{category}</div>
-              <div class="elementor-post__text">
-                <h3 class="elementor-post__title">
-                  <a href={postUrl}>
-                    {post.data.title}
-                  </a>
-                </h3>
-                <a class="elementor-post__read-more" href={postUrl} aria-label={`Read more about ${post.data.title}`} tabindex="-1">
-                  Read More »
-                </a>
-              </div>
-              <div class="elementor-post__meta-data">
-                <span class="elementor-post-date">{dateStr}</span>
+    <!-- SECTION 1: Featured News & Insights -->
+    <div class="elementor-element elementor-element-340bbb7 e-flex e-con-boxed e-con e-parent" data-id="340bbb7" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+      <div class="e-con-inner">
+        <div class="elementor-element elementor-element-c0f41bb e-flex e-con-boxed e-con e-child" data-id="c0f41bb" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;,&quot;animation&quot;:&quot;fadeInRight&quot;}">
+          <div class="e-con-inner">
+            <div class="elementor-element elementor-element-44b0776 elementor-widget elementor-widget-heading" data-id="44b0776" data-element_type="widget" data-widget_type="heading.default">
+              <div class="elementor-widget-container">
+                <h2 class="elementor-heading-title elementor-size-default">Featured News &amp; Insights</h2>
               </div>
             </div>
-          </article>
-        );
-      })}
+          </div>
+        </div>
+        <div class="elementor-element elementor-element-f781887 e-flex e-con-boxed e-con e-child" data-id="f781887" data-element_type="container">
+          <div class="e-con-inner">
+            <div class="elementor-element elementor-element-55c78da elementor-widget__width-inherit elementor-grid-3 elementor-grid-tablet-2 elementor-grid-mobile-1 elementor-posts--thumbnail-top elementor-card-shadow-yes elementor-posts__hover-gradient elementor-widget elementor-widget-posts" data-id="55c78da" data-element_type="widget">
+              <div class="elementor-widget-container">
+                <div class="elementor-posts-container elementor-posts elementor-posts--skin-cards elementor-grid elementor-has-item-ratio" role="list">
+                  {featuredPosts.map(post => {
+                    const d = new Date(post.data.publishedDate);
+                    const dateStr = d.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
+                    const imgUrl = post.data.featuredImage || "/wp-content/uploads/2023/12/what-we-do.png";
+                    const category = getCategoryDisplayName(post.data.category);
+                    const postUrl = `/blog/${post.id}/`;
+
+                    return (
+                      <article class="elementor-post elementor-grid-item post type-post status-publish format-standard has-post-thumbnail hentry" role="listitem">
+                        <div class="elementor-post__card">
+                          <a class="elementor-post__thumbnail__link" href={postUrl} tabindex="-1">
+                            <div class="elementor-post__thumbnail">
+                              <img 
+                                src={imgUrl} 
+                                alt={post.data.title} 
+                                loading="lazy" 
+                                decoding="async"
+                                width="300" 
+                                height="200" 
+                                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transform: none;"
+                              />
+                            </div>
+                          </a>
+                          <div class="elementor-post__badge">{category}</div>
+                          <div class="elementor-post__text">
+                            <h3 class="elementor-post__title">
+                              <a href={postUrl}>{post.data.title}</a>
+                            </h3>
+                            <a class="elementor-post__read-more" href={postUrl} aria-label={`Read more about ${post.data.title}`} tabindex="-1">
+                              Read More »
+                            </a>
+                          </div>
+                          <div class="elementor-post__meta-data">
+                            <span class="elementor-post-date">{dateStr}</span>
+                          </div>
+                        </div>
+                      </article>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <Fragment set:html={`</div></div></div></div></div></div><div class="elementor-element elementor-element-a192b6a e-flex e-con-boxed e-con e-parent" data-id="a192b6a" data-element_type="container"><div class="e-con-inner"><div class="elementor-element elementor-element-1a1da0a e-flex e-con-boxed e-con e-child" data-id="1a1da0a" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}"><div class="e-con-inner"><div class="elementor-element elementor-element-a61ee83 e-flex e-con-boxed e-con e-child" data-id="a61ee83" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}"><div class="e-con-inner"><div class="elementor-element elementor-element-68ec8da elementor-widget elementor-widget-heading" data-id="68ec8da" data-element_type="widget" data-widget_type="heading.default"><div class="elementor-widget-container"><h2 class="elementor-heading-title elementor-size-default">Join the Finance with Flow Journey</h2></div></div></div></div><div class="elementor-element elementor-element-262e97d e-flex e-con-boxed e-con e-child" data-id="262e97d" data-element_type="container"><div class="e-con-inner"><div class="elementor-element elementor-element-bdec65e  elementor-widget elementor-widget-text-editor" data-id="bdec65e" data-element_type="widget" data-settings="{&quot;_animation&quot;:&quot;fadeInRight&quot;,&quot;_animation_delay&quot;:250}" data-widget_type="text-editor.default"><div class="elementor-widget-container"><p>Let’s work together to not only achieve financial goals but to exceed them while staying true to the heart and soul of your business.</p><p>We’re here to help – contact us to today, to discuss your requirements and let’s shape your success together.</p></div></div><div class="elementor-element elementor-element-ea0040e elementor-align-center elementor-widget elementor-widget-button" data-id="ea0040e" data-element_type="widget" data-widget_type="button.default"><div class="elementor-widget-container"><div class="elementor-button-wrapper"> <a class="elementor-button elementor-button-link elementor-size-md" href="/contact/"> <span class="elementor-button-content-wrapper"> <span class="elementor-button-text">Contact us today</span> </span> </a></div></div></div></div></div></div></div></div></div></div>`} />
+    <!-- SECTION 2: All Articles Archive with Category Filter & 6-Card Pagination -->
+    <div class="elementor-element elementor-element-archive-section e-flex e-con-boxed e-con e-parent" data-id="archive-section" data-element_type="container" style="padding-top: 60px; padding-bottom: 60px; background-color: #FEF9F3;">
+      <div class="e-con-inner">
+        <!-- Archive Heading -->
+        <div class="archive-header" style="text-align: center; margin-bottom: 30px;">
+          <h2 class="archive-title" style="font-family: 'Poppins', sans-serif; font-size: 36px; font-weight: 600; color: #3456A7; margin-bottom: 12px;">All Insights &amp; Articles</h2>
+          <p class="archive-subtitle" style="font-family: 'Quicksand', sans-serif; font-size: 17px; color: #555555; max-width: 650px; margin: 0 auto;">Filter by category or browse all our articles below.</p>
+        </div>
+
+        <!-- Category Filter Pill Bar -->
+        <div class="category-filter-bar" role="tablist" aria-label="Filter articles by category">
+          <button class="cat-pill active" data-category="all" role="tab" aria-selected="true">
+            All ({sortedPosts.length})
+          </button>
+          {availableCategories.map(cat => (
+            <button class="cat-pill" data-category={cat.slug} role="tab" aria-selected="false">
+              {cat.name} ({cat.count})
+            </button>
+          ))}
+        </div>
+
+        <!-- Archive Posts Grid -->
+        <div class="elementor-element elementor-widget__width-inherit elementor-grid-3 elementor-grid-tablet-2 elementor-grid-mobile-1 elementor-posts--thumbnail-top elementor-card-shadow-yes elementor-posts__hover-gradient elementor-widget elementor-widget-posts" style="width: 100%;">
+          <div class="elementor-widget-container">
+            <div id="archive-posts-container" class="elementor-posts-container elementor-posts elementor-posts--skin-cards elementor-grid elementor-has-item-ratio" role="list">
+              {sortedPosts.map(post => {
+                const d = new Date(post.data.publishedDate);
+                const dateStr = d.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
+                const imgUrl = post.data.featuredImage || "/wp-content/uploads/2023/12/what-we-do.png";
+                const catSlug = post.data.category || "featured";
+                const category = getCategoryDisplayName(catSlug);
+                const postUrl = `/blog/${post.id}/`;
+
+                return (
+                  <article 
+                    class="elementor-post elementor-grid-item post type-post status-publish format-standard has-post-thumbnail hentry archive-post-card" 
+                    data-category={catSlug}
+                    role="listitem"
+                  >
+                    <div class="elementor-post__card">
+                      <a class="elementor-post__thumbnail__link" href={postUrl} tabindex="-1">
+                        <div class="elementor-post__thumbnail">
+                          <img 
+                            src={imgUrl} 
+                            alt={post.data.title} 
+                            loading="lazy" 
+                            decoding="async"
+                            width="300" 
+                            height="200" 
+                            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transform: none;"
+                          />
+                        </div>
+                      </a>
+                      <div class="elementor-post__badge">{category}</div>
+                      <div class="elementor-post__text">
+                        <h3 class="elementor-post__title">
+                          <a href={postUrl}>{post.data.title}</a>
+                        </h3>
+                        <a class="elementor-post__read-more" href={postUrl} aria-label={`Read more about ${post.data.title}`} tabindex="-1">
+                          Read More »
+                        </a>
+                      </div>
+                      <div class="elementor-post__meta-data">
+                        <span class="elementor-post-date">{dateStr}</span>
+                      </div>
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+
+            <!-- Empty State for filtered results -->
+            <div id="no-posts-message" style="display: none; text-align: center; padding: 50px 20px;">
+              <p style="font-family: 'Quicksand', sans-serif; font-size: 18px; color: #666;">No articles found in this category.</p>
+            </div>
+
+            <!-- Pagination Bar (6 Cards Per Page) -->
+            <nav id="archive-pagination" class="elementor-pagination" aria-label="Pagination" style="display: flex; justify-content: center; align-items: center; gap: 8px; margin-top: 45px;">
+              <!-- Dynamically populated by JS -->
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom CTA -->
+    <Fragment set:html={`<div class="elementor-element elementor-element-a192b6a e-flex e-con-boxed e-con e-parent" data-id="a192b6a" data-element_type="container"><div class="e-con-inner"><div class="elementor-element elementor-element-1a1da0a e-flex e-con-boxed e-con e-child" data-id="1a1da0a" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}"><div class="e-con-inner"><div class="elementor-element elementor-element-a61ee83 e-flex e-con-boxed e-con e-child" data-id="a61ee83" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}"><div class="e-con-inner"><div class="elementor-element elementor-element-68ec8da elementor-widget elementor-widget-heading" data-id="68ec8da" data-element_type="widget" data-widget_type="heading.default"><div class="elementor-widget-container"><h2 class="elementor-heading-title elementor-size-default">Join the Finance with Flow Journey</h2></div></div></div></div><div class="elementor-element elementor-element-262e97d e-flex e-con-boxed e-con e-child" data-id="262e97d" data-element_type="container"><div class="e-con-inner"><div class="elementor-element elementor-element-bdec65e  elementor-widget elementor-widget-text-editor" data-id="bdec65e" data-element_type="widget" data-settings="{&quot;_animation&quot;:&quot;fadeInRight&quot;,&quot;_animation_delay&quot;:250}" data-widget_type="text-editor.default"><div class="elementor-widget-container"><p>Let’s work together to not only achieve financial goals but to exceed them while staying true to the heart and soul of your business.</p><p>We’re here to help – contact us to today, to discuss your requirements and let’s shape your success together.</p></div></div><div class="elementor-element elementor-element-ea0040e elementor-align-center elementor-widget elementor-widget-button" data-id="ea0040e" data-element_type="widget" data-widget_type="button.default"><div class="elementor-widget-container"><div class="elementor-button-wrapper"> <a class="elementor-button elementor-button-link elementor-size-md" href="/contact/"> <span class="elementor-button-content-wrapper"> <span class="elementor-button-text">Contact us today</span> </span> </a></div></div></div></div></div></div></div></div></div></div>`} />
   </div>
 </BaseLayout>
+
+<style>
+  /* Category Pill Bar Styling */
+  .category-filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 40px;
+  }
+
+  .cat-pill {
+    font-family: "Quicksand", sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 9px 20px;
+    border-radius: 30px;
+    border: 1.5px solid #3456A7;
+    background: transparent;
+    color: #3456A7;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    outline: none;
+    line-height: 1.2;
+  }
+
+  .cat-pill:hover {
+    background-color: #31CDB0;
+    border-color: #31CDB0;
+    color: #FEF9F3;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(49, 205, 176, 0.25);
+  }
+
+  .cat-pill.active {
+    background-color: #3456A7;
+    border-color: #3456A7;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(52, 86, 167, 0.25);
+  }
+
+  /* Pagination Styling */
+  :global(.elementor-pagination .page-numbers) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Quicksand", sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    min-width: 42px;
+    height: 42px;
+    padding: 0 14px;
+    border-radius: 8px;
+    border: 1.5px solid #dcdce6;
+    background: #ffffff;
+    color: #3456A7;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none;
+  }
+
+  :global(.elementor-pagination .page-numbers:hover:not(.current):not(.disabled)) {
+    background: #31CDB0;
+    border-color: #31CDB0;
+    color: #ffffff;
+    transform: translateY(-1px);
+  }
+
+  :global(.elementor-pagination .page-numbers.current) {
+    background: #31CDB0;
+    border-color: #31CDB0;
+    color: #ffffff;
+    font-weight: 700;
+    box-shadow: 0 4px 10px rgba(49, 205, 176, 0.25);
+  }
+
+  :global(.elementor-pagination .page-numbers.disabled) {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+</style>
+
+<script>
+  function initBlogArchive() {
+    const CARDS_PER_PAGE = 6;
+    const cards = Array.from(document.querySelectorAll('.archive-post-card')) as HTMLElement[];
+    const pills = Array.from(document.querySelectorAll('.cat-pill')) as HTMLButtonElement[];
+    const paginationContainer = document.getElementById('archive-pagination');
+    const noPostsMsg = document.getElementById('no-posts-message');
+
+    if (!cards.length || !paginationContainer) return;
+
+    let currentCategory = 'all';
+    let currentPage = 1;
+
+    // Check URL parameters for initial category or page
+    const urlParams = new URLSearchParams(window.location.search);
+    const catParam = urlParams.get('category');
+    const pageParam = parseInt(urlParams.get('page') || '1', 10);
+
+    if (catParam && pills.some(p => p.dataset.category === catParam)) {
+      currentCategory = catParam;
+    }
+    if (!isNaN(pageParam) && pageParam > 0) {
+      currentPage = pageParam;
+    }
+
+    function render() {
+      // 1. Update pills active state
+      pills.forEach(p => {
+        const isActive = p.dataset.category === currentCategory;
+        p.classList.toggle('active', isActive);
+        p.setAttribute('aria-selected', String(isActive));
+      });
+
+      // 2. Filter cards
+      const visibleCards = cards.filter(card => {
+        if (currentCategory === 'all') return true;
+        return card.dataset.category === currentCategory;
+      });
+
+      const totalVisible = visibleCards.length;
+      const totalPages = Math.ceil(totalVisible / CARDS_PER_PAGE) || 1;
+
+      if (currentPage > totalPages) currentPage = totalPages;
+      if (currentPage < 1) currentPage = 1;
+
+      // 3. Show/hide empty state
+      if (totalVisible === 0) {
+        if (noPostsMsg) noPostsMsg.style.display = 'block';
+      } else {
+        if (noPostsMsg) noPostsMsg.style.display = 'none';
+      }
+
+      // 4. Paginate cards
+      const startIndex = (currentPage - 1) * CARDS_PER_PAGE;
+      const endIndex = startIndex + CARDS_PER_PAGE;
+
+      cards.forEach(card => {
+        card.style.display = 'none';
+      });
+
+      visibleCards.forEach((card, idx) => {
+        if (idx >= startIndex && idx < endIndex) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      // 5. Render pagination buttons
+      paginationContainer.innerHTML = '';
+      if (totalPages <= 1) {
+        paginationContainer.style.display = 'none';
+        return;
+      }
+      paginationContainer.style.display = 'flex';
+
+      // Prev button
+      const prevBtn = document.createElement('button');
+      prevBtn.className = `page-numbers prev ${currentPage === 1 ? 'disabled' : ''}`;
+      prevBtn.textContent = '« Previous';
+      prevBtn.setAttribute('aria-label', 'Previous page');
+      prevBtn.addEventListener('click', () => {
+        if (currentPage > 1) {
+          currentPage--;
+          updateUrl();
+          render();
+          scrollToArchive();
+        }
+      });
+      paginationContainer.appendChild(prevBtn);
+
+      // Page numbers
+      for (let i = 1; i <= totalPages; i++) {
+        const pageBtn = document.createElement('button');
+        pageBtn.className = `page-numbers ${i === currentPage ? 'current' : ''}`;
+        pageBtn.textContent = String(i);
+        pageBtn.setAttribute('aria-label', `Page ${i}`);
+        pageBtn.addEventListener('click', () => {
+          if (currentPage !== i) {
+            currentPage = i;
+            updateUrl();
+            render();
+            scrollToArchive();
+          }
+        });
+        paginationContainer.appendChild(pageBtn);
+      }
+
+      // Next button
+      const nextBtn = document.createElement('button');
+      nextBtn.className = `page-numbers next ${currentPage === totalPages ? 'disabled' : ''}`;
+      nextBtn.textContent = 'Next »';
+      nextBtn.setAttribute('aria-label', 'Next page');
+      nextBtn.addEventListener('click', () => {
+        if (currentPage < totalPages) {
+          currentPage++;
+          updateUrl();
+          render();
+          scrollToArchive();
+        }
+      });
+      paginationContainer.appendChild(nextBtn);
+    }
+
+    function updateUrl() {
+      const url = new URL(window.location.href);
+      if (currentCategory === 'all') {
+        url.searchParams.delete('category');
+      } else {
+        url.searchParams.set('category', currentCategory);
+      }
+      if (currentPage === 1) {
+        url.searchParams.delete('page');
+      } else {
+        url.searchParams.set('page', String(currentPage));
+      }
+      window.history.replaceState({}, '', url.toString());
+    }
+
+    function scrollToArchive() {
+      const section = document.querySelector('.elementor-element-archive-section');
+      if (section) {
+        section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+
+    // Attach pill click events
+    pills.forEach(pill => {
+      pill.addEventListener('click', () => {
+        const newCat = pill.dataset.category || 'all';
+        if (currentCategory !== newCat) {
+          currentCategory = newCat;
+          currentPage = 1;
+          updateUrl();
+          render();
+        }
+      });
+    });
+
+    render();
+  }
+
+  initBlogArchive();
+  document.addEventListener('astro:page-load', initBlogArchive);
+</script>

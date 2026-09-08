@@ -7,10 +7,21 @@ const posts = defineCollection({
     title: z.string(),
     publishedDate: z.string().or(z.date()),
     author: z.string().default('Finance with Flow'),
-    category: z.string().default('Featured'),
+    category: z.string().default('featured'),
     featuredImage: z.string().optional(),
     excerpt: z.string().optional(),
+    status: z.enum(['published', 'draft']).default('published'),
+    isFeatured: z.boolean().default(false),
+    relatedPosts: z.array(z.string()).optional(),
   }),
 });
 
-export const collections = { posts };
+const categories = defineCollection({
+  loader: glob({ pattern: '**/*.{yaml,yml,json}', base: './src/content/categories' }),
+  schema: z.object({
+    name: z.string(),
+    description: z.string().optional(),
+  }),
+});
+
+export const collections = { posts, categories };
