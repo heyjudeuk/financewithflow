@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Admin surfaces - never index.
+Disallow: /keystatic
+Disallow: /keystatic/
+Disallow: /api/
+
+Sitemap: https://financewithflow.com/sitemap-index.xml

@@ -1,14 +1,11 @@
 import { config, fields, collection } from '@keystatic/core';
 
 export default config({
-  storage: process.env.NODE_ENV === 'production'
-    ? {
-        kind: 'github',
-        repo: 'heyjudeuk/financewithflow',
-      }
-    : {
-        kind: 'local',
-      },
+  // Cloud storage is used in all environments so there is no NODE_ENV-inferred
+  // fallback to unauthenticated `local` mode on a public deployment.
+  // Auth is handled by Keystatic Cloud; set KEYSTATIC_CLOUD_PROJECT_KEY in the host env.
+  storage: { kind: 'cloud' },
+  cloud: { project: 'finance-with-flow/financewithflow' },
   collections: {
     posts: collection({
       label: 'Blog Posts',
