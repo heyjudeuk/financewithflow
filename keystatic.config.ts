@@ -3,7 +3,7 @@ import { config, fields, collection } from '@keystatic/core';
 export default config({
   // Cloud storage is used in all environments so there is no NODE_ENV-inferred
   // fallback to unauthenticated `local` mode on a public deployment.
-  // Auth is handled by Keystatic Cloud; set KEYSTATIC_CLOUD_PROJECT_KEY in the host env.
+  // Auth is handled by Keystatic Cloud's GitHub OAuth flow; no env var is needed.
   storage: { kind: 'cloud' },
   cloud: { project: 'finance-with-flow/financewithflow' },
   collections: {
