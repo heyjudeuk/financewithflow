@@ -2,6 +2,7 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
 import { getCategoryDisplayName, CATEGORY_NAMES } from "../../utils/categories";
+import ResponsiveImage from "../../components/ResponsiveImage.astro";
 
 const allPosts = await getCollection("posts");
 
@@ -73,14 +74,15 @@ const availableCategories = Array.from(categoriesMap.entries()).map(([slug, coun
                         <div class="elementor-post__card">
                           <a class="elementor-post__thumbnail__link" href={postUrl} tabindex="-1">
                             <div class="elementor-post__thumbnail">
-                              <img 
+                              <ResponsiveImage 
                                 src={imgUrl} 
                                 alt={post.data.title} 
                                 loading="lazy" 
                                 decoding="async"
-                                width="300" 
-                                height="200" 
+                                width={300} 
+                                height={200} 
                                 style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transform: none;"
+                                sizes="(max-width: 767px) 100vw, (max-width: 1024px) 50vw, 380px"
                               />
                             </div>
                           </a>
@@ -109,13 +111,19 @@ const availableCategories = Array.from(categoriesMap.entries()).map(([slug, coun
     </div>
 
     <!-- SECTION 2: All Articles Archive with Category Filter & 6-Card Pagination -->
-    <div class="elementor-element elementor-element-archive-section e-flex e-con-boxed e-con e-parent" data-id="archive-section" data-element_type="container" style="padding-top: 60px; padding-bottom: 60px; background-color: #FEF9F3;">
+    <div class="elementor-element elementor-element-archive-section e-flex e-con-boxed e-con e-parent" data-id="archive-section" data-element_type="container" style="padding-top: 40px; padding-bottom: 60px; background-color: #FEF9F3;">
       <div class="e-con-inner">
-        <!-- Archive Heading -->
-        <div class="archive-header" style="text-align: center; margin-bottom: 30px;">
-          <h2 class="archive-title" style="font-family: 'Poppins', sans-serif; font-size: 36px; font-weight: 600; color: #3456A7; margin-bottom: 12px;">All Insights &amp; Articles</h2>
-          <p class="archive-subtitle" style="font-family: 'Quicksand', sans-serif; font-size: 17px; color: #555555; max-width: 650px; margin: 0 auto;">Filter by category or browse all our articles below.</p>
+        <!-- Archive Heading (Matches Featured News & Insights format & green circle background) -->
+        <div class="elementor-element elementor-element-c0f41bb archive-heading-circle-container e-flex e-con-boxed e-con e-child" data-id="c0f41bb" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;,&quot;animation&quot;:&quot;fadeInRight&quot;}">
+          <div class="e-con-inner">
+            <div class="elementor-element elementor-element-44b0776 elementor-widget elementor-widget-heading" data-id="44b0776" data-element_type="widget" data-widget_type="heading.default">
+              <div class="elementor-widget-container">
+                <h2 class="elementor-heading-title elementor-size-default">All Insights &amp; Articles</h2>
+              </div>
+            </div>
+          </div>
         </div>
+        <p class="archive-subtitle" style="font-family: 'Quicksand', sans-serif; font-size: 17px; color: #555555; max-width: 650px; margin: 15px auto 35px auto; text-align: center;">Filter by category or browse all our articles below.</p>
 
         <!-- Category Filter Pill Bar -->
         <div class="category-filter-bar" role="tablist" aria-label="Filter articles by category">
@@ -129,65 +137,70 @@ const availableCategories = Array.from(categoriesMap.entries()).map(([slug, coun
           ))}
         </div>
 
-        <!-- Archive Posts Grid -->
-        <div class="elementor-element elementor-widget__width-inherit elementor-grid-3 elementor-grid-tablet-2 elementor-grid-mobile-1 elementor-posts--thumbnail-top elementor-card-shadow-yes elementor-posts__hover-gradient elementor-widget elementor-widget-posts" style="width: 100%;">
-          <div class="elementor-widget-container">
-            <div id="archive-posts-container" class="elementor-posts-container elementor-posts elementor-posts--skin-cards elementor-grid elementor-has-item-ratio" role="list">
-              {sortedPosts.map(post => {
-                const d = new Date(post.data.publishedDate);
-                const dateStr = d.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
-                const imgUrl = post.data.featuredImage || "/wp-content/uploads/2023/12/what-we-do.png";
-                const catSlug = post.data.category || "featured";
-                const category = getCategoryDisplayName(catSlug);
-                const postUrl = `/blog/${post.id}/`;
+        <!-- Archive Posts Grid (Matches Featured News & Insights format & layout) -->
+        <div class="elementor-element elementor-element-f781887 e-flex e-con-boxed e-con e-child" data-id="f781887" data-element_type="container" style="padding-top: 10px; width: 100%;">
+          <div class="e-con-inner" style="width: 100%;">
+            <div class="elementor-element elementor-element-55c78da elementor-widget__width-inherit elementor-grid-3 elementor-grid-tablet-2 elementor-grid-mobile-1 elementor-posts--thumbnail-top elementor-card-shadow-yes elementor-posts__hover-gradient elementor-widget elementor-widget-posts" data-id="55c78da" data-element_type="widget" style="width: 100%;">
+              <div class="elementor-widget-container">
+                <div id="archive-posts-container" class="elementor-posts-container elementor-posts elementor-posts--skin-cards elementor-grid elementor-has-item-ratio" role="list">
+                  {sortedPosts.map(post => {
+                    const d = new Date(post.data.publishedDate);
+                    const dateStr = d.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
+                    const imgUrl = post.data.featuredImage || "/wp-content/uploads/2023/12/what-we-do.png";
+                    const catSlug = post.data.category || "featured";
+                    const category = getCategoryDisplayName(catSlug);
+                    const postUrl = `/blog/${post.id}/`;
 
-                return (
-                  <article 
-                    class="elementor-post elementor-grid-item post type-post status-publish format-standard has-post-thumbnail hentry archive-post-card" 
-                    data-category={catSlug}
-                    role="listitem"
-                  >
-                    <div class="elementor-post__card">
-                      <a class="elementor-post__thumbnail__link" href={postUrl} tabindex="-1">
-                        <div class="elementor-post__thumbnail">
-                          <img 
-                            src={imgUrl} 
-                            alt={post.data.title} 
-                            loading="lazy" 
-                            decoding="async"
-                            width="300" 
-                            height="200" 
-                            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transform: none;"
-                          />
+                    return (
+                      <article 
+                        class="elementor-post elementor-grid-item post type-post status-publish format-standard has-post-thumbnail hentry archive-post-card" 
+                        data-category={catSlug}
+                        role="listitem"
+                      >
+                        <div class="elementor-post__card">
+                          <a class="elementor-post__thumbnail__link" href={postUrl} tabindex="-1">
+                            <div class="elementor-post__thumbnail">
+                              <ResponsiveImage 
+                                src={imgUrl} 
+                                alt={post.data.title} 
+                                loading="lazy" 
+                                decoding="async"
+                                width={300} 
+                                height={200} 
+                                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transform: none;"
+                                sizes="(max-width: 767px) 100vw, (max-width: 1024px) 50vw, 380px"
+                              />
+                            </div>
+                          </a>
+                          <div class="elementor-post__badge">{category}</div>
+                          <div class="elementor-post__text">
+                            <h3 class="elementor-post__title">
+                              <a href={postUrl}>{post.data.title}</a>
+                            </h3>
+                            <a class="elementor-post__read-more" href={postUrl} aria-label={`Read more about ${post.data.title}`} tabindex="-1">
+                              Read More »
+                            </a>
+                          </div>
+                          <div class="elementor-post__meta-data">
+                            <span class="elementor-post-date">{dateStr}</span>
+                          </div>
                         </div>
-                      </a>
-                      <div class="elementor-post__badge">{category}</div>
-                      <div class="elementor-post__text">
-                        <h3 class="elementor-post__title">
-                          <a href={postUrl}>{post.data.title}</a>
-                        </h3>
-                        <a class="elementor-post__read-more" href={postUrl} aria-label={`Read more about ${post.data.title}`} tabindex="-1">
-                          Read More »
-                        </a>
-                      </div>
-                      <div class="elementor-post__meta-data">
-                        <span class="elementor-post-date">{dateStr}</span>
-                      </div>
-                    </div>
-                  </article>
-                );
-              })}
-            </div>
+                      </article>
+                    );
+                  })}
+                </div>
 
-            <!-- Empty State for filtered results -->
-            <div id="no-posts-message" style="display: none; text-align: center; padding: 50px 20px;">
-              <p style="font-family: 'Quicksand', sans-serif; font-size: 18px; color: #666;">No articles found in this category.</p>
-            </div>
+                <!-- Empty State for filtered results -->
+                <div id="no-posts-message" style="display: none; text-align: center; padding: 50px 20px;">
+                  <p style="font-family: 'Quicksand', sans-serif; font-size: 18px; color: #666;">No articles found in this category.</p>
+                </div>
 
-            <!-- Pagination Bar (6 Cards Per Page) -->
-            <nav id="archive-pagination" class="elementor-pagination" aria-label="Pagination" style="display: flex; justify-content: center; align-items: center; gap: 8px; margin-top: 45px;">
-              <!-- Dynamically populated by JS -->
-            </nav>
+                <!-- Pagination Bar (6 Cards Per Page) -->
+                <nav id="archive-pagination" class="elementor-pagination" aria-label="Pagination" style="display: flex; justify-content: center; align-items: center; gap: 8px; margin-top: 45px;">
+                  <!-- Dynamically populated by JS -->
+                </nav>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -199,6 +212,139 @@ const availableCategories = Array.from(categoriesMap.entries()).map(([slug, coun
 </BaseLayout>
 
 <style>
+  /* Heading with green circle styling matching Featured News & Insights */
+  :global(.elementor-1210 .elementor-element.archive-heading-circle-container),
+  .archive-heading-circle-container,
+  :global(.elementor-1210 .elementor-element.elementor-element-c0f41bb) {
+    background-image: url(/wp-content/uploads/2023/12/circle.png) !important;
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
+    background-size: contain !important;
+    padding-top: 20px !important;
+    padding-bottom: 20px !important;
+    padding-left: 20px !important;
+    padding-right: 0 !important;
+  }
+
+  :global(.elementor-1210 .elementor-element.archive-heading-circle-container .elementor-heading-title),
+  :global(.elementor-1210 .elementor-element.elementor-element-44b0776 .elementor-heading-title) {
+    font-family: "Angel", Sans-serif !important;
+    font-size: 4em !important;
+    color: var(--e-global-color-secondary, #160F3F) !important;
+    text-align: center !important;
+    margin: 0 !important;
+    line-height: 1.1 !important;
+  }
+
+  @media (max-width: 767px) {
+    :global(.elementor-1210 .elementor-element.archive-heading-circle-container),
+    .archive-heading-circle-container,
+    :global(.elementor-1210 .elementor-element.elementor-element-c0f41bb) {
+      padding: 0 !important;
+    }
+    :global(.elementor-1210 .elementor-element.archive-heading-circle-container .elementor-heading-title),
+    :global(.elementor-1210 .elementor-element.elementor-element-44b0776 .elementor-heading-title) {
+      font-size: 2.5em !important;
+    }
+  }
+
+  /* Ensure Archive Cards match Featured Cards format & layout (elementor-element-55c78da) */
+  :global(.elementor-1210 .elementor-element.elementor-element-55c78da) {
+    --grid-row-gap: 35px;
+    width: 100%;
+    max-width: 100%;
+    --grid-column-gap: 30px;
+  }
+
+  :global(.elementor-1210 .elementor-element.elementor-element-55c78da .elementor-posts-container .elementor-post__thumbnail) {
+    padding-bottom: calc(0.7 * 100%) !important;
+    position: relative;
+    overflow: hidden;
+  }
+
+  :global(.elementor-1210 .elementor-element.elementor-element-55c78da .elementor-post__thumbnail__link) {
+    width: 100% !important;
+    display: block;
+    position: relative;
+  }
+
+  :global(.elementor-1210 .elementor-element.elementor-element-55c78da .elementor-post__card) {
+    background-color: var(--e-global-color-primary, #3456A7) !important;
+    border-radius: 31px !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    overflow: hidden !important;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.15);
+    transition: all 0.25s ease;
+  }
+
+  :global(.elementor-1210 .elementor-element.elementor-element-55c78da .elementor-post__card:hover) {
+    box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.15);
+  }
+
+  :global(.elementor-1210 .elementor-element.elementor-element-55c78da .elementor-post__text) {
+    padding: 0 26px !important;
+    margin-top: 20px !important;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+
+  :global(.elementor-1210 .elementor-element.elementor-element-55c78da .elementor-post__title),
+  :global(.elementor-1210 .elementor-element.elementor-element-55c78da .elementor-post__title a) {
+    color: var(--e-global-color-8b1134b, #FEF9F3) !important;
+    font-size: 21px !important;
+    font-weight: 600 !important;
+    line-height: 1.3 !important;
+    margin-bottom: 25px !important;
+    text-decoration: none !important;
+    transition: opacity 0.2s ease;
+  }
+
+  :global(.elementor-1210 .elementor-element.elementor-element-55c78da .elementor-post__title a:hover) {
+    opacity: 0.85;
+  }
+
+  :global(.elementor-1210 .elementor-element.elementor-element-55c78da .elementor-post__read-more) {
+    color: var(--e-global-color-8b1134b, #FEF9F3) !important;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    display: inline-block !important;
+    margin-bottom: 20px !important;
+    align-self: flex-start !important;
+    text-decoration: none !important;
+    transition: opacity 0.2s ease;
+  }
+
+  :global(.elementor-1210 .elementor-element.elementor-element-55c78da .elementor-post__read-more:hover) {
+    opacity: 0.85;
+  }
+
+  :global(.elementor-1210 .elementor-element.elementor-element-55c78da .elementor-post__meta-data) {
+    padding: 10px 26px !important;
+    color: var(--e-global-color-8b1134b, #FEF9F3) !important;
+    font-size: 12px !important;
+    border-top: 1px solid rgba(254, 249, 243, 0.2) !important;
+    margin-top: auto !important;
+  }
+
+  :global(.elementor-1210 .elementor-element.elementor-element-55c78da .elementor-post__badge) {
+    position: absolute !important;
+    top: 0 !important;
+    right: 0 !important;
+    margin: 20px !important;
+    background-color: var(--e-global-color-accent, #31CDB0) !important;
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    font-size: 12px !important;
+    border-radius: 999px !important;
+    padding: 0.6em 1.2em !important;
+    text-transform: uppercase !important;
+    line-height: 1 !important;
+    z-index: 2 !important;
+  }
+
   /* Category Pill Bar Styling */
   .category-filter-bar {
     display: flex;
@@ -245,7 +391,7 @@ const availableCategories = Array.from(categoriesMap.entries()).map(([slug, coun
     align-items: center;
     justify-content: center;
     font-family: "Quicksand", sans-serif;
-    font-size: 16px;
+    font-size: 16px !important;
     font-weight: 600;
     min-width: 42px;
     height: 42px;

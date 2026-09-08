@@ -1,6 +1,7 @@
 ---
 import BaseLayout from './BaseLayout.astro';
 import { getCategoryDisplayName } from '../utils/categories';
+import ResponsiveImage from '../components/ResponsiveImage.astro';
 
 interface Props {
   title: string;
@@ -46,14 +47,57 @@ const {
   relatedPosts = []
 } = Astro.props;
 
+const SITE_URL = Astro.site ?? new URL('https://financewithflow.com');
 const d = new Date(publishedDate);
-const dateStr = d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
-const canonicalUrl = new URL(Astro.url.pathname, Astro.site || 'https://financewithflow.com').href;
+const dateStr = d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+const isoDate = Number.isNaN(d.getTime()) ? undefined : d.toISOString();
+const canonicalUrl = new URL(Astro.url.pathname, SITE_URL).href;
+
+const shareImage = featuredImage
+  ? new URL(featuredImage, SITE_URL).href
+  : undefined;
+
+// Fall back to a trimmed excerpt so social cards and search results are never blank.
+const metaDescription =
+  excerpt?.trim() || `${title} - insights from the Finance with Flow team.`;
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: title,
+  description: metaDescription,
+  ...(shareImage ? { image: shareImage } : {}),
+  ...(isoDate ? { datePublished: isoDate, dateModified: isoDate } : {}),
+  author: { '@type': 'Person', name: author },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Finance with Flow',
+    logo: {
+      '@type': 'ImageObject',
+      url: new URL('/wp-content/uploads/2023/12/logo-colour-1024x279.png', SITE_URL).href,
+    },
+  },
+  mainEntityOfPage: { '@type': 'WebPage', '@id': canonicalUrl },
+  articleSection: getCategoryDisplayName(category),
+};
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL.href },
+    { '@type': 'ListItem', position: 2, name: 'Insights', item: new URL('/blog', SITE_URL).href },
+    { '@type': 'ListItem', position: 3, name: title, item: canonicalUrl },
+  ],
+};
 ---
 
 <BaseLayout 
   title={`${title} - Finance With Flow`} 
-  description={excerpt}
+  description={metaDescription}
+  ogType="article"
+  {...(featuredImage ? { ogImage: featuredImage } : {})}
+  schema={[articleSchema, breadcrumbSchema]}
   bodyClass="wp-singular post-template-default single single-post elementor-default elementor-kit-7 elementor-page-1191"
 >
   <div data-elementor-type="single-post" data-elementor-id="1191" class="elementor elementor-1191 elementor-location-single post type-post status-publish format-standard has-post-thumbnail hentry">
@@ -105,7 +149,17 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site || 'https://financew
             <div class="e-con-inner">
               <div class="elementor-element elementor-element-1e0218e elementor-widget elementor-widget-image" data-id="1e0218e" data-element_type="widget" data-widget_type="image.default">
                 <div class="elementor-widget-container">
-                  <img class="attachment-large size-large wp-image-1862" src={featuredImage} alt={title} width="800" height="534" loading="eager" decoding="async" />
+                  <ResponsiveImage 
+                    class="attachment-large size-large wp-image-1862" 
+                    src={featuredImage} 
+                    alt={title} 
+                    width={800} 
+                    height={534} 
+                    loading="eager" 
+                    fetchpriority="high"
+                    decoding="async" 
+                    sizes="(max-width: 767px) 100vw, (max-width: 1200px) 50vw, 800px"
+                  />
                 </div>
               </div>
             </div>
@@ -245,14 +299,15 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site || 'https://financew
                       <div class="elementor-post__card">
                         <a class="elementor-post__thumbnail__link" href={rUrl} tabindex="-1">
                           <div class="elementor-post__thumbnail">
-                            <img 
+                            <ResponsiveImage 
                               src={rImgUrl} 
                               alt={rPost.data.title} 
                               loading="lazy" 
                               decoding="async" 
-                              width="300" 
-                              height="200" 
+                              width={300} 
+                              height={200} 
                               style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transform: none;"
+                              sizes="(max-width: 767px) 100vw, (max-width: 1024px) 50vw, 380px"
                             />
                           </div>
                         </a>

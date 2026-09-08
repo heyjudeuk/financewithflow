@@ -6,15 +6,64 @@ interface Props {
   title?: string;
   description?: string;
   bodyClass?: string;
+  /** Social share image, root-relative or absolute. */
+  ogImage?: string;
+  /** 'website' for pages, 'article' for blog posts. */
+  ogType?: 'website' | 'article';
+  /** Set true on thin/utility pages that should stay out of the index. */
+  noindex?: boolean;
+  /** Extra JSON-LD emitted alongside the sitewide Organization schema. */
+  schema?: Record<string, any> | Record<string, any>[];
+  /**
+   * Pages whose copied Elementor markup already contains its own
+   * `<main id="content">` set this false, so we don't nest <main> inside <main>
+   * (invalid HTML, and it duplicates id="content").
+   */
+  wrapMain?: boolean;
 }
 
 const {
   title = "Home | Outsourced Finance | Finance with Flow",
   description = "At Finance with Flow we specialise in providing comprehensive outsourced finance services that empower businesses and allow them to thrive.",
-  bodyClass = "page-template-default page elementor-default elementor-kit-7"
+  bodyClass = "page-template-default page elementor-default elementor-kit-7",
+  ogImage = '/wp-content/uploads/2025/07/construction-accountants-1-1024x683.jpg',
+  ogType = 'website',
+  noindex = false,
+  schema,
+  wrapMain = true,
 } = Astro.props;
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://financewithflow.com');
+const SITE_URL = Astro.site ?? new URL('https://financewithflow.com');
+const canonicalURL = new URL(Astro.url.pathname, SITE_URL);
+const ogImageURL = new URL(ogImage, SITE_URL);
+
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'AccountingService',
+  '@id': new URL('/#organization', SITE_URL).href,
+  name: 'Finance with Flow',
+  url: SITE_URL.href,
+  logo: new URL('/wp-content/uploads/2023/12/logo-colour-1024x279.png', SITE_URL).href,
+  image: ogImageURL.href,
+  description:
+    'Outsourced finance department services for construction and SME businesses across Essex, Suffolk and the East of England.',
+  email: 'undercontrol@financewithflow.com',
+  telephone: '+441206326610',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'The Old Slaughter House, Stour Street',
+    addressLocality: 'Manningtree',
+    postalCode: 'CO11 1BE',
+    addressCountry: 'GB',
+  },
+  sameAs: [
+    'https://www.facebook.com/FinancewithFlow',
+    'https://www.instagram.com/FinancewithFlow/',
+    'https://www.linkedin.com/company/74514698',
+  ],
+};
+
+const extraSchemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
 ---
 
 <!doctype html>
@@ -26,6 +75,31 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://financew
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalURL} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
+
+    <!-- Open Graph -->
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content="Finance with Flow" />
+    <meta property="og:locale" content="en_GB" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:image" content={ogImageURL} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageURL} />
+
+    <!-- Structured data -->
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(organizationSchema)}
+    />
+    {extraSchemas.map((entry) => (
+      <script type="application/ld+json" set:html={JSON.stringify(entry)} />
+    ))}
 
     <!-- Preload custom script font and decorative assets -->
     <link rel="preload" href="/wp-content/uploads/2023/12/Angel-Heart-Regular.ttf" as="font" type="font/ttf" crossorigin />
@@ -202,6 +276,24 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://financew
       }
 
       /* Ensure all Elementor background images and circles render reliably */
+      /* Keyboard skip link: hidden until focused, so the visual design is unchanged. */
+      .skip-link {
+        position: absolute;
+        left: -9999px;
+        top: 0;
+        z-index: 100000;
+        padding: 12px 20px;
+        background: #160F3F;
+        color: #fff;
+        font-family: 'Quicksand', sans-serif;
+        font-weight: 600;
+        text-decoration: none;
+        border-radius: 0 0 6px 0;
+      }
+      .skip-link:focus {
+        left: 0;
+      }
+
       .e-con.e-parent:not(.e-lazyloaded),
       .e-con.e-parent:not(.e-lazyloaded) * {
         background-image: revert;
@@ -209,10 +301,15 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://financew
     </style>
   </head>
   <body class={bodyClass}>
+    <a class="skip-link" href="#content">Skip to content</a>
     <Header />
-    <main id="content" class="site-main">
+    {wrapMain ? (
+      <main id="content" class="site-main">
+        <slot />
+      </main>
+    ) : (
       <slot />
-    </main>
+    )}
     <Footer />
 
     <!-- Elementor Animation and Container Initialization Script -->
@@ -266,5 +363,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://financew
         initElementorAnimations();
       }
     </script>
+    <script src="../scripts/newsletter.ts"></script>
   </body>
 </html>

@@ -1,0 +1,103 @@
+---
+interface Props {
+  src: string;
+  alt: string;
+  width?: number | string;
+  height?: number | string;
+  class?: string;
+  className?: string;
+  style?: string;
+  sizes?: string;
+  loading?: 'lazy' | 'eager';
+  decoding?: 'async' | 'auto' | 'sync';
+  fetchpriority?: 'high' | 'low' | 'auto';
+  aspectRatio?: string;
+}
+
+const {
+  src,
+  alt = '',
+  width = 800,
+  height = 534,
+  class: classNameProp,
+  className,
+  style = '',
+  sizes,
+  loading = 'lazy',
+  decoding = 'async',
+  fetchpriority,
+  aspectRatio,
+} = Astro.props;
+
+const classes = [classNameProp, className].filter(Boolean).join(' ');
+
+// Check if this is a post featured image with standard variants (@thumb, 1x, @2x)
+const isPostFeatured = src && src.includes('/images/posts/') && (src.includes('/featured.') || src.includes('/featured@'));
+
+let webpSrcSet = '';
+let defaultImgSrc = src;
+
+if (isPostFeatured) {
+  // Extract base dir e.g. "/images/posts/some-slug/"
+  const baseDirMatch = src.match(/^(\/images\/posts\/[^\/]+)/);
+  if (baseDirMatch) {
+    const baseDir = baseDirMatch[1];
+    const thumbUrl = `${baseDir}/featured@thumb.webp`;
+    const standardUrl = `${baseDir}/featured.webp`;
+    const retinaUrl = `${baseDir}/featured@2x.webp`;
+
+    webpSrcSet = `${thumbUrl} 400w, ${standardUrl} 800w, ${retinaUrl} 1600w`;
+    defaultImgSrc = standardUrl;
+  }
+} else if (src && !src.endsWith('.svg')) {
+  // For other raster images, check if WebP path can be used
+  if (src.endsWith('.webp')) {
+    defaultImgSrc = src;
+  }
+}
+
+// Compute aspect ratio style if requested
+const combinedStyle = [
+  aspectRatio ? `aspect-ratio: ${aspectRatio};` : '',
+  style,
+].filter(Boolean).join(' ');
+---
+
+{webpSrcSet ? (
+  <picture class={classes ? `fwf-picture ${classes}` : 'fwf-picture'}>
+    <source
+      type="image/webp"
+      srcset={webpSrcSet}
+      sizes={sizes || '(max-width: 767px) 100vw, (max-width: 1024px) 50vw, 800px'}
+    />
+    <img
+      src={defaultImgSrc}
+      alt={alt}
+      width={width}
+      height={height}
+      class={classes}
+      style={combinedStyle}
+      loading={loading}
+      decoding={decoding}
+      fetchpriority={fetchpriority}
+    />
+  </picture>
+) : (
+  <img
+    src={defaultImgSrc}
+    alt={alt}
+    width={width}
+    height={height}
+    class={classes}
+    style={combinedStyle}
+    loading={loading}
+    decoding={decoding}
+    fetchpriority={fetchpriority}
+  />
+)}
+
+<style>
+  picture.fwf-picture {
+    display: contents;
+  }
+</style>
