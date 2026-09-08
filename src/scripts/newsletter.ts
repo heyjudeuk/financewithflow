@@ -3,7 +3,7 @@
  * Handles:
  * 1. Dedicated Newsletter Sign-up footer form
  * 2. Dedicated Newsletter Sign-up page form (/finance-with-flow-newsletter-sign-up/)
- * 3. Contact form (enrolling to Mailchimp if newsletter opt-in is checked)
+ * 3. Contact form (enrolling to Mailchimp if newsletter opt-in is checked, plus Netlify Forms submission)
  */
 
 function clearMessage(form: HTMLFormElement) {
@@ -132,16 +132,16 @@ function attachContactFormHandler(form: HTMLFormElement) {
   form.addEventListener('submit', async (e) => {
     // Check if user opted into newsletter
     const optInCheckbox = form.querySelector<HTMLInputElement>(
-      'input[name="form_fields[field_a44fdac]"]'
+      'input[name="newsletter_opt_in"], input[name="form_fields[field_a44fdac]"]'
     );
     const emailInput = form.querySelector<HTMLInputElement>(
-      'input[name="form_fields[email]"], input[type="email"]'
+      'input[name="email"], input[name="form_fields[email]"], input[type="email"]'
     );
     const firstNameInput = form.querySelector<HTMLInputElement>(
-      'input[name="form_fields[firstname]"]'
+      'input[name="firstname"], input[name="form_fields[firstname]"]'
     );
     const lastNameInput = form.querySelector<HTMLInputElement>(
-      'input[name="form_fields[lastname]"]'
+      'input[name="lastname"], input[name="form_fields[lastname]"]'
     );
 
     const email = emailInput?.value.trim();
@@ -171,7 +171,8 @@ function attachContactFormHandler(form: HTMLFormElement) {
     }
 
     // If deployed on Netlify, submit form data to Netlify Forms via AJAX
-    if (form.hasAttribute('data-netlify') || form.getAttribute('name') === 'Contact Form') {
+    const formNameAttr = (form.getAttribute('name') || '').trim().toLowerCase();
+    if (form.hasAttribute('data-netlify') || formNameAttr === 'contact form') {
       e.preventDefault();
       const submitBtn = form.querySelector<HTMLButtonElement>('button[type="submit"]');
       const buttonTextSpan = submitBtn?.querySelector('.elementor-button-text') || submitBtn;
@@ -189,6 +190,9 @@ function attachContactFormHandler(form: HTMLFormElement) {
 
       try {
         const formData = new FormData(form);
+        if (!formData.get('form-name')) {
+          formData.set('form-name', (form.getAttribute('name') || 'Contact Form').trim());
+        }
         const res = await fetch(form.getAttribute('action') || window.location.pathname, {
           method: 'POST',
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -199,6 +203,18 @@ function attachContactFormHandler(form: HTMLFormElement) {
           showMessage(
             form,
             'Thank you! Your message has been sent successfully.',
+            'success'
+          );
+          form.reset();
+        } else if (
+          window.location.hostname === 'localhost' ||
+          window.location.hostname === '127.0.0.1'
+        ) {
+          // In local dev without Netlify's form bot server, gracefully simulate success
+          console.info('[Contact] Form submitted locally. Netlify Forms will process live submissions on deploy.');
+          showMessage(
+            form,
+            'Thank you! Your message has been sent successfully (Local preview mode).',
             'success'
           );
           form.reset();
