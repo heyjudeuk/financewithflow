@@ -35,7 +35,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://financew
     <!-- Google Fonts as used by Elementor kit -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Quicksand:wght@500;600;700&family=Roboto:wght@300;400;500;700&family=Roboto+Slab:wght@400;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Quicksand:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&family=Roboto+Slab:wght@400;700&display=swap" rel="stylesheet" />
 
     <!-- Exact 1:1 Elementor CSS Bundle -->
     <link rel="stylesheet" href="/styles/site-bundle.css" />
@@ -59,7 +59,28 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://financew
       html, body {
         margin: 0;
         padding: 0;
-        font-family: "Poppins", sans-serif;
+        font-family: "Quicksand", sans-serif;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 1.5;
+        color: #333333;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      .elementor-kit-7 {
+        font-family: "Quicksand", sans-serif;
+        font-weight: 500;
+      }
+
+      /* Global Headings default to Quicksand */
+      h1, h2, h3, h4, h5, h6 {
+        font-family: "Quicksand", sans-serif;
+        color: #160F3F;
+      }
+
+      p {
+        font-family: "Quicksand", sans-serif;
       }
       .e-font-icon-svg {
         display: inline-block;
