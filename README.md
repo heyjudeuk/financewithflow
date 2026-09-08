@@ -85,7 +85,7 @@ export default config({
 Keystatic offers a free hosted cloud layer that handles GitHub OAuth authentication and image CDN automatically:
 1. Sign in at [keystatic.cloud](https://keystatic.cloud) with your GitHub account (`heyjudeuk`).
 2. Connect the `financewithflow` repository.
-3. In `keystatic.config.ts`, set `storage: { kind: 'cloud' }` and add your `KEYSTATIC_CLOUD_PROJECT_KEY` environment variable in your deployment platform (e.g. Vercel / Netlify / Cloudflare).
+3. In `keystatic.config.ts`, set `storage: { kind: 'cloud' }` and `cloud: { project: '<team>/<project>' }`. No environment variable is required -- Keystatic Cloud handles authentication. Add your deployed URLs under the project's "Project URLs" so logins from those origins are allowed.
 
 ### Option B: Self-Hosted GitHub App
 1. When you deploy your site, visit `https://your-domain.com/keystatic`.

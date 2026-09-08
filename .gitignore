@@ -24,3 +24,6 @@ pnpm-debug.log*
 
 # Windows thumbnail cache
 Thumbs.db
+
+# Local Netlify folder
+.netlify
