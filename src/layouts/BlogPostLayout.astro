@@ -8,116 +8,476 @@ interface Props {
   category?: string;
   featuredImage?: string;
   excerpt?: string;
+  slug?: string;
+  prevPost?: {
+    id: string;
+    data: {
+      title: string;
+    };
+  } | null;
+  nextPost?: {
+    id: string;
+    data: {
+      title: string;
+    };
+  } | null;
+  relatedPosts?: Array<{
+    id: string;
+    data: {
+      title: string;
+      category?: string;
+      publishedDate: string | Date;
+      featuredImage?: string;
+    };
+  }>;
 }
 
-const { title, publishedDate, author = 'Roz Johnson', category = 'Featured', featuredImage, excerpt } = Astro.props;
+const { 
+  title, 
+  publishedDate, 
+  author = 'Roz Johnson', 
+  category = 'Blogs from the MD', 
+  featuredImage, 
+  excerpt,
+  slug = '',
+  prevPost,
+  nextPost,
+  relatedPosts = []
+} = Astro.props;
 
-const dateStr = typeof publishedDate === 'string' 
-  ? new Date(publishedDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
-  : publishedDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+const d = new Date(publishedDate);
+const dateStr = d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site || 'https://financewithflow.com').href;
 ---
 
 <BaseLayout 
-  title={`${title} | Finance with Flow`} 
+  title={`${title} - Finance With Flow`} 
   description={excerpt}
-  bodyClass="post-template-default single single-post elementor-default elementor-kit-7 elementor-page"
+  bodyClass="wp-singular post-template-default single single-post elementor-default elementor-kit-7 elementor-page-1191"
 >
-  <div data-elementor-type="single-post" data-elementor-id="1191" class="elementor elementor-1191 elementor-location-single">
+  <div data-elementor-type="single-post" data-elementor-id="1191" class="elementor elementor-1191 elementor-location-single post type-post status-publish format-standard has-post-thumbnail hentry">
     
-    <!-- Top Hero Section -->
-    <div class="elementor-element e-flex e-con-boxed e-con e-parent" data-settings='{"background_background":"classic"}' style="background: #160F3F; padding: 60px 0 40px 0; color: #ffffff;">
-      <div class="e-con-inner" style="max-width: 900px; margin: 0 auto; padding: 0 20px;">
-        
-        <!-- Post Info Meta -->
-        <div class="elementor-element elementor-widget elementor-widget-post-info" style="margin-bottom: 16px;">
-          <div class="elementor-widget-container" style="display: flex; align-items: center; flex-wrap: wrap; gap: 8px; color: #31CDB0; font-size: 14px; font-weight: 600;">
-            {category && (
-              <span style="background: #31CDB0; color: #160F3F; padding: 4px 12px; border-radius: 9999px; font-weight: 700; font-size: 12px; text-transform: uppercase;">
-                {category}
-              </span>
-            )}
-            <span>✍️ {author}</span>
-            <span style="color: rgba(255,255,255,0.4);">•</span>
-            <span>📅 {dateStr}</span>
-            <span style="color: rgba(255,255,255,0.4);">•</span>
-            <a href="/blog" style="color: #31CDB0; text-decoration: underline;">Insights &amp; Blog</a>
+    <!-- CONTAINER 1: Hero Header (Category, Date, Title, Featured Image) -->
+    <div class="elementor-element elementor-element-51204308 e-flex e-con-boxed e-con e-parent" data-id="51204308" data-element_type="container">
+      <div class="e-con-inner">
+        <!-- Left Column: Category, Date, Title -->
+        <div class="elementor-element elementor-element-c71fc7c e-flex e-con-boxed e-con e-child" data-id="c71fc7c" data-element_type="container">
+          <div class="e-con-inner">
+            <!-- Category -->
+            <div class="elementor-element elementor-element-3d6d4fc3 elementor-align-left elementor-widget elementor-widget-post-info" data-id="3d6d4fc3" data-element_type="widget" data-widget_type="post-info.default">
+              <div class="elementor-widget-container">
+                <ul class="elementor-inline-items elementor-icon-list-items elementor-post-info">
+                  <li class="elementor-icon-list-item elementor-repeater-item-0d5851b elementor-inline-item" itemprop="about">
+                    <span class="elementor-icon-list-text elementor-post-info__item elementor-post-info__item--type-terms">
+                      <span class="elementor-post-info__terms-list">
+                        <span class="elementor-post-info__terms-list-item">{category}</span>
+                      </span>
+                    </span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <!-- Date -->
+            <div class="elementor-element elementor-element-5e3b2311 elementor-widget elementor-widget-post-info" data-id="5e3b2311" data-element_type="widget" data-widget_type="post-info.default">
+              <div class="elementor-widget-container">
+                <ul class="elementor-inline-items elementor-icon-list-items elementor-post-info">
+                  <li class="elementor-icon-list-item elementor-repeater-item-85ee600 elementor-inline-item" itemprop="datePublished">
+                    <span class="elementor-icon-list-text elementor-post-info__item elementor-post-info__item--type-date">
+                      <time>{dateStr}</time>
+                    </span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <!-- Title -->
+            <div class="elementor-element elementor-element-edeb076 elementor-widget elementor-widget-heading" data-id="edeb076" data-element_type="widget" data-widget_type="heading.default">
+              <div class="elementor-widget-container">
+                <h1 class="elementor-heading-title elementor-size-default">{title}</h1>
+              </div>
+            </div>
           </div>
         </div>
 
-        <!-- Post Title -->
-        <div class="elementor-element elementor-widget elementor-widget-heading" style="margin-bottom: 24px;">
-          <div class="elementor-widget-container">
-            <h1 class="elementor-heading-title" style="color: #ffffff; font-size: 38px; line-height: 1.25; font-weight: 700; margin: 0;">
-              {title}
-            </h1>
-          </div>
-        </div>
-
-        <!-- Featured Image -->
+        <!-- Right Column: Featured Image -->
         {featuredImage && (
-          <div class="elementor-element elementor-widget elementor-widget-image" style="margin-top: 30px; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.3);">
-            <div class="elementor-widget-container">
-              <img 
-                src={featuredImage} 
-                alt={title} 
-                style="width: 100%; height: auto; max-height: 520px; object-fit: cover; display: block;" 
-                loading="eager"
-              />
+          <div class="elementor-element elementor-element-347757f e-flex e-con-boxed e-con e-child" data-id="347757f" data-element_type="container">
+            <div class="e-con-inner">
+              <div class="elementor-element elementor-element-1e0218e elementor-widget elementor-widget-image" data-id="1e0218e" data-element_type="widget" data-widget_type="image.default">
+                <div class="elementor-widget-container">
+                  <img class="attachment-large size-large wp-image-1862" src={featuredImage} alt={title} width="800" height="534" loading="eager" decoding="async" />
+                </div>
+              </div>
             </div>
           </div>
         )}
-
       </div>
     </div>
 
-    <!-- Excerpt Section -->
+    <!-- CONTAINER 2: Royal Blue Excerpt Banner -->
     {excerpt && (
-      <div class="elementor-element e-flex e-con-boxed e-con e-parent" style="background: #FEF9F3; padding: 30px 0; border-bottom: 1px solid #e2e8f0;">
-        <div class="e-con-inner" style="max-width: 800px; margin: 0 auto; padding: 0 20px;">
-          <div class="elementor-element elementor-widget elementor-widget-theme-post-excerpt">
-            <div class="elementor-widget-container" style="font-size: 18px; font-style: italic; color: #160F3F; line-height: 1.6; font-weight: 500;">
-              "{excerpt}"
+      <div class="elementor-element elementor-element-c23cd70 e-flex e-con-boxed e-con e-parent" data-id="c23cd70" data-element_type="container">
+        <div class="e-con-inner">
+          <div class="elementor-element elementor-element-4b627a32 elementor-widget elementor-widget-theme-post-excerpt" data-id="4b627a32" data-element_type="widget" data-widget_type="theme-post-excerpt.default">
+            <div class="elementor-widget-container">
+              {excerpt}
             </div>
           </div>
         </div>
       </div>
     )}
 
-    <!-- Content Section -->
-    <div class="elementor-element e-flex e-con-boxed e-con e-parent" style="background: #ffffff; padding: 60px 0;">
-      <div class="e-con-inner" style="max-width: 800px; margin: 0 auto; padding: 0 20px;">
-        <div class="elementor-element elementor-widget elementor-widget-theme-post-content">
-          <div class="elementor-widget-container prose" style="font-size: 16px; line-height: 1.8; color: #2d3748;">
+    <!-- CONTAINER 3: Post Content + Share Buttons + Prev/Next Navigation -->
+    <div class="elementor-element elementor-element-be8f559 e-flex e-con-boxed e-con e-parent" data-id="be8f559" data-element_type="container">
+      <div class="e-con-inner">
+        <!-- Post Body -->
+        <div class="elementor-element elementor-element-29fc17c elementor-widget elementor-widget-theme-post-content" data-id="29fc17c" data-element_type="widget" data-widget_type="theme-post-content.default">
+          <div class="elementor-widget-container post-article-body">
             <slot />
           </div>
         </div>
 
-        <!-- Navigation back to all articles -->
-        <div style="margin-top: 50px; padding-top: 30px; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center;">
-          <a href="/blog" style="color: #3456A7; font-weight: 700; text-decoration: none; font-size: 15px;">
-            ← Back to all Insights
-          </a>
-          <a href="/contact" style="background: #3456A7; color: #ffffff; padding: 10px 22px; border-radius: 9999px; text-decoration: none; font-size: 14px; font-weight: 600;">
-            Book Discovery Call
-          </a>
+        <!-- Share Heading -->
+        <div class="elementor-element elementor-element-873c77f elementor-widget elementor-widget-heading" data-id="873c77f" data-element_type="widget" data-widget_type="heading.default">
+          <div class="elementor-widget-container">
+            <span class="elementor-heading-title elementor-size-default">Share the Post:</span>
+          </div>
         </div>
+
+        <!-- Share Buttons -->
+        <div class="elementor-element elementor-element-fa0528a elementor-share-buttons--view-icon elementor-share-buttons--skin-minimal elementor-share-buttons--color-custom elementor-widget__width-inherit elementor-share-buttons--shape-square elementor-grid-0 elementor-widget elementor-widget-share-buttons" data-id="fa0528a" data-element_type="widget" data-widget_type="share-buttons.default">
+          <div class="elementor-widget-container">
+            <div class="elementor-grid" role="list">
+              <div class="elementor-grid-item" role="listitem">
+                <a class="elementor-share-btn elementor-share-btn_facebook" href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(canonicalUrl)}`} target="_blank" rel="noopener noreferrer" aria-label="Share on facebook">
+                  <span class="elementor-share-btn__icon">
+                    <svg aria-hidden="true" class="e-font-icon-svg e-fab-facebook" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path d="M504 256C504 119 393 8 256 8S8 119 8 256c0 123.78 90.69 226.38 209.25 245V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14 0 55.52 4.84 55.52 4.84v61h-31.28c-30.8 0-40.41 19.12-40.41 38.73V256h68.78l-11 71.69h-57.78V501C413.31 482.38 504 379.78 504 256z"></path></svg>
+                  </span>
+                </a>
+              </div>
+              <div class="elementor-grid-item" role="listitem">
+                <a class="elementor-share-btn elementor-share-btn_twitter" href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(canonicalUrl)}`} target="_blank" rel="noopener noreferrer" aria-label="Share on twitter">
+                  <span class="elementor-share-btn__icon">
+                    <svg aria-hidden="true" class="e-font-icon-svg e-fab-twitter" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"></path></svg>
+                  </span>
+                </a>
+              </div>
+              <div class="elementor-grid-item" role="listitem">
+                <a class="elementor-share-btn elementor-share-btn_linkedin" href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(canonicalUrl)}`} target="_blank" rel="noopener noreferrer" aria-label="Share on linkedin">
+                  <span class="elementor-share-btn__icon">
+                    <svg aria-hidden="true" class="e-font-icon-svg e-fab-linkedin" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"></path></svg>
+                  </span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Post Navigation (Previous / Next) -->
+        <div class="elementor-element elementor-element-9b631fc elementor-widget elementor-widget-post-navigation" data-id="9b631fc" data-element_type="widget" data-widget_type="post-navigation.default">
+          <div class="elementor-widget-container">
+            <div class="elementor-post-navigation" role="navigation" aria-label="Post Navigation">
+              {prevPost ? (
+                <div class="elementor-post-navigation__prev elementor-post-navigation__link">
+                  <a href={`/blog/${prevPost.id}/`} rel="prev">
+                    <span class="post-navigation__arrow-wrapper post-navigation__arrow-prev">
+                      <svg aria-hidden="true" class="e-font-icon-svg e-fas-angle-left" viewBox="0 0 256 512" xmlns="http://www.w3.org/2000/svg"><path d="M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9L127.9 256l96.4 96.4c9.4 9.4 9.4 24.6 0 33.9L201.7 409c-9.4 9.4-24.6 9.4-33.9 0l-136-136c-9.5-9.4-9.5-24.6-.1-34z"></path></svg>
+                      <span class="elementor-screen-only">Prev</span>
+                    </span>
+                    <span class="elementor-post-navigation__link__prev">
+                      <span class="post-navigation__prev--label">Previous</span>
+                      <span class="post-navigation__prev--title">{prevPost.data.title}</span>
+                    </span>
+                  </a>
+                </div>
+              ) : (
+                <div class="elementor-post-navigation__prev elementor-post-navigation__link"></div>
+              )}
+              {nextPost ? (
+                <div class="elementor-post-navigation__next elementor-post-navigation__link">
+                  <a href={`/blog/${nextPost.id}/`} rel="next">
+                    <span class="elementor-post-navigation__link__next">
+                      <span class="post-navigation__next--label">Next</span>
+                      <span class="post-navigation__next--title">{nextPost.data.title}</span>
+                    </span>
+                    <span class="post-navigation__arrow-wrapper post-navigation__arrow-next">
+                      <svg aria-hidden="true" class="e-font-icon-svg e-fas-angle-right" viewBox="0 0 256 512" xmlns="http://www.w3.org/2000/svg"><path d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"></path></svg>
+                      <span class="elementor-screen-only">Next</span>
+                    </span>
+                  </a>
+                </div>
+              ) : (
+                <div class="elementor-post-navigation__next elementor-post-navigation__link"></div>
+              )}
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
 
-    <!-- Bottom CTA Container: Join the Finance with Flow Journey -->
-    <div class="elementor-element elementor-element-a192b6a e-flex e-con-boxed e-con e-parent" data-id="a192b6a" data-element_type="container" style="background: #160F3F; padding: 60px 0; color: #ffffff; text-align: center;">
-      <div class="e-con-inner" style="max-width: 700px; margin: 0 auto; padding: 0 20px;">
-        <h2 style="font-size: 32px; font-weight: 700; color: #ffffff; margin-bottom: 16px;">
-          Join the Finance with Flow Journey
-        </h2>
-        <p style="font-size: 16px; color: #cbd5e0; line-height: 1.6; margin-bottom: 28px;">
-          Let’s work together to not only achieve financial goals but to exceed them while staying true to the heart and soul of your business.
-        </p>
-        <a href="/contact" style="display: inline-block; background: #31CDB0; color: #160F3F; font-weight: 700; font-size: 15px; padding: 14px 32px; border-radius: 9999px; text-decoration: none;">
-          Contact Us Today
-        </a>
+    <!-- CONTAINER 4: Related Posts Section -->
+    {relatedPosts && relatedPosts.length > 0 && (
+      <div class="elementor-element elementor-element-11a102c e-flex e-con-boxed e-con e-parent" data-id="11a102c" data-element_type="container">
+        <div class="e-con-inner">
+          <div class="elementor-element elementor-element-1bec514 e-flex e-con-boxed e-con e-child" data-id="1bec514" data-element_type="container">
+            <div class="e-con-inner">
+              <div class="elementor-element elementor-element-44bca78 elementor-widget elementor-widget-heading" data-id="44bca78" data-element_type="widget" data-widget_type="heading.default">
+                <div class="elementor-widget-container">
+                  <h2 class="elementor-heading-title elementor-size-default">Related Posts</h2>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="elementor-element elementor-element-1690f857 elementor-widget__width-inherit elementor-grid-3 elementor-grid-tablet-2 elementor-grid-mobile-1 elementor-posts--thumbnail-top elementor-card-shadow-yes elementor-posts__hover-gradient elementor-widget elementor-widget-posts" data-id="1690f857" data-element_type="widget" data-widget_type="posts.cards">
+            <div class="elementor-widget-container">
+              <div class="elementor-posts-container elementor-posts elementor-posts--skin-cards elementor-grid elementor-has-item-ratio" role="list">
+                {relatedPosts.map(rPost => {
+                  const rD = new Date(rPost.data.publishedDate);
+                  const rDateStr = rD.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
+                  const rImgUrl = rPost.data.featuredImage || "/wp-content/uploads/2023/12/what-we-do.png";
+                  const rCat = rPost.data.category || "Featured";
+                  const rUrl = `/blog/${rPost.id}/`;
+
+                  return (
+                    <article class="elementor-post elementor-grid-item post type-post status-publish format-standard has-post-thumbnail hentry" role="listitem">
+                      <div class="elementor-post__card">
+                        <a class="elementor-post__thumbnail__link" href={rUrl} tabindex="-1">
+                          <div class="elementor-post__thumbnail">
+                            <img 
+                              src={rImgUrl} 
+                              alt={rPost.data.title} 
+                              loading="lazy" 
+                              decoding="async" 
+                              width="300" 
+                              height="200" 
+                              style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transform: none;"
+                            />
+                          </div>
+                        </a>
+                        <div class="elementor-post__badge">{rCat}</div>
+                        <div class="elementor-post__text">
+                          <h3 class="elementor-post__title">
+                            <a href={rUrl}>{rPost.data.title}</a>
+                          </h3>
+                          <a class="elementor-post__read-more" href={rUrl} aria-label={`Read more about ${rPost.data.title}`} tabindex="-1">
+                            Read More »
+                          </a>
+                        </div>
+                        <div class="elementor-post__meta-data">
+                          <span class="elementor-post-date">{rDateStr}</span>
+                        </div>
+                      </div>
+                    </article>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    )}
+
+    <!-- CONTAINER 5: Join the Finance with Flow Journey CTA -->
+    <div class="elementor-element elementor-element-0a45516 e-flex e-con-boxed e-con e-parent" data-id="0a45516" data-element_type="container">
+      <div class="e-con-inner">
+        <div class="elementor-element elementor-element-9cc5a69 e-flex e-con-boxed e-con e-child" data-id="9cc5a69" data-element_type="container">
+          <div class="e-con-inner">
+            <div class="elementor-element elementor-element-bad1245 e-flex e-con-boxed e-con e-child" data-id="bad1245" data-element_type="container">
+              <div class="e-con-inner">
+                <div class="elementor-element elementor-element-07ec824 elementor-widget elementor-widget-heading" data-id="07ec824" data-element_type="widget" data-widget_type="heading.default">
+                  <div class="elementor-widget-container">
+                    <h2 class="elementor-heading-title elementor-size-default">Join the Finance with Flow Journey</h2>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="elementor-element elementor-element-e68702b e-flex e-con-boxed e-con e-child" data-id="e68702b" data-element_type="container">
+              <div class="e-con-inner">
+                <div class="elementor-element elementor-element-25a0278 elementor-widget elementor-widget-text-editor" data-id="25a0278" data-element_type="widget" data-widget_type="text-editor.default">
+                  <div class="elementor-widget-container">
+                    <p>Let’s work together to not only achieve financial goals but to exceed them while staying true to the heart and soul of your business.</p>
+                    <p>We’re here to help – contact us to today, to discuss your requirements and let’s shape your success together.</p>
+                  </div>
+                </div>
+                <div class="elementor-element elementor-element-8d9f049 elementor-align-center elementor-widget elementor-widget-button" data-id="8d9f049" data-element_type="widget" data-widget_type="button.default">
+                  <div class="elementor-widget-container">
+                    <div class="elementor-button-wrapper">
+                      <a class="elementor-button elementor-button-link elementor-size-md" href="/contact/">
+                        <span class="elementor-button-content-wrapper">
+                          <span class="elementor-button-text">Contact us today</span>
+                        </span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
   </div>
 </BaseLayout>
+
+<style is:global>
+  /* Container 1 Hero Header */
+  .elementor-1191 .elementor-element.elementor-element-51204308 {
+    background-color: var(--e-global-color-8b1134b, #FEF9F3);
+    padding: 6% 4%;
+  }
+  .elementor-1191 .elementor-element.elementor-element-51204308 > .e-con-inner {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+    max-width: 1140px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  @media (min-width: 1025px) {
+    .elementor-1191 .elementor-element.elementor-element-c71fc7c {
+      flex: 1 1 50%;
+      width: 50%;
+      max-width: 50%;
+    }
+    .elementor-1191 .elementor-element.elementor-element-347757f {
+      flex: 1 1 50%;
+      width: 50%;
+      max-width: 50%;
+    }
+  }
+  @media (max-width: 1024px) {
+    .elementor-1191 .elementor-element.elementor-element-51204308 > .e-con-inner {
+      flex-direction: column;
+    }
+    .elementor-1191 .elementor-element.elementor-element-c71fc7c,
+    .elementor-1191 .elementor-element.elementor-element-347757f {
+      width: 100%;
+      max-width: 100%;
+    }
+  }
+  .elementor-1191 .elementor-element.elementor-element-1e0218e img {
+    width: 100%;
+    height: 450px;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 24px;
+    display: block;
+  }
+  @media (max-width: 767px) {
+    .elementor-1191 .elementor-element.elementor-element-1e0218e img {
+      height: 260px;
+    }
+  }
+
+  /* Excerpt Container 2 */
+  .elementor-1191 .elementor-element.elementor-element-c23cd70 {
+    background-color: var(--e-global-color-primary, #3456A7);
+    padding: 4% 4%;
+  }
+  .elementor-1191 .elementor-element.elementor-element-c23cd70 > .e-con-inner {
+    max-width: 856px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  .elementor-1191 .elementor-element.elementor-element-4b627a32 .elementor-widget-container {
+    font-family: "Poppins", sans-serif;
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--e-global-color-8b1134b, #FEF9F3);
+    line-height: 1.5em;
+    text-transform: capitalize;
+  }
+  @media (max-width: 767px) {
+    .elementor-1191 .elementor-element.elementor-element-4b627a32 .elementor-widget-container {
+      font-size: 16px;
+    }
+  }
+
+  /* Content Container 3 */
+  .elementor-1191 .elementor-element.elementor-element-be8f559 {
+    background-color: var(--e-global-color-8b1134b, #FEF9F3);
+    padding: 6% 4%;
+  }
+  .elementor-1191 .elementor-element.elementor-element-be8f559 > .e-con-inner {
+    max-width: 856px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  .elementor-1191 .elementor-element.elementor-element-29fc17c {
+    color: #324A6D;
+    font-family: "Poppins", sans-serif;
+    font-size: 14px;
+    line-height: 1.6em;
+  }
+  .elementor-1191 .elementor-element.elementor-element-29fc17c p {
+    font-family: "Poppins", sans-serif;
+    font-size: 14px;
+    color: #324A6D;
+    line-height: 1.6em;
+    margin: 0 0 16px;
+  }
+  .elementor-1191 .elementor-element.elementor-element-29fc17c h2 {
+    font-family: "Poppins", sans-serif;
+    font-size: 28px;
+    font-weight: 500;
+    color: #324A6D;
+    line-height: 1.3em;
+    margin: 28px 0 16px;
+  }
+  .elementor-1191 .elementor-element.elementor-element-29fc17c h3 {
+    font-family: "Poppins", sans-serif;
+    font-size: 22px;
+    font-weight: 500;
+    color: #324A6D;
+    line-height: 1.3em;
+    margin: 24px 0 14px;
+  }
+  .elementor-1191 .elementor-element.elementor-element-29fc17c a {
+    color: #3456A7;
+    text-decoration: underline;
+  }
+  .elementor-1191 .elementor-element.elementor-element-29fc17c strong {
+    font-weight: 600;
+    color: #160F3F;
+  }
+  .elementor-1191 .elementor-element.elementor-element-29fc17c ul,
+  .elementor-1191 .elementor-element.elementor-element-29fc17c ol {
+    margin: 0 0 16px 24px;
+    color: #324A6D;
+    font-size: 14px;
+    line-height: 1.6em;
+  }
+
+  /* Related Posts Container 4 */
+  .elementor-1191 .elementor-element.elementor-element-11a102c {
+    background-color: var(--e-global-color-primary, #3456A7);
+    padding: 6% 4%;
+  }
+  .elementor-1191 .elementor-element.elementor-element-11a102c > .e-con-inner {
+    max-width: 1140px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  /* CTA Container 5 */
+  .elementor-1191 .elementor-element.elementor-element-0a45516 {
+    background-color: var(--e-global-color-8b1134b, #FEF9F3);
+    padding: 80px 20px 100px;
+  }
+  .elementor-1191 .elementor-element.elementor-element-0a45516 > .e-con-inner {
+    max-width: 1140px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  .elementor-1191 .elementor-element.elementor-element-9cc5a69 {
+    background-color: #ffffff;
+    border-radius: 24px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+    padding: 40px 30px;
+  }
+</style>
+

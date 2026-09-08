@@ -4,13 +4,27 @@ import BlogPostLayout from '../../layouts/BlogPostLayout.astro';
 
 export async function getStaticPaths() {
   const posts = await getCollection('posts');
-  return posts.map(post => ({
-    params: { slug: post.id },
-    props: { post },
-  }));
+  // Sort posts by date descending
+  const sorted = [...posts].sort((a, b) => new Date(b.data.publishedDate).getTime() - new Date(a.data.publishedDate).getTime());
+
+  return sorted.map((post, index) => {
+    // Next is older (index + 1), Prev is newer (index - 1)
+    const prevPost = index > 0 ? sorted[index - 1] : null;
+    const nextPost = index < sorted.length - 1 ? sorted[index + 1] : null;
+
+    // Related posts: prioritize same category, then other posts, max 3
+    const sameCat = sorted.filter(p => p.id !== post.id && p.data.category === post.data.category);
+    const otherCat = sorted.filter(p => p.id !== post.id && p.data.category !== post.data.category);
+    const relatedPosts = [...sameCat, ...otherCat].slice(0, 3);
+
+    return {
+      params: { slug: post.id },
+      props: { post, prevPost, nextPost, relatedPosts },
+    };
+  });
 }
 
-const { post } = Astro.props;
+const { post, prevPost, nextPost, relatedPosts } = Astro.props;
 const { Content } = await render(post);
 ---
 
@@ -21,6 +35,11 @@ const { Content } = await render(post);
   category={post.data.category}
   featuredImage={post.data.featuredImage}
   excerpt={post.data.excerpt}
+  slug={post.id}
+  prevPost={prevPost}
+  nextPost={nextPost}
+  relatedPosts={relatedPosts}
 >
   <Content />
 </BlogPostLayout>
+

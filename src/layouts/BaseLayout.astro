@@ -29,6 +29,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://financew
 
     <!-- Preload custom script font and decorative assets -->
     <link rel="preload" href="/wp-content/uploads/2023/12/Angel-Heart-Regular.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="preload" href="/wp-content/uploads/2023/12/Voga-Medium-2.woff" as="font" type="font/woff" crossorigin />
     <link rel="preload" href="/wp-content/uploads/2023/12/circle.png" as="image" />
 
     <!-- Google Fonts as used by Elementor kit -->
@@ -46,6 +47,13 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://financew
         font-weight: 400;
         font-display: swap;
         src: url('/wp-content/uploads/2023/12/Angel-Heart-Regular.ttf') format('truetype');
+      }
+      @font-face {
+        font-family: 'Voga';
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url('/wp-content/uploads/2023/12/Voga-Medium-2.woff') format('woff');
       }
 
       html, body {
