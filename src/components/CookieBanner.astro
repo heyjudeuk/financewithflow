@@ -1,0 +1,823 @@
+---
+// CookieBanner.astro - EU/UK GDPR Compliant Cookie Consent Banner & Preferences
+---
+
+<!-- Floating Cookie Settings Re-open Trigger (bottom-left) -->
+<button
+  type="button"
+  id="fwf-cookie-trigger"
+  class="fwf-cookie-trigger"
+  aria-label="Manage cookie preferences"
+  title="Cookie Preferences"
+>
+  <svg class="fwf-cookie-icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5" />
+    <path d="M8.5 8.5v.01" />
+    <path d="M7.5 15.5v.01" />
+    <path d="M12 12v.01" />
+    <path d="M11 17v.01" />
+    <path d="M16 16v.01" />
+  </svg>
+  <span class="fwf-cookie-trigger-text">Cookie Settings</span>
+</button>
+
+<!-- Main Cookie Consent Banner -->
+<aside
+  id="fwf-cookie-banner"
+  class="fwf-cookie-banner"
+  role="region"
+  aria-label="Cookie consent banner"
+  style="display: none;"
+>
+  <div class="fwf-cookie-banner-card">
+    <div class="fwf-cookie-content">
+      <div class="fwf-cookie-header">
+        <div class="fwf-cookie-title-wrap">
+          <svg class="fwf-cookie-badge-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#31CDB0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5" />
+            <circle cx="8.5" cy="8.5" r="1" fill="#31CDB0" />
+            <circle cx="7.5" cy="15.5" r="1" fill="#31CDB0" />
+            <circle cx="12" cy="12" r="1" fill="#31CDB0" />
+            <circle cx="16" cy="16" r="1" fill="#31CDB0" />
+          </svg>
+          <h2 class="fwf-cookie-title">We value your privacy</h2>
+        </div>
+      </div>
+      <p class="fwf-cookie-description">
+        We use cookies to ensure that our website functions smoothly and securely, to analyse website traffic, and to improve our services. Strictly necessary cookies are always active. You can choose to accept all cookies, reject non-essential cookies, or manage your choices. View our <a href="/cookie-policy-uk/" class="fwf-cookie-link">Cookie Policy (UK)</a> for more details.
+      </p>
+    </div>
+
+    <div class="fwf-cookie-actions">
+      <button type="button" id="fwf-cookie-accept-all" class="fwf-cookie-btn fwf-cookie-btn-primary">
+        Accept All
+      </button>
+      <button type="button" id="fwf-cookie-reject-all" class="fwf-cookie-btn fwf-cookie-btn-secondary">
+        Reject Non-Essential
+      </button>
+      <button type="button" id="fwf-cookie-open-modal" class="fwf-cookie-btn fwf-cookie-btn-tertiary">
+        Preferences
+      </button>
+    </div>
+  </div>
+</aside>
+
+<!-- Granular Cookie Preferences Modal -->
+<div
+  id="fwf-cookie-modal"
+  class="fwf-cookie-modal"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="fwf-modal-title"
+  style="display: none;"
+>
+  <div class="fwf-cookie-modal-backdrop" id="fwf-cookie-modal-backdrop"></div>
+  <div class="fwf-cookie-modal-dialog">
+    <div class="fwf-cookie-modal-header">
+      <div class="fwf-cookie-modal-title-wrap">
+        <h2 id="fwf-modal-title" class="fwf-cookie-modal-title">Cookie Preferences</h2>
+        <p class="fwf-cookie-modal-subtitle">
+          Manage your consent settings for cookies on Finance with Flow. Strictly necessary cookies cannot be disabled as they are required for security and core site functionality.
+        </p>
+      </div>
+      <button type="button" id="fwf-cookie-modal-close" class="fwf-cookie-modal-close" aria-label="Close preferences">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+    </div>
+
+    <div class="fwf-cookie-modal-body">
+      <!-- Category 1: Strictly Necessary -->
+      <section class="fwf-cookie-category">
+        <div class="fwf-category-header">
+          <div class="fwf-category-title-group">
+            <h3 class="fwf-category-title">Strictly Necessary Cookies</h3>
+            <span class="fwf-badge fwf-badge-locked">Always Active</span>
+          </div>
+          <div class="fwf-switch-disabled">
+            <input type="checkbox" id="fwf-consent-necessary" checked disabled aria-label="Strictly necessary cookies always active" />
+          </div>
+        </div>
+        <p class="fwf-category-desc">
+          Essential for page navigation, load balancing, security protections, and remembering basic consent choices. These cookies cannot be disabled.
+        </p>
+      </section>
+
+      <!-- Category 2: Analytics & Performance -->
+      <section class="fwf-cookie-category">
+        <div class="fwf-category-header">
+          <div class="fwf-category-title-group">
+            <label for="fwf-consent-analytics" class="fwf-category-title fwf-category-label">
+              Analytics &amp; Performance Cookies
+            </label>
+          </div>
+          <label class="fwf-switch">
+            <input type="checkbox" id="fwf-consent-analytics" />
+            <span class="fwf-slider"></span>
+          </label>
+        </div>
+        <p class="fwf-category-desc">
+          Help us count visits and traffic sources to measure and improve our site performance (via Google Analytics). All analytics data is aggregated and anonymised with IP masking enabled.
+        </p>
+      </section>
+
+      <!-- Category 3: Marketing & Targeting -->
+      <section class="fwf-cookie-category">
+        <div class="fwf-category-header">
+          <div class="fwf-category-title-group">
+            <label for="fwf-consent-marketing" class="fwf-category-title fwf-category-label">
+              Marketing &amp; Targeting Cookies
+            </label>
+          </div>
+          <label class="fwf-switch">
+            <input type="checkbox" id="fwf-consent-marketing" />
+            <span class="fwf-slider"></span>
+          </label>
+        </div>
+        <p class="fwf-category-desc">
+          Used to measure the relevance of promotional campaigns and content. If disabled, you will still see general site content, but it will not be tailored to your interests.
+        </p>
+      </section>
+    </div>
+
+    <div class="fwf-cookie-modal-footer">
+      <div class="fwf-modal-actions-left">
+        <button type="button" id="fwf-modal-save" class="fwf-cookie-btn fwf-cookie-btn-primary">
+          Save Preferences
+        </button>
+      </div>
+      <div class="fwf-modal-actions-right">
+        <button type="button" id="fwf-modal-reject" class="fwf-cookie-btn fwf-cookie-btn-secondary">
+          Reject Non-Essential
+        </button>
+        <button type="button" id="fwf-modal-accept" class="fwf-cookie-btn fwf-cookie-btn-tertiary">
+          Accept All
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* ==========================================================
+     COOKIE BANNER & PREFERENCES MODAL - STYLES
+     ========================================================== */
+
+  /* Persistent Floating Cookie Trigger (Bottom-Left) */
+  .fwf-cookie-trigger {
+    position: fixed;
+    bottom: 24px;
+    left: 24px;
+    z-index: 9998;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #160F3F;
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 9999px;
+    padding: 10px 16px;
+    font-family: "Quicksand", sans-serif;
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: none !important;
+    transition: background-color 0.2s ease, color 0.2s ease !important;
+  }
+
+  .fwf-cookie-trigger:hover {
+    background: #31CDB0;
+    color: #160F3F;
+    box-shadow: none !important;
+    transform: none !important;
+  }
+
+  .fwf-cookie-trigger:focus-visible {
+    outline: 3px solid #31CDB0;
+    outline-offset: 2px;
+  }
+
+  .fwf-cookie-icon {
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 640px) {
+    .fwf-cookie-trigger {
+      padding: 10px;
+      bottom: 16px;
+      left: 16px;
+    }
+    .fwf-cookie-trigger-text {
+      display: none;
+    }
+  }
+
+  /* Main Banner Container */
+  .fwf-cookie-banner {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    left: 24px;
+    max-width: 1080px;
+    margin: 0 auto;
+    z-index: 9999;
+    animation: fwfSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @keyframes fwfSlideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .fwf-cookie-banner-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 24px 28px;
+    box-shadow: 0 20px 45px -10px rgba(22, 15, 63, 0.25), 0 0 0 1px rgba(22, 15, 63, 0.08);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+    font-family: "Quicksand", sans-serif;
+  }
+
+  @media (max-width: 900px) {
+    .fwf-cookie-banner {
+      bottom: 16px;
+      right: 16px;
+      left: 16px;
+    }
+    .fwf-cookie-banner-card {
+      flex-direction: column;
+      align-items: stretch;
+      padding: 20px;
+      gap: 20px;
+    }
+  }
+
+  .fwf-cookie-content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .fwf-cookie-header {
+    margin-bottom: 8px;
+  }
+
+  .fwf-cookie-title-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .fwf-cookie-title {
+    font-family: "Quicksand", sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: #160F3F;
+    margin: 0;
+    line-height: 1.3;
+  }
+
+  .fwf-cookie-description {
+    font-family: "Quicksand", sans-serif;
+    font-size: 14.5px;
+    font-weight: 500;
+    line-height: 1.55;
+    color: #4b5563;
+    margin: 0;
+  }
+
+  .fwf-cookie-link {
+    color: #3456A7;
+    text-decoration: underline;
+    font-weight: 600;
+    transition: color 0.15s ease;
+  }
+
+  .fwf-cookie-link:hover {
+    color: #160F3F;
+  }
+
+  /* Actions & Button Styles */
+  .fwf-cookie-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 600px) {
+    .fwf-cookie-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  }
+
+  .fwf-cookie-btn {
+    font-family: "Quicksand", sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 12px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+    white-space: nowrap;
+    line-height: 1.2;
+    border: none;
+  }
+
+  .fwf-cookie-btn:focus-visible {
+    outline: 3px solid #31CDB0;
+    outline-offset: 2px;
+  }
+
+  /* Primary Button (Accept All) */
+  .fwf-cookie-btn-primary {
+    background: #160F3F;
+    color: #ffffff;
+    border: 2px solid #160F3F;
+  }
+
+  .fwf-cookie-btn-primary:hover {
+    background: #31CDB0;
+    color: #160F3F;
+    border-color: #31CDB0;
+    transform: none !important;
+    box-shadow: none !important;
+  }
+
+  /* Secondary Button (Reject Non-Essential) - Equal Visual Weight, High Contrast */
+  .fwf-cookie-btn-secondary {
+    background: #ffffff;
+    color: #160F3F;
+    border: 2px solid #160F3F;
+  }
+
+  .fwf-cookie-btn-secondary:hover {
+    background: #f1f5f9;
+    color: #0f172a;
+    border-color: #0f172a;
+    transform: none !important;
+    box-shadow: none !important;
+  }
+
+  /* Tertiary Button (Preferences) */
+  .fwf-cookie-btn-tertiary {
+    background: #f8fafc;
+    color: #475569;
+    border: 2px solid #e2e8f0;
+  }
+
+  .fwf-cookie-btn-tertiary:hover {
+    background: #eef2f6;
+    color: #160F3F;
+    border-color: #cbd5e1;
+  }
+
+  /* Outline Button */
+  .fwf-cookie-btn-outline {
+    background: transparent;
+    color: #160F3F;
+    border: 2px solid #cbd5e1;
+  }
+
+  .fwf-cookie-btn-outline:hover {
+    border-color: #160F3F;
+    background: #f8fafc;
+  }
+
+  /* ==========================================================
+     MODAL PREFERENCES DIALOG
+     ========================================================== */
+  .fwf-cookie-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .fwf-cookie-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.65);
+    backdrop-filter: blur(4px);
+    animation: fwfFadeIn 0.2s ease;
+  }
+
+  @keyframes fwfFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .fwf-cookie-modal-dialog {
+    position: relative;
+    background: #ffffff;
+    border-radius: 18px;
+    max-width: 680px;
+    width: 100%;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.35);
+    z-index: 1;
+    overflow: hidden;
+    animation: fwfModalScale 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    font-family: "Quicksand", sans-serif;
+  }
+
+  @keyframes fwfModalScale {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .fwf-cookie-modal-header {
+    padding: 24px 28px 16px;
+    border-bottom: 1px solid #edf2f7;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .fwf-cookie-modal-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #160F3F;
+    margin: 0 0 6px 0;
+  }
+
+  .fwf-cookie-modal-subtitle {
+    font-size: 14px;
+    font-weight: 500;
+    color: #64748b;
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .fwf-cookie-modal-close {
+    background: transparent;
+    border: none;
+    color: #64748b;
+    padding: 6px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease;
+  }
+
+  .fwf-cookie-modal-close:hover {
+    background: #f1f5f9;
+    color: #160F3F;
+  }
+
+  .fwf-cookie-modal-close:focus-visible {
+    outline: 2px solid #31CDB0;
+  }
+
+  .fwf-cookie-modal-body {
+    padding: 20px 28px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .fwf-cookie-category {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 16px 20px;
+  }
+
+  .fwf-category-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 8px;
+  }
+
+  .fwf-category-title-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .fwf-category-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #160F3F;
+    margin: 0;
+  }
+
+  .fwf-category-label {
+    cursor: pointer;
+  }
+
+  .fwf-category-desc {
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: #64748b;
+    margin: 0;
+  }
+
+  .fwf-badge {
+    display: inline-block;
+    font-size: 11.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 3px 8px;
+    border-radius: 6px;
+  }
+
+  .fwf-badge-locked {
+    background: #e2e8f0;
+    color: #475569;
+  }
+
+  /* Accessible iOS/Modern Toggle Switch */
+  .fwf-switch {
+    position: relative;
+    display: inline-block;
+    width: 44px;
+    height: 24px;
+    flex-shrink: 0;
+  }
+
+  .fwf-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .fwf-slider {
+    position: absolute;
+    cursor: pointer;
+    inset: 0;
+    background-color: #cbd5e1;
+    transition: 0.25s ease;
+    border-radius: 24px;
+  }
+
+  .fwf-slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.25s ease;
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  }
+
+  .fwf-switch input:checked + .fwf-slider {
+    background-color: #160F3F;
+  }
+
+  .fwf-switch input:focus-visible + .fwf-slider {
+    box-shadow: 0 0 0 3px #31CDB0;
+  }
+
+  .fwf-switch input:checked + .fwf-slider:before {
+    transform: translateX(20px);
+  }
+
+  .fwf-switch-disabled input {
+    cursor: not-allowed;
+    width: 18px;
+    height: 18px;
+    accent-color: #160F3F;
+  }
+
+  /* Modal Footer */
+  .fwf-cookie-modal-footer {
+    padding: 16px 28px 24px;
+    border-top: 1px solid #edf2f7;
+    background: #fafbfc;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .fwf-modal-actions-left,
+  .fwf-modal-actions-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  @media (max-width: 600px) {
+    .fwf-cookie-modal-footer {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .fwf-modal-actions-left,
+    .fwf-modal-actions-right {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var STORAGE_KEY = 'fwf_cookie_consent';
+
+    var bannerEl = document.getElementById('fwf-cookie-banner');
+    var modalEl = document.getElementById('fwf-cookie-modal');
+    var triggerEl = document.getElementById('fwf-cookie-trigger');
+
+    var acceptAllBtn = document.getElementById('fwf-cookie-accept-all');
+    var rejectAllBtn = document.getElementById('fwf-cookie-reject-all');
+    var openModalBtn = document.getElementById('fwf-cookie-open-modal');
+
+    var modalCloseBtn = document.getElementById('fwf-cookie-modal-close');
+    var modalBackdrop = document.getElementById('fwf-cookie-modal-backdrop');
+    var modalSaveBtn = document.getElementById('fwf-modal-save');
+    var modalRejectBtn = document.getElementById('fwf-modal-reject');
+    var modalAcceptBtn = document.getElementById('fwf-modal-accept');
+
+    var analyticsCheckbox = document.getElementById('fwf-consent-analytics');
+    var marketingCheckbox = document.getElementById('fwf-consent-marketing');
+
+    function getStoredConsent() {
+      try {
+        var raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) return JSON.parse(raw);
+      } catch (e) {}
+      return null;
+    }
+
+    function saveConsent(analytics, marketing) {
+      var consentData = {
+        version: 1,
+        timestamp: new Date().toISOString(),
+        functional: true,
+        analytics: Boolean(analytics),
+        marketing: Boolean(marketing),
+      };
+
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(consentData));
+      } catch (e) {}
+
+      // Update Google Consent Mode v2
+      if (typeof window.gtag === 'function') {
+        window.gtag('consent', 'update', {
+          analytics_storage: consentData.analytics ? 'granted' : 'denied',
+          ad_storage: consentData.marketing ? 'granted' : 'denied',
+          ad_user_data: consentData.marketing ? 'granted' : 'denied',
+          ad_personalization: consentData.marketing ? 'granted' : 'denied',
+        });
+      }
+
+      // Hide banner and modal
+      if (bannerEl) bannerEl.style.display = 'none';
+      if (modalEl) modalEl.style.display = 'none';
+
+      // Ensure floating trigger is visible
+      if (triggerEl) triggerEl.style.display = 'inline-flex';
+
+      // Dispatch global event for external scripts
+      window.dispatchEvent(
+        new CustomEvent('fwf_consent_updated', { detail: consentData })
+      );
+    }
+
+    function openModal() {
+      var current = getStoredConsent();
+      if (analyticsCheckbox) {
+        analyticsCheckbox.checked = current ? current.analytics === true : false;
+      }
+      if (marketingCheckbox) {
+        marketingCheckbox.checked = current ? current.marketing === true : false;
+      }
+      if (modalEl) {
+        modalEl.style.display = 'flex';
+        // Focus close button for accessibility
+        if (modalCloseBtn) modalCloseBtn.focus();
+      }
+    }
+
+    function closeModal() {
+      if (modalEl) modalEl.style.display = 'none';
+    }
+
+    // Bind banner actions
+    if (acceptAllBtn) {
+      acceptAllBtn.addEventListener('click', function () {
+        saveConsent(true, true);
+      });
+    }
+
+    if (rejectAllBtn) {
+      rejectAllBtn.addEventListener('click', function () {
+        saveConsent(false, false);
+      });
+    }
+
+    if (openModalBtn) {
+      openModalBtn.addEventListener('click', function () {
+        openModal();
+      });
+    }
+
+    // Bind modal actions
+    if (modalSaveBtn) {
+      modalSaveBtn.addEventListener('click', function () {
+        var analyticsVal = analyticsCheckbox ? analyticsCheckbox.checked : false;
+        var marketingVal = marketingCheckbox ? marketingCheckbox.checked : false;
+        saveConsent(analyticsVal, marketingVal);
+      });
+    }
+
+    if (modalAcceptBtn) {
+      modalAcceptBtn.addEventListener('click', function () {
+        saveConsent(true, true);
+      });
+    }
+
+    if (modalRejectBtn) {
+      modalRejectBtn.addEventListener('click', function () {
+        saveConsent(false, false);
+      });
+    }
+
+    if (modalCloseBtn) {
+      modalCloseBtn.addEventListener('click', closeModal);
+    }
+
+    if (modalBackdrop) {
+      modalBackdrop.addEventListener('click', closeModal);
+    }
+
+    // Escape key closes modal
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && modalEl && modalEl.style.display === 'flex') {
+        closeModal();
+      }
+    });
+
+    // Floating trigger opens modal
+    if (triggerEl) {
+      triggerEl.addEventListener('click', function () {
+        openModal();
+      });
+    }
+
+    // Support opening modal from any link with data-open-cookie-preferences or hash #cookie-preferences
+    function setupGlobalTriggers() {
+      document.querySelectorAll('[data-open-cookie-preferences], a[href="#cookie-preferences"], a[href="#manage-cookies"]').forEach(function (el) {
+        el.addEventListener('click', function (e) {
+          e.preventDefault();
+          openModal();
+        });
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', setupGlobalTriggers);
+    } else {
+      setupGlobalTriggers();
+    }
+
+    // Initial check: if no consent recorded yet, show banner and hide trigger
+    var initialConsent = getStoredConsent();
+    if (!initialConsent) {
+      if (bannerEl) bannerEl.style.display = 'block';
+      if (triggerEl) triggerEl.style.display = 'none';
+    } else {
+      if (bannerEl) bannerEl.style.display = 'none';
+      if (triggerEl) triggerEl.style.display = 'inline-flex';
+    }
+  })();
+</script>

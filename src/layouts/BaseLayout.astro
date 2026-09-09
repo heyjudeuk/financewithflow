@@ -1,6 +1,7 @@
 ---
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import CookieBanner from '../components/CookieBanner.astro';
 
 interface Props {
   title?: string;
@@ -64,6 +65,7 @@ const organizationSchema = {
 };
 
 const extraSchemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
+const gaId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
 ---
 
 <!doctype html>
@@ -128,6 +130,10 @@ const extraSchemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
         font-weight: 400;
         font-display: swap;
         src: url('/wp-content/uploads/2023/12/Voga-Medium-2.woff') format('woff');
+      }
+
+      html {
+        scroll-behavior: smooth;
       }
 
       html, body {
@@ -299,6 +305,41 @@ const extraSchemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
         background-image: revert;
       }
     </style>
+
+    <!-- Google Consent Mode v2 (Default: Denied until user consents) -->
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+
+      (function() {
+        var stored = null;
+        try {
+          stored = JSON.parse(localStorage.getItem('fwf_cookie_consent') || 'null');
+        } catch(e) {}
+
+        var analytics = stored && stored.analytics === true;
+        var marketing = stored && stored.marketing === true;
+
+        gtag('consent', 'default', {
+          'analytics_storage': analytics ? 'granted' : 'denied',
+          'ad_storage': marketing ? 'granted' : 'denied',
+          'ad_user_data': marketing ? 'granted' : 'denied',
+          'ad_personalization': marketing ? 'granted' : 'denied',
+          'wait_for_update': 500
+        });
+      })();
+    </script>
+    {gaId && (
+      <>
+        <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}></script>
+        <script is:inline define:vars={{ gaId }}>
+          gtag('js', new Date());
+          gtag('config', gaId, {
+            anonymize_ip: true
+          });
+        </script>
+      </>
+    )}
   </head>
   <body class={bodyClass}>
     <a class="skip-link" href="#content">Skip to content</a>
@@ -364,5 +405,45 @@ const extraSchemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
       }
     </script>
     <script src="../scripts/newsletter.ts"></script>
+    <CookieBanner />
+    <style is:global>
+      /* Sitewide: Ensure no drop shadows on buttons, and no lift hover interactions. Colour change only. */
+      button,
+      input[type="button"],
+      input[type="submit"],
+      .elementor-button,
+      .elementor-price-table__button,
+      .fwf-event-cta,
+      .fwf-compact-cta,
+      .fwf-cookie-btn,
+      .fwf-cookie-trigger,
+      a.elementor-button,
+      .cat-pill,
+      .page-numbers {
+        box-shadow: none !important;
+        transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease !important;
+      }
+
+      button:hover,
+      button:active,
+      button:focus,
+      input[type="button"]:hover,
+      input[type="submit"]:hover,
+      .elementor-button:hover,
+      .elementor-button:active,
+      .elementor-button:focus,
+      .elementor-price-table__button:hover,
+      .fwf-event-cta:hover,
+      .fwf-compact-cta:hover,
+      .fwf-cookie-btn:hover,
+      .fwf-cookie-trigger:hover,
+      a.elementor-button:hover,
+      a.elementor-button:active,
+      .cat-pill:hover,
+      .page-numbers:hover {
+        transform: none !important;
+        box-shadow: none !important;
+      }
+    </style>
   </body>
 </html>

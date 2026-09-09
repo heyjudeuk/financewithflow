@@ -1,0 +1,783 @@
+---
+import { upcomingEvent } from '../data/eventData';
+
+interface Props {
+  variant?: 'section' | 'compact';
+  class?: string;
+  id?: string;
+}
+
+const { variant = 'section', class: className = '', id = 'construction-connections' } = Astro.props;
+const event = upcomingEvent;
+
+if (!event.isActive) {
+  return null;
+}
+
+const eventSchema = {
+  "@context": "https://schema.org",
+  "@type": "Event",
+  "name": `${event.title} | ${event.subtitle}`,
+  "description": event.description,
+  "startDate": event.isoStartDate,
+  "endDate": event.isoEndDate,
+  "eventStatus": "https://schema.org/EventScheduled",
+  "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+  "location": {
+    "@type": "Place",
+    "name": event.venueName,
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": event.venueAddress,
+      "addressLocality": "Great Bromley, Colchester",
+      "postalCode": event.venuePostcode,
+      "addressCountry": "GB"
+    }
+  },
+  "image": [
+    `https://financewithflow.com${event.image.src}`
+  ],
+  "organizer": {
+    "@type": "Organization",
+    "name": "Finance with Flow",
+    "url": "https://financewithflow.com"
+  },
+  "offers": {
+    "@type": "Offer",
+    "url": event.eventbriteUrl,
+    "price": "0",
+    "priceCurrency": "GBP",
+    "availability": "https://schema.org/InStock",
+    "validFrom": "2026-09-01T00:00:00+01:00"
+  },
+  "performer": {
+    "@type": "Person",
+    "name": "Roz Johnson"
+  }
+};
+---
+
+<!-- JSON-LD Event Structured Data for SEO -->
+<script type="application/ld+json" set:html={JSON.stringify(eventSchema)} />
+
+{variant === 'section' && (
+  <section id={id} class={`fwf-event-section ${className}`} aria-labelledby="event-section-heading">
+    <div class="fwf-event-container">
+      <div class="fwf-event-split">
+        
+        <!-- Left Column: Header with green circle motif, description, details card, CTA -->
+        <div class="fwf-event-left">
+          
+          <div class="fwf-event-heading-box">
+            <h2 id="event-section-heading" class="fwf-event-heading">{event.title}</h2>
+          </div>
+          
+          <h3 class="fwf-event-tagline">{event.subtitle}</h3>
+
+          <div class="fwf-event-intro">
+            <p>
+              Join <strong>Roz Johnson</strong> and fellow construction leaders for an informal drop-in networking session. Enjoy complimentary drinks, discuss practical solutions for common construction finance challenges, and build valuable connections across the local industry.
+            </p>
+            <p>
+              Whether you're managing cashflow, navigating CIS, or looking to grow your contracting business, come along to chat through ideas in a relaxed, friendly setting.
+            </p>
+          </div>
+
+          <!-- When, Where, Who's it for, Admission in a card (no drop shadows) -->
+          <div class="fwf-event-details-card">
+            <div class="fwf-event-detail-item">
+              <div class="fwf-detail-icon-wrap" aria-hidden="true">
+                <!-- User-provided SVG calendar icon -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                  <rect width="20" height="18" x="2" y="4" rx="4" />
+                  <path d="M8 2v4m8-4v4M2 10h20" />
+                </svg>
+              </div>
+              <div class="fwf-detail-content">
+                <span class="fwf-detail-label">When</span>
+                <span class="fwf-detail-value">{event.dateDisplay}</span>
+                <span class="fwf-detail-subvalue">{event.timeDisplay}</span>
+              </div>
+            </div>
+
+            <div class="fwf-event-detail-item">
+              <div class="fwf-detail-icon-wrap" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+                  <circle cx="12" cy="10" r="3"/>
+                </svg>
+              </div>
+              <div class="fwf-detail-content">
+                <span class="fwf-detail-label">Where</span>
+                <span class="fwf-detail-value">{event.venueName}</span>
+                <span class="fwf-detail-subvalue">{event.venueAddress}, {event.venuePostcode}</span>
+              </div>
+            </div>
+
+            <div class="fwf-event-detail-item">
+              <div class="fwf-detail-icon-wrap" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                  <circle cx="9" cy="7" r="4"/>
+                  <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+              </div>
+              <div class="fwf-detail-content">
+                <span class="fwf-detail-label">Who's It For</span>
+                <span class="fwf-detail-value">{event.audience}</span>
+              </div>
+            </div>
+
+            <div class="fwf-event-detail-item">
+              <div class="fwf-detail-icon-wrap" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/>
+                  <path d="M13 5v2"/>
+                  <path d="M13 17v2"/>
+                  <path d="M13 11v2"/>
+                </svg>
+              </div>
+              <div class="fwf-detail-content">
+                <span class="fwf-detail-label">Admission</span>
+                <span class="fwf-detail-value">{event.cost} • RSVP on Eventbrite</span>
+                <span class="fwf-detail-subvalue">{event.parkingInfo}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- CTAs (Colour change only on hover, no lift, no shadow) -->
+          <div class="fwf-event-actions">
+            <a 
+              href={event.eventbriteUrl} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              class="fwf-event-cta fwf-event-cta-primary"
+              data-ga-event="eventbrite_click"
+            >
+              <span>Reserve Your Free Spot on Eventbrite</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                <polyline points="15 3 21 3 21 9"/>
+                <line x1="10" y1="14" x2="21" y2="3"/>
+              </svg>
+            </a>
+            <a 
+              href={event.googleMapsUrl} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              class="fwf-event-cta fwf-event-cta-secondary"
+            >
+              <span>View Venue Map</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+            </a>
+          </div>
+
+        </div>
+
+        <!-- Right Column: Image on top with tick box list below -->
+        <div class="fwf-event-right">
+          
+          <div class="fwf-event-image-container">
+            <img 
+              src={event.image.src} 
+              srcset={event.image.srcset}
+              sizes="(max-width: 960px) 100vw, 480px"
+              alt={event.image.alt} 
+              width={event.image.width}
+              height={event.image.height}
+              loading="lazy"
+              decoding="async"
+              class="fwf-event-banner-img"
+            />
+          </div>
+
+          <!-- Tick box list below image -->
+          <div class="fwf-event-checklist-wrapper">
+            <h4 class="fwf-checklist-title">What to Expect:</h4>
+            <ul class="fwf-event-highlights" role="list">
+              {event.highlights.map(h => (
+                <li class="fwf-event-highlight-item">
+                  <div class="fwf-highlight-checkbox" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                      <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                  </div>
+                  <span>{h.text}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+)}
+
+{variant === 'compact' && (
+  <aside class={`fwf-event-compact ${className}`} aria-labelledby="compact-event-heading">
+    <div class="fwf-event-compact-card">
+      <div class="fwf-event-compact-date">
+        <span class="fwf-compact-day">{event.dateDay}</span>
+        <span class="fwf-compact-month">{event.dateMonth}</span>
+        <span class="fwf-compact-year">{event.dateYear}</span>
+      </div>
+
+      <div class="fwf-event-compact-info">
+        <div class="fwf-event-compact-meta">
+          <span class="fwf-compact-tag">
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect width="20" height="18" x="2" y="4" rx="4" />
+              <path d="M8 2v4m8-4v4M2 10h20" />
+            </svg>
+            In-Person Networking
+          </span>
+          <span class="fwf-compact-time">
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+            {event.timeDisplay}
+          </span>
+        </div>
+
+        <h3 id="compact-event-heading" class="fwf-compact-title">
+          Prefer to meet in person? Join Roz at {event.title}
+        </h3>
+        <p class="fwf-compact-desc">
+          Connect with Roz and local construction peers for informal networking, drinks, and practical finance discussions at <strong>{event.venueName}</strong> ({event.parkingInfo}).
+        </p>
+
+        <div class="fwf-compact-footer">
+          <span class="fwf-compact-cost">
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/>
+              <path d="M13 5v2"/>
+              <path d="M13 17v2"/>
+              <path d="M13 11v2"/>
+            </svg>
+            {event.cost} • Free on-site parking
+          </span>
+          <a 
+            href={event.eventbriteUrl} 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            class="fwf-compact-cta"
+            data-ga-event="eventbrite_click"
+          >
+            <span>Book Free Ticket</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+              <polyline points="15 3 21 3 21 9"/>
+              <line x1="10" y1="14" x2="21" y2="3"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </aside>
+)}
+
+<style>
+  /* =========================================================
+     Event Promotion Styles
+     - Design cues from 'What we do' section
+     - Header in Angel font with circle motif behind
+     - Two-column split layout
+     - Card for when/where/who/admission
+     - Image with tick box list below on right
+     - STRICTLY ZERO DROP SHADOWS anywhere
+     - STRICTLY NO LIFT on button hover (colour change only)
+     ========================================================= */
+
+  .fwf-event-section {
+    scroll-margin-top: 40px;
+    background-color: #FFFFFF;
+    padding: 90px 15px 80px;
+    border-bottom: 1px solid #EAEFF6;
+    font-family: 'Quicksand', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: #160F3F;
+  }
+
+  .fwf-event-container {
+    max-width: 1140px;
+    margin: 0 auto;
+  }
+
+  .fwf-event-split {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 48px;
+    align-items: start;
+  }
+
+  /* Left Column */
+  .fwf-event-left {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Heading with Green Circle Motif behind (matching 'How Can We Help' & 'Our Packages') */
+  .fwf-event-heading-box {
+    position: relative;
+    display: inline-block;
+    padding: 12px 16px 10px;
+    margin-top: 6px;
+    margin-bottom: 24px;
+  }
+
+  .fwf-event-heading-box::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: clamp(85px, 8.5vw, 105px);
+    height: clamp(85px, 8.5vw, 105px);
+    background-image: url('/wp-content/uploads/2023/12/circle.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .fwf-event-heading {
+    font-family: "Angel", Sans-serif;
+    font-size: clamp(2.4rem, 4.5vw, 3.8rem);
+    font-weight: 400;
+    line-height: 1.1;
+    color: var(--e-global-color-secondary, #160F3F);
+    margin: 0;
+    position: relative;
+    z-index: 1;
+    text-shadow: none;
+  }
+
+  .fwf-event-tagline {
+    font-family: 'Quicksand', Sans-serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #160F3F;
+    margin: 0 0 16px 0;
+    letter-spacing: -0.2px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .fwf-event-intro p {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: #374151;
+    margin: 0 0 14px 0;
+  }
+
+  .fwf-event-intro p strong {
+    color: #160F3F;
+    font-weight: 700;
+  }
+
+  /* Details Card: When, Where, Who's it for, Admission (NO drop shadow) */
+  .fwf-event-details-card {
+    background: #F8F9FD;
+    border: 1.5px solid #E5EAF4;
+    border-radius: 18px;
+    padding: 24px;
+    margin: 10px 0 28px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    box-shadow: none !important;
+  }
+
+  .fwf-event-detail-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .fwf-detail-icon-wrap {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #160F3F;
+    flex-shrink: 0;
+    box-shadow: none !important;
+  }
+
+  .fwf-detail-content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .fwf-detail-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #6B7280;
+    margin-bottom: 2px;
+  }
+
+  .fwf-detail-value {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #160F3F;
+    line-height: 1.35;
+  }
+
+  .fwf-detail-subvalue {
+    font-size: 0.85rem;
+    color: #4B5563;
+    margin-top: 2px;
+    line-height: 1.3;
+  }
+
+  /* Button Actions: NO drop shadows, NO lift on hover, colour change only */
+  .fwf-event-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .fwf-event-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 14px 28px;
+    border-radius: 50px;
+    font-family: 'Quicksand', Sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-decoration: none;
+    box-shadow: none !important;
+    transform: none !important;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease !important;
+    cursor: pointer;
+  }
+
+  .fwf-event-cta-primary {
+    background-color: #31CDB0;
+    color: #160F3F;
+    border: 2px solid #31CDB0;
+  }
+
+  .fwf-event-cta-primary:hover,
+  .fwf-event-cta-primary:focus {
+    background-color: #160F3F;
+    color: #FFFFFF;
+    border-color: #160F3F;
+    transform: none !important;
+    box-shadow: none !important;
+  }
+
+  .fwf-event-cta-secondary {
+    background-color: transparent;
+    color: #160F3F;
+    border: 2px solid #D2D9E7;
+  }
+
+  .fwf-event-cta-secondary:hover,
+  .fwf-event-cta-secondary:focus {
+    background-color: #160F3F;
+    color: #FFFFFF;
+    border-color: #160F3F;
+    transform: none !important;
+    box-shadow: none !important;
+  }
+
+  /* Right Column: Image on top, tick box list below */
+  .fwf-event-right {
+    display: flex;
+    flex-direction: column;
+    padding-top: 10px;
+  }
+
+  .fwf-event-image-container {
+    width: 100%;
+    margin-bottom: 24px;
+  }
+
+  .fwf-event-banner-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 20px;
+    border: 1px solid #E2E8F0;
+    box-shadow: none !important;
+  }
+
+  .fwf-event-checklist-wrapper {
+    background: #FFFFFF;
+    padding: 4px 0;
+  }
+
+  .fwf-checklist-title {
+    font-family: 'Quicksand', Sans-serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #160F3F;
+    margin: 0 0 14px 0;
+  }
+
+  .fwf-event-highlights {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .fwf-event-highlight-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-family: 'Quicksand', Sans-serif;
+    font-size: 0.95rem;
+    line-height: 1.45;
+    color: #374151;
+  }
+
+  .fwf-highlight-checkbox {
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    background: rgba(49, 205, 176, 0.15);
+    border: 1.5px solid #31CDB0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #160F3F;
+    flex-shrink: 0;
+    margin-top: 1px;
+    box-shadow: none !important;
+  }
+
+  /* Compact Variant (Contact Page) */
+  .fwf-event-compact {
+    font-family: 'Quicksand', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+
+  .fwf-event-compact-card {
+    background: #FFFFFF;
+    border-radius: 18px;
+    border: 1.5px solid #E2E8F0;
+    padding: 28px;
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+    box-shadow: none !important;
+  }
+
+  .fwf-event-compact-date {
+    background: #160F3F;
+    color: #FFFFFF;
+    border-radius: 14px;
+    padding: 14px 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    min-width: 84px;
+    text-align: center;
+    box-shadow: none !important;
+  }
+
+  .fwf-compact-day {
+    font-size: 1.8rem;
+    font-weight: 800;
+    line-height: 1;
+    color: #31CDB0;
+  }
+
+  .fwf-compact-month {
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-top: 2px;
+  }
+
+  .fwf-compact-year {
+    font-size: 0.75rem;
+    opacity: 0.75;
+  }
+
+  .fwf-event-compact-info {
+    flex: 1;
+  }
+
+  .fwf-event-compact-meta {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+  }
+
+  .fwf-compact-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #160F3F;
+    background: #EEF2F9;
+    padding: 4px 10px;
+    border-radius: 6px;
+  }
+
+  .fwf-compact-time {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #4B5563;
+  }
+
+  .fwf-compact-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #160F3F;
+    margin: 0 0 8px 0;
+    line-height: 1.35;
+  }
+
+  .fwf-compact-desc {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #4B5563;
+    margin: 0 0 16px 0;
+  }
+
+  .fwf-compact-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    padding-top: 12px;
+    border-top: 1px solid #EEF2F6;
+  }
+
+  .fwf-compact-cost {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #160F3F;
+  }
+
+  .fwf-compact-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background-color: #31CDB0;
+    color: #160F3F;
+    border: 2px solid #31CDB0;
+    border-radius: 50px;
+    font-size: 0.88rem;
+    font-weight: 700;
+    text-decoration: none;
+    box-shadow: none !important;
+    transform: none !important;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease !important;
+    cursor: pointer;
+  }
+
+  .fwf-compact-cta:hover,
+  .fwf-compact-cta:focus {
+    background-color: #160F3F;
+    color: #FFFFFF;
+    border-color: #160F3F;
+    transform: none !important;
+    box-shadow: none !important;
+  }
+
+  /* Responsive Adjustments */
+  @media (max-width: 960px) {
+    .fwf-event-split {
+      grid-template-columns: 1fr;
+      gap: 36px;
+    }
+
+    .fwf-event-right {
+      padding-top: 0;
+    }
+
+    .fwf-event-section {
+      padding: 60px 15px 50px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .fwf-event-heading-box {
+      margin-bottom: 20px;
+      padding: 8px 10px;
+    }
+
+    .fwf-event-heading-box::before {
+      width: 78px;
+      height: 78px;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .fwf-event-details-card {
+      grid-template-columns: 1fr;
+      gap: 16px;
+      padding: 18px;
+    }
+
+    .fwf-event-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .fwf-event-cta {
+      width: 100%;
+    }
+
+    .fwf-event-compact-card {
+      flex-direction: column;
+      padding: 20px;
+    }
+
+    .fwf-event-compact-date {
+      width: 100%;
+      flex-direction: row;
+      gap: 8px;
+      padding: 8px 12px;
+    }
+
+    .fwf-compact-day {
+      font-size: 1.4rem;
+    }
+
+    .fwf-compact-footer {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .fwf-compact-cta {
+      justify-content: center;
+    }
+  }
+</style>

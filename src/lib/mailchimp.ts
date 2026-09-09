@@ -181,14 +181,24 @@ export async function subscribeToMailchimp({
       // client: `detail` can disclose audience/account information to probes.
       console.error('[Mailchimp] API error response:', data);
 
-      // The one case worth surfacing specifically, because it is actionable.
+      if (data?.errors && Array.isArray(data.errors) && data.errors.length > 0) {
+        console.error(
+          '[Mailchimp] Field validation errors:',
+          data.errors.map((e: any) => `${e.field}: ${e.message}`).join(', '),
+          '-- Check if these merge fields are set to "Required" in Mailchimp Audience Settings.'
+        );
+      }
+
+      // Compliance and GDPR-forgotten contacts cannot be added via API upsert.
       const isCompliance =
-        response.status === 400 && /compliance state/i.test(String(data.title || ''));
+        response.status === 400 &&
+        (/compliance state|forgotten email/i.test(String(data.title || '')) ||
+          /permanently deleted|compliance state/i.test(String(data.detail || '')));
 
       return {
         success: false,
         message: isCompliance
-          ? 'This address cannot be subscribed automatically. Please contact us to be added.'
+          ? 'This email address was previously removed or unsubscribed and cannot be added automatically. Please contact us or sign up via our direct Mailchimp form.'
           : 'We could not complete your subscription right now. Please try again later.',
       };
     }

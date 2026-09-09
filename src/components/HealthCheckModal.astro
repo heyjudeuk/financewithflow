@@ -1,0 +1,739 @@
+---
+import { BOOKING_URL, HEALTH_CHECK_CONFIG } from '../data/bookingConfig';
+
+interface Props {
+  storageKey?: string;
+  delayMs?: number;
+}
+
+const {
+  storageKey = HEALTH_CHECK_CONFIG.storageKey,
+  delayMs = 700,
+} = Astro.props;
+---
+
+<!-- Finance Health Check Pop-Up Modal -->
+<div
+  id="fwf-health-check-modal"
+  class="fwf-hc-modal"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="fwf-hc-title"
+  aria-describedby="fwf-hc-desc"
+  data-storage-key={storageKey}
+  data-delay-ms={delayMs}
+  style="display: none;"
+>
+  <!-- Modal Backdrop -->
+  <div class="fwf-hc-backdrop" id="fwf-hc-backdrop" tabindex="-1"></div>
+
+  <!-- Modal Dialog Container -->
+  <div class="fwf-hc-dialog" role="document">
+    <!-- Close Button -->
+    <button
+      type="button"
+      id="fwf-hc-close-btn"
+      class="fwf-hc-close"
+      aria-label="Close modal"
+      title="Close"
+    >
+      <svg
+        viewBox="0 0 24 24"
+        width="20"
+        height="20"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2.2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+
+    <!-- Modal Content -->
+    <div class="fwf-hc-content">
+      <!-- Badge / Header Tag -->
+      <div class="fwf-hc-badge-wrap">
+        <span class="fwf-hc-badge">
+          <svg
+            viewBox="0 0 24 24"
+            width="15"
+            height="15"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            class="fwf-hc-badge-icon"
+          >
+            <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+          </svg>
+          {HEALTH_CHECK_CONFIG.badge}
+        </span>
+      </div>
+
+      <!-- Main Heading -->
+      <h2 id="fwf-hc-title" class="fwf-hc-title">
+        {HEALTH_CHECK_CONFIG.title}
+      </h2>
+
+      <!-- Subtitle / Lead -->
+      <p class="fwf-hc-subtitle">
+        {HEALTH_CHECK_CONFIG.subtitle}
+      </p>
+
+      <!-- Body description -->
+      <p id="fwf-hc-desc" class="fwf-hc-body">
+        {HEALTH_CHECK_CONFIG.description}
+      </p>
+
+      <!-- Key Focus Areas Checklist -->
+      <div class="fwf-hc-checklist">
+        <div class="fwf-hc-check-item">
+          <svg
+            viewBox="0 0 24 24"
+            width="18"
+            height="18"
+            fill="none"
+            stroke="#31CDB0"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          <span>Business strength & cash flow health review</span>
+        </div>
+        <div class="fwf-hc-check-item">
+          <svg
+            viewBox="0 0 24 24"
+            width="18"
+            height="18"
+            fill="none"
+            stroke="#31CDB0"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          <span>Deep-dive into profitability & cost efficiency</span>
+        </div>
+        <div class="fwf-hc-check-item">
+          <svg
+            viewBox="0 0 24 24"
+            width="18"
+            height="18"
+            fill="none"
+            stroke="#31CDB0"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          <span>Practical, tailored recommendations to strengthen your business</span>
+        </div>
+      </div>
+
+      <!-- Price Box -->
+      <div class="fwf-hc-price-card">
+        <div class="fwf-hc-price-info">
+          <span class="fwf-hc-price-label">Two-Hour Executive Session</span>
+          <span class="fwf-hc-price-amount">{HEALTH_CHECK_CONFIG.priceHighlight}</span>
+        </div>
+        <span class="fwf-hc-price-tag">One-to-One with Roz Johnson</span>
+      </div>
+
+      <!-- CTA Action Button -->
+      <div class="fwf-hc-cta-wrap">
+        <a
+          href={BOOKING_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          id="fwf-hc-cta-btn"
+          class="fwf-hc-cta-btn"
+        >
+          <span>{HEALTH_CHECK_CONFIG.ctaText}</span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M5 12h14"></path>
+            <path d="m12 5 7 7-7 7"></path>
+          </svg>
+        </a>
+      </div>
+
+      <!-- Footer Preferences (Don't show this again & Dismiss) -->
+      <div class="fwf-hc-footer">
+        <label class="fwf-hc-checkbox-label" for="fwf-hc-dont-show-checkbox">
+          <input
+            type="checkbox"
+            id="fwf-hc-dont-show-checkbox"
+            class="fwf-hc-checkbox"
+          />
+          <span class="fwf-hc-checkbox-custom" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </span>
+          <span class="fwf-hc-checkbox-text">Don't show this again</span>
+        </label>
+
+        <button
+          type="button"
+          id="fwf-hc-dismiss-link"
+          class="fwf-hc-dismiss-link"
+        >
+          Dismiss
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Base Modal Overlay Container */
+  .fwf-hc-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 999990;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    box-sizing: border-box;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .fwf-hc-modal.is-active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* Backdrop with subtle blur */
+  .fwf-hc-backdrop {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(22, 15, 63, 0.72);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+  }
+
+  /* Modal Card Dialog */
+  .fwf-hc-dialog {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 560px;
+    max-height: 90vh;
+    overflow-y: auto;
+    background-color: #ffffff;
+    border-radius: 20px;
+    border: 1px solid rgba(22, 15, 63, 0.08);
+    box-sizing: border-box;
+    padding: 36px 36px 28px;
+    box-shadow: 0 20px 50px -12px rgba(22, 15, 63, 0.25);
+    transform: translateY(18px) scale(0.97);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .fwf-hc-modal.is-active .fwf-hc-dialog {
+    transform: translateY(0) scale(1);
+  }
+
+  /* Close (✕) Button */
+  .fwf-hc-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: #f1f4f9;
+    border: 1px solid #e2e8f0;
+    color: #160f3f;
+    cursor: pointer;
+    padding: 0;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  }
+
+  .fwf-hc-close:hover,
+  .fwf-hc-close:focus {
+    background-color: #160f3f;
+    color: #ffffff;
+    border-color: #160f3f;
+    outline: none;
+  }
+
+  .fwf-hc-close:focus-visible {
+    outline: 2px solid #31cdb0;
+    outline-offset: 2px;
+  }
+
+  /* Badge */
+  .fwf-hc-badge-wrap {
+    margin-bottom: 14px;
+  }
+
+  .fwf-hc-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background-color: #ebfaf7;
+    color: #0d826e;
+    border: 1px solid rgba(49, 205, 176, 0.35);
+    padding: 5px 12px;
+    border-radius: 50px;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+  }
+
+  .fwf-hc-badge-icon {
+    flex-shrink: 0;
+    stroke: #0d826e;
+  }
+
+  /* Title */
+  .fwf-hc-title {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 1.55rem;
+    font-weight: 700;
+    line-height: 1.28;
+    color: #160f3f;
+    margin: 0 0 10px;
+    padding-right: 24px;
+  }
+
+  /* Subtitle / Lead */
+  .fwf-hc-subtitle {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    line-height: 1.45;
+    color: #3456a7;
+    margin: 0 0 12px;
+  }
+
+  /* Body */
+  .fwf-hc-body {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    line-height: 1.55;
+    color: #4a5568;
+    margin: 0 0 18px;
+  }
+
+  /* Checklist Focus Points */
+  .fwf-hc-checklist {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    margin-bottom: 20px;
+    background-color: #f9fbfd;
+    border: 1px solid #e9edf5;
+    border-radius: 12px;
+    padding: 14px 16px;
+  }
+
+  .fwf-hc-check-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #2d3748;
+    line-height: 1.4;
+  }
+
+  .fwf-hc-check-item svg {
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* Price Highlight Card */
+  .fwf-hc-price-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    background: linear-gradient(135deg, #160f3f 0%, #1e1552 100%);
+    color: #ffffff;
+    border-radius: 14px;
+    padding: 16px 20px;
+    margin-bottom: 22px;
+  }
+
+  .fwf-hc-price-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .fwf-hc-price-label {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 0.775rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #31cdb0;
+  }
+
+  .fwf-hc-price-amount {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: -0.2px;
+  }
+
+  .fwf-hc-price-tag {
+    background-color: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 20px;
+  }
+
+  /* CTA Button */
+  .fwf-hc-cta-wrap {
+    margin-bottom: 18px;
+  }
+
+  .fwf-hc-cta-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    background-color: #31cdb0;
+    color: #160f3f;
+    border: 2px solid #31cdb0;
+    border-radius: 50px;
+    padding: 15px 24px;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    text-decoration: none;
+    box-sizing: border-box;
+    cursor: pointer;
+    box-shadow: none !important;
+    transform: none !important;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease !important;
+  }
+
+  .fwf-hc-cta-btn:hover,
+  .fwf-hc-cta-btn:focus {
+    background-color: #160f3f;
+    color: #ffffff;
+    border-color: #160f3f;
+    box-shadow: none !important;
+    transform: none !important;
+  }
+
+  .fwf-hc-cta-btn:focus-visible {
+    outline: 3px solid #160f3f;
+    outline-offset: 3px;
+  }
+
+  /* Footer with Checkbox & Dismiss link */
+  .fwf-hc-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 14px;
+    padding-top: 14px;
+    border-top: 1px solid #edf2f7;
+  }
+
+  .fwf-hc-checkbox-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .fwf-hc-checkbox {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .fwf-hc-checkbox-custom {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+    border: 2px solid #cbd5e1;
+    background-color: #ffffff;
+    color: transparent;
+    transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+    flex-shrink: 0;
+  }
+
+  .fwf-hc-checkbox:checked + .fwf-hc-checkbox-custom {
+    background-color: #160f3f;
+    border-color: #160f3f;
+    color: #31cdb0;
+  }
+
+  .fwf-hc-checkbox:focus-visible + .fwf-hc-checkbox-custom {
+    outline: 2px solid #31cdb0;
+    outline-offset: 2px;
+  }
+
+  .fwf-hc-checkbox-text {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #4a5568;
+    transition: color 0.15s ease;
+  }
+
+  .fwf-hc-checkbox-label:hover .fwf-hc-checkbox-text {
+    color: #160f3f;
+  }
+
+  .fwf-hc-dismiss-link {
+    background: none;
+    border: none;
+    padding: 4px 6px;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #718096;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    box-shadow: none !important;
+    transform: none !important;
+    transition: color 0.2s ease !important;
+  }
+
+  .fwf-hc-dismiss-link:hover,
+  .fwf-hc-dismiss-link:focus {
+    color: #160f3f;
+    box-shadow: none !important;
+    transform: none !important;
+    outline: none;
+  }
+
+  .fwf-hc-dismiss-link:focus-visible {
+    outline: 2px solid #31cdb0;
+    outline-offset: 2px;
+  }
+
+  /* Responsive Adjustments */
+  @media (max-width: 600px) {
+    .fwf-hc-dialog {
+      padding: 28px 20px 22px;
+      border-radius: 16px;
+    }
+
+    .fwf-hc-close {
+      top: 14px;
+      right: 14px;
+      width: 32px;
+      height: 32px;
+    }
+
+    .fwf-hc-title {
+      font-size: 1.3rem;
+      padding-right: 28px;
+    }
+
+    .fwf-hc-subtitle {
+      font-size: 0.95rem;
+    }
+
+    .fwf-hc-body {
+      font-size: 0.9rem;
+    }
+
+    .fwf-hc-price-card {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 14px 16px;
+      gap: 8px;
+    }
+
+    .fwf-hc-price-tag {
+      font-size: 0.75rem;
+    }
+
+    .fwf-hc-cta-btn {
+      padding: 13px 20px;
+      font-size: 0.98rem;
+    }
+
+    .fwf-hc-footer {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+    }
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    function initHealthCheckModal() {
+      var modal = document.getElementById('fwf-health-check-modal');
+      if (!modal) return;
+
+      var storageKey = modal.getAttribute('data-storage-key') || 'fwf_hide_health_check_modal';
+      var delayMs = parseInt(modal.getAttribute('data-delay-ms') || '700', 10);
+
+      // Check localStorage
+      try {
+        if (localStorage.getItem(storageKey) === 'true') {
+          return;
+        }
+      } catch (e) {
+        // LocalStorage disabled or blocked
+      }
+
+      var backdrop = document.getElementById('fwf-hc-backdrop');
+      var closeBtn = document.getElementById('fwf-hc-close-btn');
+      var ctaBtn = document.getElementById('fwf-hc-cta-btn');
+      var dontShowCheckbox = document.getElementById('fwf-hc-dont-show-checkbox');
+      var dismissLink = document.getElementById('fwf-hc-dismiss-link');
+
+      var previouslyFocusedElement = null;
+      var timerId = null;
+
+      function persistHidePreference() {
+        try {
+          localStorage.setItem(storageKey, 'true');
+        } catch (e) {}
+      }
+
+      function openModal() {
+        previouslyFocusedElement = document.activeElement;
+        modal.style.display = 'flex';
+
+        // Trigger transition
+        requestAnimationFrame(function () {
+          modal.classList.add('is-active');
+        });
+
+        // Lock background scrolling
+        document.body.style.overflow = 'hidden';
+
+        // Focus close button for accessibility
+        if (closeBtn) {
+          closeBtn.focus();
+        }
+
+        document.addEventListener('keydown', handleKeydown);
+      }
+
+      function closeModal(shouldPersist) {
+        if (shouldPersist || (dontShowCheckbox && dontShowCheckbox.checked)) {
+          persistHidePreference();
+        }
+
+        modal.classList.remove('is-active');
+        document.removeEventListener('keydown', handleKeydown);
+
+        // Restore background scrolling
+        document.body.style.overflow = '';
+
+        // Restore focus
+        if (previouslyFocusedElement && typeof previouslyFocusedElement.focus === 'function') {
+          previouslyFocusedElement.focus();
+        }
+
+        setTimeout(function () {
+          modal.style.display = 'none';
+        }, 320);
+      }
+
+      function handleKeydown(e) {
+        if (e.key === 'Escape' || e.keyCode === 27) {
+          closeModal(false);
+        }
+      }
+
+      // Bind close button
+      if (closeBtn) {
+        closeBtn.addEventListener('click', function () {
+          closeModal(false);
+        });
+      }
+
+      // Bind backdrop click
+      if (backdrop) {
+        backdrop.addEventListener('click', function () {
+          closeModal(false);
+        });
+      }
+
+      // Bind dismiss link
+      if (dismissLink) {
+        dismissLink.addEventListener('click', function () {
+          // Explicitly opt out and dismiss
+          closeModal(true);
+        });
+      }
+
+      // Bind CTA click
+      if (ctaBtn) {
+        ctaBtn.addEventListener('click', function () {
+          // If checkbox is checked or user proceeds to book, honor preference
+          if (dontShowCheckbox && dontShowCheckbox.checked) {
+            persistHidePreference();
+          }
+        });
+      }
+
+      // Show modal after delay
+      timerId = setTimeout(openModal, delayMs);
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initHealthCheckModal);
+    } else {
+      initHealthCheckModal();
+    }
+
+    // Support Astro client-side navigation if enabled
+    document.addEventListener('astro:page-load', initHealthCheckModal);
+  })();
+</script>

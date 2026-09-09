@@ -20,7 +20,8 @@
     Permissions-Policy = "geolocation=(), microphone=(), camera=()"
     # Report-only first: the site relies on inline <style is:global>, inline module
     # scripts and Google Fonts. Verify the report endpoint is clean before enforcing.
-    Content-Security-Policy-Report-Only = "default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; script-src 'self' 'unsafe-inline'; connect-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'"
+    Content-Security-Policy-Report-Only = "default-src 'self'; img-src 'self' data: https://*.google-analytics.com https://*.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; frame-ancestors 'self'; base-uri 'self'; form-action 'self'"
+
 
 # Hashed build assets are immutable.
 [[headers]]
