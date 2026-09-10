@@ -5,22 +5,219 @@ import { BOOKING_URL } from '../data/bookingConfig';
 ---
 
 <BaseLayout
-  wrapMain={false}
   title="Contact | Finance with Flow"
   description="Get in touch with Finance with Flow. Call 01206 326610 or email undercontrol@financewithflow.com to talk about your outsourced finance needs."
-  bodyClass="page-template-default page page-id-228 elementor-default elementor-kit-7 elementor-page elementor-page-228"
 >
-  <div class="page-content">
-    <Fragment set:html={`<main id="content" class="site-main post-228 page type-page status-publish hentry"><div class="page-content"><div data-elementor-type="wp-page" data-elementor-id="228" class="elementor elementor-228" data-elementor-post-type="page"><div class="elementor-element elementor-element-71614628 e-flex e-con-boxed e-con e-parent" data-id="71614628" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}"><div class="e-con-inner"><div class="elementor-element elementor-element-7152b2a9 e-flex e-con-boxed e-con e-child" data-id="7152b2a9" data-element_type="container"><div class="e-con-inner"><div class="elementor-element elementor-element-496f96f0 elementor-widget elementor-widget-heading" data-id="496f96f0" data-element_type="widget" data-widget_type="heading.default"><div class="elementor-widget-container"><h2 class="elementor-heading-title elementor-size-default">Contact</h2></div></div><div class="elementor-element elementor-element-32f3d97c elementor-widget elementor-widget-image" data-id="32f3d97c" data-element_type="widget" data-widget_type="image.default"><div class="elementor-widget-container"> <img class="attachment-large size-large wp-image-56 " src="/wp-content/uploads/2023/12/finance-writing-white-1024x203.png" decoding="async" width="800" height="159"   alt="Finance with Flow white logo" srcset="/wp-content/uploads/2023/12/finance-writing-white-1024x203.png 1024w, /wp-content/uploads/2023/12/finance-writing-white-300x59.png 300w, /wp-content/uploads/2023/12/finance-writing-white-768x152.png 768w, /wp-content/uploads/2023/12/finance-writing-white.png 1440w" sizes="(max-width: 800px) 100vw, 800px" /></div></div><div class="elementor-element elementor-element-73b01bf0 elementor-widget elementor-widget-heading" data-id="73b01bf0" data-element_type="widget" data-widget_type="heading.default"><div class="elementor-widget-container"><h1 class="elementor-heading-title elementor-size-default">We're here to help</h1></div></div></div></div></div></div><div class="elementor-element elementor-element-135590e e-flex e-con-boxed e-con e-parent" data-id="135590e" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}"><div class="e-con-inner"><div class="elementor-element elementor-element-902f7fc e-con-full e-flex e-con e-child" data-id="902f7fc" data-element_type="container"><div class="elementor-element elementor-element-0bd0d51 elementor-widget elementor-widget-text-editor" data-id="0bd0d51" data-element_type="widget" data-widget_type="text-editor.default"><div class="elementor-widget-container"><p>Would you like to explore how Finance with Flow can support your business’ finance needs? Book a free, no obligation discovery call with Roz now!</p></div></div><div class="elementor-element elementor-element-51c6aa2 elementor-widget elementor-widget-button" data-id="51c6aa2" data-element_type="widget" data-widget_type="button.default"><div class="elementor-widget-container"><div class="elementor-button-wrapper"> <a class="elementor-button elementor-button-link elementor-size-sm" href="${BOOKING_URL}"> <span class="elementor-button-content-wrapper"> <span class="elementor-button-text">Book now</span> </span> </a></div></div></div></div></div></div>`} />
-
-    <section class="fwf-event-contact-section" style="background-color: #FFFFFF; padding: 50px 15px 40px; border-top: 1px solid #E8EBF2; border-bottom: 1px solid #E8EBF2;">
-      <div style="max-width: 1140px; margin: 0 auto;">
-        <EventPromo variant="compact" />
+  <!-- Hero Section -->
+  <section class="contact-hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-container">
+      <span class="hero-subtitle">Contact</span>
+      <div class="hero-logo-wrapper">
+        <img
+          src="/wp-content/uploads/2023/12/finance-writing-white-1024x203.png"
+          alt="Finance with Flow"
+          class="hero-logo"
+          width="800"
+          height="159"
+          loading="eager"
+          decoding="async"
+        />
       </div>
-    </section>
+      <h1 class="hero-tagline">We're here to help</h1>
+    </div>
+  </section>
 
-    <Fragment set:html={`<div class="elementor-element elementor-element-c60abeb e-flex e-con-boxed e-con e-parent" data-id="c60abeb" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}"><div class="e-con-inner"><div class="elementor-element elementor-element-7912291 elementor-widget elementor-widget-text-editor" data-id="7912291" data-element_type="widget" data-widget_type="text-editor.default"><div class="elementor-widget-container"><p>Please fill out the form and press the submit button. We will get back to you as soon as possible.</p></div></div><div class="elementor-element elementor-element-ab48ed3 elementor-button-align-stretch elementor-widget elementor-widget-form" data-id="ab48ed3" data-element_type="widget" data-settings="{&quot;step_next_label&quot;:&quot;Next&quot;,&quot;step_previous_label&quot;:&quot;Previous&quot;,&quot;step_type&quot;:&quot;none&quot;,&quot;button_width&quot;:&quot;100&quot;,&quot;step_icon_shape&quot;:&quot;circle&quot;}" data-widget_type="form.default"><div class="elementor-widget-container"><form class="elementor-form" method="post" name="Contact Form" data-netlify="true" data-netlify-honeypot="bot-field" aria-label="Contact Form"> <input type="hidden" name="form-name" value="Contact Form"/> <p style="display: none;" aria-hidden="true"> <label>Don't fill this out if you're human: <input name="bot-field" tabindex="-1" /></label> </p><div class="elementor-form-fields-wrapper elementor-labels-above"><div class="elementor-field-type-text elementor-field-group elementor-column elementor-field-group-firstname elementor-col-50"> <input size="1" type="text" name="firstname" id="form-field-firstname" class="elementor-field elementor-size-md  elementor-field-textual" placeholder="First Name"></div><div class="elementor-field-type-text elementor-field-group elementor-column elementor-field-group-lastname elementor-col-50 elementor-field-required elementor-mark-required"> <input size="1" type="text" name="lastname" id="form-field-lastname" class="elementor-field elementor-size-md  elementor-field-textual" placeholder="Last Name" required="required"></div><div class="elementor-field-type-tel elementor-field-group elementor-column elementor-field-group-number elementor-col-50 elementor-field-required elementor-mark-required"> <input size="1" type="tel" name="phone" id="form-field-number" class="elementor-field elementor-size-md  elementor-field-textual" placeholder="Contact Number" required="required" pattern="[0-9()#&amp;+*-=.]+" title="Only numbers and phone characters (#, -, *, etc) are accepted."></div><div class="elementor-field-type-email elementor-field-group elementor-column elementor-field-group-email elementor-col-50 elementor-field-required elementor-mark-required"> <input size="1" type="email" name="email" id="form-field-email" class="elementor-field elementor-size-md  elementor-field-textual" placeholder="Email" required="required"></div><div class="elementor-field-type-text elementor-field-group elementor-column elementor-field-group-sector elementor-col-100 elementor-field-required elementor-mark-required"> <input size="1" type="text" name="sector" id="form-field-sector" class="elementor-field elementor-size-md  elementor-field-textual" placeholder="Your Business Sector" required="required"></div><div class="elementor-field-type-select elementor-field-group elementor-column elementor-field-group-services elementor-col-100 elementor-field-required elementor-mark-required"> <label for="form-field-services" class="elementor-field-label"> What Services Are You Interested In? </label><div class="elementor-field elementor-select-wrapper remove-before "><div class="select-caret-down-wrapper"> <svg aria-hidden="true" class="e-font-icon-svg e-eicon-caret-down" viewBox="0 0 571.4 571.4" xmlns="http://www.w3.org/2000/svg"><path d="M571 393Q571 407 561 418L311 668Q300 679 286 679T261 668L11 418Q0 407 0 393T11 368 36 357H536Q550 357 561 368T571 393Z"></path></svg></div> <select name="services" id="form-field-services" class="elementor-field-textual elementor-size-md" required="required"><option value="Fully Outsourced Finance Team">Fully Outsourced Finance Team</option><option value="Financial Director Services">Financial Director Services</option><option value="Looking for advice">Looking for advice</option><option value="General Enquiry">General Enquiry</option><option value="Small Business community (To commence from August 2024)">Small Business community (To commence from August 2024)</option> </select></div></div><div class="elementor-field-type-text elementor-field-group elementor-column elementor-field-group-moreabout elementor-col-100"> <input size="1" type="text" name="message" id="form-field-moreabout" class="elementor-field elementor-size-md  elementor-field-textual" placeholder="Tell us more about you?"></div><div class="elementor-field-type-select elementor-field-group elementor-column elementor-field-group-hearaboutus elementor-col-100 elementor-field-required elementor-mark-required"> <label for="form-field-hearaboutus" class="elementor-field-label"> How did you find out about us? </label><div class="elementor-field elementor-select-wrapper remove-before "><div class="select-caret-down-wrapper"> <svg aria-hidden="true" class="e-font-icon-svg e-eicon-caret-down" viewBox="0 0 571.4 571.4" xmlns="http://www.w3.org/2000/svg"><path d="M571 393Q571 407 561 418L311 668Q300 679 286 679T261 668L11 418Q0 407 0 393T11 368 36 357H536Q550 357 561 368T571 393Z"></path></svg></div> <select name="hearaboutus" id="form-field-hearaboutus" class="elementor-field-textual elementor-size-md" required="required"><option value="Recommendations">Recommendations</option><option value="Website">Website</option><option value="Search engine eg. Google">Search engine eg. Google</option><option value="Xero">Xero</option><option value="Social Media">Social Media</option><option value="Advertising">Advertising</option><option value="Attended an event">Attended an event</option><option value="Advertisment">Advertisment</option> </select></div></div><div class="elementor-field-type-acceptance elementor-field-group elementor-column elementor-field-group-field_a44fdac elementor-col-100 elementor-field-required elementor-mark-required"><div class="elementor-field-subgroup"> <span class="elementor-field-option"> <input type="checkbox" name="newsletter_opt_in" id="form-field-field_a44fdac" class="elementor-field elementor-size-md  elementor-acceptance-field" required="required" checked="checked"> <label for="form-field-field_a44fdac">By submitting this form you agree to sign up to our newsletter (opt-out possible by unsubscribing) and agree to our terms and conditions and privacy policy.</label> </span></div></div><div class="elementor-field-group elementor-column elementor-field-type-submit elementor-col-100 e-form__buttons"> <button class="elementor-button elementor-size-lg" type="submit"> <span class="elementor-button-content-wrapper"> <span class="elementor-button-text">Send</span> </span> </button></div></div></form></div></div></div></div><div class="elementor-element elementor-element-ecf3690 e-flex e-con-boxed e-con e-parent" data-id="ecf3690" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}"><div class="e-con-inner"><div class="elementor-element elementor-element-13d17e7 e-con-full e-flex e-con e-child" data-id="13d17e7" data-element_type="container"><div class="elementor-element elementor-element-e04cd53 elementor-view-default elementor-widget elementor-widget-icon" data-id="e04cd53" data-element_type="widget" data-widget_type="icon.default"><div class="elementor-widget-container"><div class="elementor-icon-wrapper"><div class="elementor-icon"> <svg aria-hidden="true" class="e-font-icon-svg e-fas-envelope" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path d="M502.3 190.8c3.9-3.1 9.7-.2 9.7 4.7V400c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V195.6c0-5 5.7-7.8 9.7-4.7 22.4 17.4 52.1 39.5 154.1 113.6 21.1 15.4 56.7 47.8 92.2 47.6 35.7.3 72-32.8 92.3-47.6 102-74.1 131.6-96.3 154-113.7zM256 320c23.2.4 56.6-29.2 73.4-41.4 132.7-96.3 142.8-104.7 173.4-128.7 5.8-4.5 9.2-11.5 9.2-18.9v-19c0-26.5-21.5-48-48-48H48C21.5 64 0 85.5 0 112v19c0 7.4 3.4 14.3 9.2 18.9 30.6 23.9 40.7 32.4 173.4 128.7 16.8 12.2 50.2 41.8 73.4 41.4z"></path></svg></div></div></div></div><div class="elementor-element elementor-element-4d2176a elementor-widget elementor-widget-heading" data-id="4d2176a" data-element_type="widget" data-widget_type="heading.default"><div class="elementor-widget-container"><h2 class="elementor-heading-title elementor-size-default"><a href="mailto:undercontrol@financewithflow.com">undercontrol@financewithflow.com</a></h2></div></div></div><div class="elementor-element elementor-element-8fb2a19 e-con-full e-flex e-con e-child" data-id="8fb2a19" data-element_type="container"><div class="elementor-element elementor-element-54ef35a elementor-view-default elementor-widget elementor-widget-icon" data-id="54ef35a" data-element_type="widget" data-widget_type="icon.default"><div class="elementor-widget-container"><div class="elementor-icon-wrapper"><div class="elementor-icon"> <svg aria-hidden="true" class="e-font-icon-svg e-fas-map-marker-alt" viewBox="0 0 384 512" xmlns="http://www.w3.org/2000/svg"><path d="M172.268 501.67C26.97 291.031 0 269.413 0 192 0 85.961 85.961 0 192 0s192 85.961 192 192c0 77.413-26.97 99.031-172.268 309.67-9.535 13.774-29.93 13.773-39.464 0zM192 272c44.183 0 80-35.817 80-80s-35.817-80-80-80-80 35.817-80 80 35.817 80 80 80z"></path></svg></div></div></div></div><div class="elementor-element elementor-element-7c981f4 elementor-widget elementor-widget-heading" data-id="7c981f4" data-element_type="widget" data-widget_type="heading.default"><div class="elementor-widget-container"><h2 class="elementor-heading-title elementor-size-default">Based in Colchester</h2></div></div></div></div></div></div><div class="post-tags"></div></div></main>`} />
-  </div>
+  <!-- Discovery Call Section -->
+  <section class="discovery-section">
+    <div class="discovery-container">
+      <p class="discovery-text">
+        Would you like to explore how Finance with Flow can support your business’ finance needs? Book a free, no obligation discovery call with Roz now!
+      </p>
+      <a href={BOOKING_URL} class="discovery-btn" target="_blank" rel="noopener noreferrer">
+        Book now
+      </a>
+    </div>
+  </section>
+
+  <!-- Event Promo Section -->
+  <section class="event-section">
+    <div class="event-container">
+      <EventPromo variant="compact" />
+    </div>
+  </section>
+
+  <!-- Form Section -->
+  <section class="form-section">
+    <div class="form-container">
+      <p class="form-intro">
+        Please fill out the form and press the submit button. We will get back to you as soon as possible.
+      </p>
+
+      <form
+        class="contact-form"
+        method="POST"
+        name="Contact Form"
+        data-netlify="true"
+        data-netlify-honeypot="bot-field"
+        aria-label="Contact Form"
+      >
+        <input type="hidden" name="form-name" value="Contact Form" />
+        <p class="hidden-honeypot" style="display: none;" aria-hidden="true">
+          <label>Don't fill this out if you're human: <input name="bot-field" tabindex="-1" /></label>
+        </p>
+
+        <div class="form-grid">
+          <div class="form-group col-half">
+            <input
+              type="text"
+              name="firstname"
+              id="form-field-firstname"
+              placeholder="First Name"
+              class="form-input"
+            />
+          </div>
+
+          <div class="form-group col-half">
+            <input
+              type="text"
+              name="lastname"
+              id="form-field-lastname"
+              placeholder="Last Name"
+              required
+              class="form-input"
+            />
+          </div>
+
+          <div class="form-group col-half">
+            <input
+              type="tel"
+              name="phone"
+              id="form-field-number"
+              placeholder="Contact Number"
+              required
+              pattern="[0-9()#&amp;+*-=.]+"
+              title="Only numbers and phone characters (#, -, *, etc) are accepted."
+              class="form-input"
+            />
+          </div>
+
+          <div class="form-group col-half">
+            <input
+              type="email"
+              name="email"
+              id="form-field-email"
+              placeholder="Email"
+              required
+              class="form-input"
+            />
+          </div>
+
+          <div class="form-group col-full">
+            <input
+              type="text"
+              name="sector"
+              id="form-field-sector"
+              placeholder="Your Business Sector"
+              required
+              class="form-input"
+            />
+          </div>
+
+          <div class="form-group col-full">
+            <label for="form-field-services" class="form-label">
+              What Services Are You Interested In? *
+            </label>
+            <div class="select-wrapper">
+              <select name="services" id="form-field-services" class="form-select" required>
+                <option value="Fully Outsourced Finance Team">Fully Outsourced Finance Team</option>
+                <option value="Financial Director Services">Financial Director Services</option>
+                <option value="Looking for advice">Looking for advice</option>
+                <option value="General Enquiry">General Enquiry</option>
+                <option value="Small Business community (To commence from August 2024)">Small Business community (To commence from August 2024)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group col-full">
+            <input
+              type="text"
+              name="message"
+              id="form-field-moreabout"
+              placeholder="Tell us more about you?"
+              class="form-input"
+            />
+          </div>
+
+          <div class="form-group col-full">
+            <label for="form-field-hearaboutus" class="form-label">
+              How did you find out about us? *
+            </label>
+            <div class="select-wrapper">
+              <select name="hearaboutus" id="form-field-hearaboutus" class="form-select" required>
+                <option value="Recommendations">Recommendations</option>
+                <option value="Website">Website</option>
+                <option value="Search engine eg. Google">Search engine eg. Google</option>
+                <option value="Xero">Xero</option>
+                <option value="Social Media">Social Media</option>
+                <option value="Advertising">Advertising</option>
+                <option value="Attended an event">Attended an event</option>
+                <option value="Advertisment">Advertisment</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group col-full checkbox-group">
+            <label class="checkbox-label" for="form-field-field_a44fdac">
+              <input
+                type="checkbox"
+                name="newsletter_opt_in"
+                id="form-field-field_a44fdac"
+                class="form-checkbox"
+                required
+                checked
+              />
+              <span>By submitting this form you agree to sign up to our newsletter (opt-out possible by unsubscribing) and agree to our terms and conditions and privacy policy.</span>
+            </label>
+          </div>
+
+          <div class="form-group col-full submit-group">
+            <button type="submit" class="submit-btn">
+              Send
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- Bottom Info Section -->
+  <section class="info-section">
+    <div class="info-container">
+      <div class="info-item">
+        <div class="info-icon">
+          <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="36" height="36">
+            <path fill="#160F3F" d="M502.3 190.8c3.9-3.1 9.7-.2 9.7 4.7V400c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V195.6c0-5 5.7-7.8 9.7-4.7 22.4 17.4 52.1 39.5 154.1 113.6 21.1 15.4 56.7 47.8 92.2 47.6 35.7.3 72-32.8 92.3-47.6 102-74.1 131.6-96.3 154-113.7zM256 320c23.2.4 56.6-29.2 73.4-41.4 132.7-96.3 142.8-104.7 173.4-128.7 5.8-4.5 9.2-11.5 9.2-18.9v-19c0-26.5-21.5-48-48-48H48C21.5 64 0 85.5 0 112v19c0 7.4 3.4 14.3 9.2 18.9 30.6 23.9 40.7 32.4 173.4 128.7 16.8 12.2 50.2 41.8 73.4 41.4z"></path>
+          </svg>
+        </div>
+        <a href="mailto:undercontrol@financewithflow.com" class="info-link">
+          undercontrol@financewithflow.com
+        </a>
+      </div>
+
+      <div class="info-item">
+        <div class="info-icon">
+          <svg viewBox="0 0 384 512" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="28" height="36">
+            <path fill="#160F3F" d="M172.268 501.67C26.97 291.031 0 269.413 0 192 0 85.961 85.961 0 192 0s192 85.961 192 192c0 77.413-26.97 99.031-172.268 309.67-9.535 13.774-29.93 13.773-39.464 0zM192 272c44.183 0 80-35.817 80-80s-35.817-80-80-80-80 35.817-80 80 35.817 80 80 80z"></path>
+          </svg>
+        </div>
+        <span class="info-text">
+          Based in Colchester
+        </span>
+      </div>
+    </div>
+  </section>
+
   <script is:inline>
     function applyPackageQuery() {
       const params = new URLSearchParams(window.location.search);
@@ -43,7 +240,7 @@ import { BOOKING_URL } from '../data/bookingConfig';
         }
         if (servicesSelect) {
           const matchOpt = Array.from(servicesSelect.options).find(o => o.text.trim() === 'Fully Outsourced Finance Team');
-        if (matchOpt) servicesSelect.value = matchOpt.value;
+          if (matchOpt) servicesSelect.value = matchOpt.value;
         }
       }
     }
@@ -56,4 +253,352 @@ import { BOOKING_URL } from '../data/bookingConfig';
   </script>
 </BaseLayout>
 
+<style>
+  /* ----------------------------------------------------
+     Hero Section
+     ---------------------------------------------------- */
+  .contact-hero {
+    position: relative;
+    min-height: 45vh;
+    display: flex;
+    align-items: center;
+    background-image: url('/wp-content/uploads/2023/12/Roz-sat-on-sofa-at-FWF-office-with-cup-of-tea.jpg');
+    background-size: cover;
+    background-position: right center;
+    background-repeat: no-repeat;
+    padding: 60px 40px;
+    overflow: hidden;
+  }
 
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(271deg, rgba(101, 126, 187, 0.8) 0%, rgba(22, 15, 63, 0.8) 62%);
+    z-index: 1;
+  }
+
+  .hero-container {
+    position: relative;
+    z-index: 2;
+    max-width: 1140px;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .hero-subtitle {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 1.5em;
+    font-weight: 400;
+    color: #FEF9F3;
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .hero-logo-wrapper {
+    margin: 0 0 10px -4px;
+    width: 100%;
+  }
+
+  .hero-logo {
+    width: 35%;
+    max-width: 380px;
+    min-width: 240px;
+    height: auto;
+    display: block;
+  }
+
+  .hero-tagline {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 1.5em;
+    font-weight: 400;
+    color: #FFFFFF;
+    margin: 0;
+  }
+
+  /* ----------------------------------------------------
+     Discovery Call Section
+     ---------------------------------------------------- */
+  .discovery-section {
+    background-color: #FFFFFF;
+    padding: 100px 20px;
+    text-align: center;
+  }
+
+  .discovery-container {
+    max-width: 960px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .discovery-text {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 2.2em;
+    font-weight: 500;
+    color: #160F3F;
+    line-height: 1.4;
+    margin: 0 0 40px;
+  }
+
+  .discovery-btn {
+    display: inline-block;
+    background-color: #160F3F;
+    color: #FFFFFF;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 1.1em;
+    font-weight: 600;
+    padding: 14px 38px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background-color 0.25s ease, color 0.25s ease;
+  }
+
+  .discovery-btn:hover {
+    background-color: #31CDB0;
+    color: #160F3F;
+  }
+
+  /* ----------------------------------------------------
+     Event Promo Section
+     ---------------------------------------------------- */
+  .event-section {
+    background-color: #FFFFFF;
+    padding: 50px 20px 40px;
+    border-top: 1px solid #E8EBF2;
+    border-bottom: 1px solid #E8EBF2;
+  }
+
+  .event-container {
+    max-width: 1140px;
+    margin: 0 auto;
+  }
+
+  /* ----------------------------------------------------
+     Form Section
+     ---------------------------------------------------- */
+  .form-section {
+    background-color: #FEF9F3;
+    padding: 100px 20px;
+  }
+
+  .form-container {
+    max-width: 820px;
+    margin: 0 auto;
+  }
+
+  .form-intro {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 1.2em;
+    font-weight: 500;
+    color: #160F3F;
+    text-align: center;
+    margin: 0 auto 50px;
+    line-height: 1.5;
+  }
+
+  .form-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .col-half {
+    width: calc(50% - 6px);
+  }
+
+  .col-full {
+    width: 100%;
+  }
+
+  .form-label {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 1.05em;
+    font-weight: 600;
+    color: #160F3F;
+    margin-bottom: 8px;
+  }
+
+  .form-input,
+  .form-select {
+    width: 100%;
+    padding: 14px 18px;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 1.05em;
+    color: #160F3F;
+    background-color: #FFFFFF;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    box-sizing: border-box;
+  }
+
+  .form-input::placeholder {
+    color: #8C8C8C;
+  }
+
+  .form-input:focus,
+  .form-select:focus {
+    border-color: #31CDB0;
+    box-shadow: 0 0 0 2px rgba(49, 205, 176, 0.2);
+  }
+
+  .select-wrapper {
+    position: relative;
+    width: 100%;
+  }
+
+  .form-select {
+    appearance: none;
+    -webkit-appearance: none;
+    padding-right: 42px;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg fill='%23160F3F' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+  }
+
+  .checkbox-group {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .checkbox-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 0.95em;
+    color: #160F3F;
+    line-height: 1.5;
+    cursor: pointer;
+  }
+
+  .form-checkbox {
+    width: 18px;
+    height: 18px;
+    accent-color: #31CDB0;
+    margin-top: 3px;
+    flex-shrink: 0;
+    cursor: pointer;
+  }
+
+  .submit-group {
+    margin-top: 10px;
+  }
+
+  .submit-btn {
+    width: 100%;
+    background-color: #31CDB0;
+    color: #FFFFFF;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 1.2em;
+    font-weight: 600;
+    padding: 16px 24px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.25s ease, color 0.25s ease;
+  }
+
+  .submit-btn:hover {
+    background-color: #3456A7;
+    color: #FFFFFF;
+  }
+
+  /* ----------------------------------------------------
+     Bottom Info Section
+     ---------------------------------------------------- */
+  .info-section {
+    background-color: #FFFFFF;
+    padding: 60px 20px;
+  }
+
+  .info-container {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 40px;
+  }
+
+  .info-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 12px;
+  }
+
+  .info-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .info-link,
+  .info-text {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 1.4em;
+    font-weight: 500;
+    color: #160F3F;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .info-link:hover {
+    color: #31CDB0;
+  }
+
+  /* ----------------------------------------------------
+     Responsive Breakpoints
+     ---------------------------------------------------- */
+  @media (max-width: 768px) {
+    .contact-hero {
+      min-height: 60vh;
+      padding: 40px 20px;
+      background-position: center center;
+    }
+
+    .hero-logo {
+      width: 80%;
+    }
+
+    .discovery-section {
+      padding: 60px 20px;
+    }
+
+    .discovery-text {
+      font-size: 1.6em;
+    }
+
+    .form-section {
+      padding: 60px 20px;
+    }
+
+    .col-half {
+      width: 100%;
+    }
+
+    .info-container {
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    .info-link,
+    .info-text {
+      font-size: 1.2em;
+    }
+  }
+</style>

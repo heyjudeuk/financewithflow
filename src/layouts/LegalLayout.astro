@@ -1,0 +1,252 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  pageHeading?: string;
+  metaSubtitle?: string;
+  lastUpdated?: string;
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description,
+  pageHeading,
+  metaSubtitle,
+  lastUpdated,
+  noindex = true,
+} = Astro.props;
+
+const headingText = pageHeading || title.split('|')[0].trim();
+const subtitleText = metaSubtitle || (lastUpdated ? `Last updated: ${lastUpdated}` : 'Finance with Flow Limited');
+---
+
+<BaseLayout title={title} description={description} noindex={noindex}>
+  <header class="legal-hero">
+    <div class="legal-hero-container">
+      <h1 class="legal-title">{headingText}</h1>
+      <p class="legal-meta">{subtitleText}</p>
+    </div>
+  </header>
+
+  <main class="legal-main" id="content">
+    <article class="legal-content">
+      <slot />
+    </article>
+  </main>
+</BaseLayout>
+
+<style>
+  /* -------------------------------------------------------------
+     Legal Layout: Hero Header & Content Card
+     ------------------------------------------------------------- */
+  .legal-hero {
+    background-color: #160F3F;
+    background-image: linear-gradient(135deg, #160F3F 0%, #3456A7 100%);
+    padding: 70px 20px 60px;
+    text-align: center;
+  }
+
+  .legal-hero-container {
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  .legal-title {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 2.8em;
+    font-weight: 700;
+    color: #FFFFFF;
+    margin: 0 0 10px;
+    line-height: 1.2;
+  }
+
+  .legal-meta {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 1.05em;
+    font-weight: 600;
+    color: #31CDB0;
+    margin: 0;
+  }
+
+  .legal-main {
+    background-color: #FEF9F3;
+    padding: 60px 20px 100px;
+    min-height: 50vh;
+  }
+
+  .legal-content {
+    max-width: 860px;
+    margin: 0 auto;
+    background-color: #FFFFFF;
+    border-radius: 20px;
+    padding: 50px 45px;
+    box-shadow: 0 4px 25px rgba(22, 15, 63, 0.05);
+    font-family: 'Quicksand', sans-serif;
+    font-size: 16px;
+    line-height: 1.8;
+    color: #160F3F;
+  }
+
+  /* Headings inside legal content */
+  .legal-content :global(h2) {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 1.6em;
+    font-weight: 700;
+    color: #160F3F;
+    margin-top: 40px;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #FEF9F3;
+    line-height: 1.3;
+  }
+
+  .legal-content :global(h3) {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 1.25em;
+    font-weight: 700;
+    color: #3456A7;
+    margin-top: 24px;
+    margin-bottom: 10px;
+    line-height: 1.35;
+  }
+
+  /* Body text & lists */
+  .legal-content :global(p) {
+    margin-top: 0;
+    margin-bottom: 18px;
+  }
+
+  .legal-content :global(ol),
+  .legal-content :global(ul) {
+    margin-top: 0;
+    margin-bottom: 20px;
+    padding-left: 28px;
+  }
+
+  .legal-content :global(li) {
+    margin-bottom: 10px;
+    line-height: 1.7;
+  }
+
+  .legal-content :global(strong) {
+    font-weight: 700;
+    color: #160F3F;
+  }
+
+  /* Links */
+  .legal-content :global(a) {
+    color: #3456A7;
+    text-decoration: underline;
+    transition: color 0.2s ease;
+  }
+
+  .legal-content :global(a:hover),
+  .legal-content :global(a:focus) {
+    color: #31CDB0;
+  }
+
+  /* Tables */
+  .legal-content :global(.table-wrapper) {
+    overflow-x: auto;
+    margin: 25px 0 30px;
+    border-radius: 12px;
+    border: 1px solid #E8EBF2;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .legal-content :global(.legal-table) {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 15px;
+    line-height: 1.6;
+    text-align: left;
+  }
+
+  .legal-content :global(.legal-table th),
+  .legal-content :global(.legal-table td) {
+    padding: 14px 18px;
+    border-bottom: 1px solid #E8EBF2;
+    vertical-align: top;
+  }
+
+  .legal-content :global(.legal-table th) {
+    background-color: #F7F5F0;
+    font-weight: 700;
+    color: #160F3F;
+    white-space: nowrap;
+  }
+
+  .legal-content :global(.legal-table tr:last-child td) {
+    border-bottom: none;
+  }
+
+  .legal-content :global(.legal-table tr:nth-child(even) td) {
+    background-color: #FAFAFA;
+  }
+
+  /* Buttons (e.g. Manage Cookie Preferences) */
+  .legal-content :global(.fwf-policy-manage-btn) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #3456A7;
+    color: #FFFFFF;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    padding: 12px 28px;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    margin: 12px 0 24px;
+    box-shadow: none !important;
+    transform: none !important;
+    transition: background-color 0.2s ease, color 0.2s ease !important;
+  }
+
+  .legal-content :global(.fwf-policy-manage-btn:hover),
+  .legal-content :global(.fwf-policy-manage-btn:focus) {
+    background-color: #31CDB0;
+    color: #160F3F;
+  }
+
+  .legal-content :global(.fwf-policy-manage-btn:focus-visible) {
+    outline: 2px solid #31CDB0;
+    outline-offset: 3px;
+  }
+
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .legal-hero {
+      padding: 50px 20px 45px;
+    }
+
+    .legal-title {
+      font-size: 2.2em;
+    }
+
+    .legal-main {
+      padding: 40px 16px 70px;
+    }
+
+    .legal-content {
+      padding: 30px 20px;
+      border-radius: 16px;
+      font-size: 15px;
+    }
+
+    .legal-content :global(h2) {
+      font-size: 1.35em;
+      margin-top: 30px;
+    }
+
+    .legal-content :global(.legal-table th),
+    .legal-content :global(.legal-table td) {
+      padding: 10px 12px;
+      font-size: 13.5px;
+    }
+  }
+</style>

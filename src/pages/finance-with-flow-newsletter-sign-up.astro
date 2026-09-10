@@ -3,11 +3,145 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
 <BaseLayout
-  wrapMain={false}
   title="Newsletter Sign Up | Finance with Flow"
   description="Sign up to the Finance with Flow newsletter for industry insights and practical tips for running a smooth, well-managed finance function."
 >
-  <div class="page-content">
-    <Fragment set:html={`<main id="content" class="site-main post-1487 page type-page status-publish hentry"><div class="page-content"><div data-elementor-type="wp-page" data-elementor-id="1487" class="elementor elementor-1487" data-elementor-post-type="page"><div class="elementor-element elementor-element-2e8e4f55 e-flex e-con-boxed e-con e-parent" data-id="2e8e4f55" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}"><div class="e-con-inner"><div class="elementor-element elementor-element-765bcd13 e-con-full e-flex e-con e-child" data-id="765bcd13" data-element_type="container"><div class="elementor-element elementor-element-244560e1 elementor-widget elementor-widget-text-editor" data-id="244560e1" data-element_type="widget" data-widget_type="text-editor.default"><div class="elementor-widget-container"><p>Sign up to our newsletter to receive the latest industry insights, and tips and tricks for a smooth-running finance team!</p></div></div></div></div></div><div class="elementor-element elementor-element-3c32f074 e-flex e-con-boxed e-con e-parent" data-id="3c32f074" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}"><div class="e-con-inner"><div class="elementor-element elementor-element-92efb4a elementor-button-align-start elementor-widget__width-initial elementor-widget elementor-widget-form" data-id="92efb4a" data-element_type="widget" data-settings="{&quot;step_next_label&quot;:&quot;Next&quot;,&quot;step_previous_label&quot;:&quot;Previous&quot;,&quot;step_type&quot;:&quot;none&quot;,&quot;button_width&quot;:&quot;100&quot;,&quot;step_icon_shape&quot;:&quot;circle&quot;}" data-widget_type="form.default"><div class="elementor-widget-container"><form class="elementor-form" method="post" name="Newsletter Sign-up" aria-label="Newsletter Sign-up"> <input type="hidden" name="post_id" value="1487"/> <input type="hidden" name="form_id" value="92efb4a"/> <input type="hidden" name="referer_title" value="Finance With Flow Newsletter Sign Up - Finance With Flow" /><input type="hidden" name="queried_id" value="1487"/><div class="elementor-form-fields-wrapper elementor-labels-"><div class="elementor-field-type-email elementor-field-group elementor-column elementor-field-group-email elementor-col-100 elementor-field-required"> <input size="1" type="email" name="form_fields[email]" id="form-field-email" class="elementor-field elementor-size-md  elementor-field-textual" placeholder="Email" required="required"></div><div class="elementor-field-group elementor-column elementor-field-type-submit elementor-col-100 e-form__buttons"> <button class="elementor-button elementor-size-lg" type="submit"> <span class="elementor-button-content-wrapper"> <span class="elementor-button-text">Join</span> </span> </button></div></div></form></div></div></div></div></div><div class="post-tags"></div></div></main>`} />
-  </div>
+  <section class="newsletter-page">
+    <div class="newsletter-container">
+      <div class="newsletter-card">
+        <h1 class="newsletter-title">Stay In The Flow</h1>
+        <p class="newsletter-intro">
+          Sign up to our newsletter to receive the latest industry insights, and tips and tricks for a smooth-running finance team!
+        </p>
+
+        <form class="newsletter-form" name="Newsletter Sign-up" data-newsletter-form>
+          <div class="form-group">
+            <input
+              type="email"
+              name="email"
+              id="newsletter-email"
+              placeholder="Enter your email address"
+              required
+              class="newsletter-input"
+              aria-label="Email address"
+            />
+            <button type="submit" class="newsletter-btn">
+              <span class="elementor-button-text">Join</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
 </BaseLayout>
+
+<style>
+  .newsletter-page {
+    background-color: #FEF9F3;
+    min-height: 55vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 20px;
+  }
+
+  .newsletter-container {
+    max-width: 680px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .newsletter-card {
+    background-color: #FFFFFF;
+    border-radius: 24px;
+    padding: 50px 40px;
+    box-shadow: 0 4px 20px rgba(22, 15, 63, 0.06);
+    text-align: center;
+  }
+
+  .newsletter-title {
+    font-family: 'Angel', sans-serif;
+    font-size: 3.5em;
+    color: #160F3F;
+    margin: 0 0 16px;
+    line-height: 1.1;
+  }
+
+  .newsletter-intro {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 1.2em;
+    font-weight: 500;
+    color: #160F3F;
+    line-height: 1.5;
+    margin: 0 auto 35px;
+    max-width: 520px;
+  }
+
+  .newsletter-form {
+    width: 100%;
+  }
+
+  .form-group {
+    display: flex;
+    gap: 12px;
+  }
+
+  .newsletter-input {
+    flex: 1;
+    padding: 14px 20px;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 1.05em;
+    color: #160F3F;
+    background-color: #F7F5F0;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+  }
+
+  .newsletter-input:focus {
+    background-color: #FFFFFF;
+    border-color: #31CDB0;
+  }
+
+  .newsletter-btn {
+    background-color: #160F3F;
+    color: #FFFFFF;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 1.1em;
+    font-weight: 600;
+    padding: 14px 36px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.25s ease, color 0.25s ease;
+    flex-shrink: 0;
+  }
+
+  .newsletter-btn:hover {
+    background-color: #31CDB0;
+    color: #160F3F;
+  }
+
+  @media (max-width: 600px) {
+    .newsletter-card {
+      padding: 35px 20px;
+    }
+
+    .newsletter-title {
+      font-size: 2.6em;
+    }
+
+    .newsletter-intro {
+      font-size: 1.05em;
+    }
+
+    .form-group {
+      flex-direction: column;
+    }
+
+    .newsletter-btn {
+      width: 100%;
+    }
+  }
+</style>

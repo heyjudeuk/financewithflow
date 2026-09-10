@@ -1,7 +1,7 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
-import { getCategoryDisplayName, CATEGORY_NAMES } from "../../utils/categories";
+import { getCategoryDisplayName } from "../../utils/categories";
 import ResponsiveImage from "../../components/ResponsiveImage.astro";
 
 const allPosts = await getCollection("posts");
@@ -39,90 +39,95 @@ const availableCategories = Array.from(categoriesMap.entries()).map(([slug, coun
 <BaseLayout 
   title="Insights | Finance with Flow"
   description="Explore our news & insights on outsourced finance, construction accounting, cashflow, and business growth."
-  bodyClass="page-template-default page page-id-1210 elementor-default elementor-kit-7 elementor-page elementor-page-1210"
 >
-  <div class="page-content">
-    <div data-elementor-type="wp-page" data-elementor-id="1210" class="elementor elementor-1210" data-elementor-post-type="page">
+  <!-- SECTION 0: Page Hero (Semantic H1) -->
+  <section class="insights-hero-section" aria-label="News and Insights">
+    <div class="insights-hero-container">
+      <div class="heading-badge-wrap">
+        <h1 class="section-script-title">News &amp; Insights</h1>
+      </div>
+      <p class="insights-hero-subtitle">
+        Expert perspectives, case studies, and practical guidance on outsourced finance, construction accounting, cashflow, and business growth.
+      </p>
+    </div>
+  </section>
 
-    <!-- SECTION 1: Featured News & Insights -->
-    <div class="elementor-element elementor-element-340bbb7 e-flex e-con-boxed e-con e-parent" data-id="340bbb7" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
-      <div class="e-con-inner">
-        <div class="elementor-element elementor-element-c0f41bb e-flex e-con-boxed e-con e-child" data-id="c0f41bb" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;,&quot;animation&quot;:&quot;fadeInRight&quot;}">
-          <div class="e-con-inner">
-            <div class="elementor-element elementor-element-44b0776 elementor-widget elementor-widget-heading" data-id="44b0776" data-element_type="widget" data-widget_type="heading.default">
-              <div class="elementor-widget-container">
-                <h2 class="elementor-heading-title elementor-size-default">Featured News &amp; Insights</h2>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="elementor-element elementor-element-f781887 e-flex e-con-boxed e-con e-child" data-id="f781887" data-element_type="container">
-          <div class="e-con-inner">
-            <div class="elementor-element elementor-element-55c78da elementor-widget__width-inherit elementor-grid-3 elementor-grid-tablet-2 elementor-grid-mobile-1 elementor-posts--thumbnail-top elementor-card-shadow-yes elementor-posts__hover-gradient elementor-widget elementor-widget-posts" data-id="55c78da" data-element_type="widget">
-              <div class="elementor-widget-container">
-                <div class="elementor-posts-container elementor-posts elementor-posts--skin-cards elementor-grid elementor-has-item-ratio" role="list">
-                  {featuredPosts.map(post => {
-                    const d = new Date(post.data.publishedDate);
-                    const dateStr = d.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
-                    const imgUrl = post.data.featuredImage || "/wp-content/uploads/2023/12/what-we-do.png";
-                    const category = getCategoryDisplayName(post.data.category);
-                    const postUrl = `/blog/${post.id}/`;
+  <!-- SECTION 1: Featured News & Insights -->
+  <section class="featured-section" aria-label="Featured Articles">
+    <div class="featured-container">
+      <div class="heading-badge-wrap">
+        <h2 class="section-script-title">Featured Articles</h2>
+      </div>
 
-                    return (
-                      <article class="elementor-post elementor-grid-item post type-post status-publish format-standard has-post-thumbnail hentry" role="listitem">
-                        <div class="elementor-post__card">
-                          <a class="elementor-post__thumbnail__link" href={postUrl} tabindex="-1">
-                            <div class="elementor-post__thumbnail">
-                              <ResponsiveImage 
-                                src={imgUrl} 
-                                alt={post.data.title} 
-                                loading="lazy" 
-                                decoding="async"
-                                width={300} 
-                                height={200} 
-                                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transform: none;"
-                                sizes="(max-width: 767px) 100vw, (max-width: 1024px) 50vw, 380px"
-                              />
-                            </div>
-                          </a>
-                          <div class="elementor-post__badge">{category}</div>
-                          <div class="elementor-post__text">
-                            <h3 class="elementor-post__title">
-                              <a href={postUrl}>{post.data.title}</a>
-                            </h3>
-                            <a class="elementor-post__read-more" href={postUrl} aria-label={`Read more about ${post.data.title}`} tabindex="-1">
-                              Read More »
-                            </a>
-                          </div>
-                          <div class="elementor-post__meta-data">
-                            <span class="elementor-post-date">{dateStr}</span>
-                          </div>
-                        </div>
-                      </article>
-                    );
-                  })}
+      <div class="posts-grid" role="list">
+        {featuredPosts.map(post => {
+          const d = new Date(post.data.publishedDate);
+          const dateStr = d.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
+          const imgUrl = post.data.featuredImage || "/wp-content/uploads/2023/12/what-we-do.png";
+          const category = getCategoryDisplayName(post.data.category);
+          const postUrl = `/blog/${post.id}/`;
+
+          return (
+            <article class="post-card" role="listitem">
+              <a class="card-thumb-link" href={postUrl} tabindex="-1">
+                <div class="card-thumb">
+                  <ResponsiveImage 
+                    src={imgUrl} 
+                    alt={post.data.title} 
+                    loading="lazy" 
+                    decoding="async"
+                    width={380} 
+                    height={266} 
+                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;"
+                    sizes="(max-width: 767px) 100vw, (max-width: 1024px) 50vw, 380px"
+                  />
                 </div>
+              </a>
+              <div class="card-badge">{category}</div>
+              <div class="card-content">
+                <h3 class="card-title">
+                  <a href={postUrl}>{post.data.title}</a>
+                </h3>
+                <a class="card-read-more" href={postUrl} aria-label={`Read more about ${post.data.title}`} tabindex="-1">
+                  READ MORE »
+                </a>
               </div>
-            </div>
-          </div>
-        </div>
+              <div class="card-meta">
+                <span class="card-date">{dateStr}</span>
+              </div>
+            </article>
+          );
+        })}
       </div>
     </div>
+  </section>
 
-    <!-- SECTION 2: All Articles Archive with Category Filter & 6-Card Pagination -->
-    <div class="elementor-element elementor-element-archive-section e-flex e-con-boxed e-con e-parent" data-id="archive-section" data-element_type="container" style="padding-top: 40px; padding-bottom: 60px; background-color: #FEF9F3;">
-      <div class="e-con-inner">
-        <!-- Archive Heading (Matches Featured News & Insights format & green circle background) -->
-        <div class="elementor-element elementor-element-c0f41bb archive-heading-circle-container e-flex e-con-boxed e-con e-child" data-id="c0f41bb" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;,&quot;animation&quot;:&quot;fadeInRight&quot;}">
-          <div class="e-con-inner">
-            <div class="elementor-element elementor-element-44b0776 elementor-widget elementor-widget-heading" data-id="44b0776" data-element_type="widget" data-widget_type="heading.default">
-              <div class="elementor-widget-container">
-                <h2 class="elementor-heading-title elementor-size-default">All Insights &amp; Articles</h2>
-              </div>
-            </div>
-          </div>
+  <!-- SECTION 2: All Articles Archive with Category Filter, Search & 6-Card Pagination -->
+  <section class="archive-section" id="archive-section" aria-label="All Insights and Articles">
+    <div class="archive-container">
+      <div class="heading-badge-wrap">
+        <h2 class="section-script-title">All Insights &amp; Articles</h2>
+      </div>
+      <p class="archive-subtitle">
+        Filter by category, search by keyword, or browse all our articles below.
+      </p>
+
+      <!-- Toolbar: Search Bar & Category Filter Pills -->
+      <div class="archive-toolbar">
+        <div class="search-input-wrap">
+          <svg class="search-icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input 
+            type="search" 
+            id="blog-search-input" 
+            class="blog-search-input" 
+            placeholder="Search articles by keyword or topic..." 
+            aria-label="Search articles by keyword or topic"
+            autocomplete="off"
+          />
         </div>
-        <p class="archive-subtitle" style="font-family: 'Quicksand', sans-serif; font-size: 17px; color: #555555; max-width: 650px; margin: 15px auto 35px auto; text-align: center;">Filter by category or browse all our articles below.</p>
 
         <!-- Category Filter Pill Bar -->
         <div class="category-filter-bar" role="tablist" aria-label="Filter articles by category">
@@ -135,224 +140,224 @@ const availableCategories = Array.from(categoriesMap.entries()).map(([slug, coun
             </button>
           ))}
         </div>
+      </div>
 
-        <!-- Archive Posts Grid (Matches Featured News & Insights format & layout) -->
-        <div class="elementor-element elementor-element-f781887 e-flex e-con-boxed e-con e-child" data-id="f781887" data-element_type="container" style="padding-top: 10px; width: 100%;">
-          <div class="e-con-inner" style="width: 100%;">
-            <div class="elementor-element elementor-element-55c78da elementor-widget__width-inherit elementor-grid-3 elementor-grid-tablet-2 elementor-grid-mobile-1 elementor-posts--thumbnail-top elementor-card-shadow-yes elementor-posts__hover-gradient elementor-widget elementor-widget-posts" data-id="55c78da" data-element_type="widget" style="width: 100%;">
-              <div class="elementor-widget-container">
-                <div id="archive-posts-container" class="elementor-posts-container elementor-posts elementor-posts--skin-cards elementor-grid elementor-has-item-ratio" role="list">
-                  {sortedPosts.map(post => {
-                    const d = new Date(post.data.publishedDate);
-                    const dateStr = d.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
-                    const imgUrl = post.data.featuredImage || "/wp-content/uploads/2023/12/what-we-do.png";
-                    const catSlug = post.data.category || "featured";
-                    const category = getCategoryDisplayName(catSlug);
-                    const postUrl = `/blog/${post.id}/`;
+      <!-- Archive Posts Grid -->
+      <div id="archive-posts-container" class="posts-grid" role="list">
+        {sortedPosts.map(post => {
+          const d = new Date(post.data.publishedDate);
+          const dateStr = d.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
+          const imgUrl = post.data.featuredImage || "/wp-content/uploads/2023/12/what-we-do.png";
+          const catSlug = post.data.category || "featured";
+          const category = getCategoryDisplayName(catSlug);
+          const postUrl = `/blog/${post.id}/`;
 
-                    return (
-                      <article 
-                        class="elementor-post elementor-grid-item post type-post status-publish format-standard has-post-thumbnail hentry archive-post-card" 
-                        data-category={catSlug}
-                        role="listitem"
-                      >
-                        <div class="elementor-post__card">
-                          <a class="elementor-post__thumbnail__link" href={postUrl} tabindex="-1">
-                            <div class="elementor-post__thumbnail">
-                              <ResponsiveImage 
-                                src={imgUrl} 
-                                alt={post.data.title} 
-                                loading="lazy" 
-                                decoding="async"
-                                width={300} 
-                                height={200} 
-                                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transform: none;"
-                                sizes="(max-width: 767px) 100vw, (max-width: 1024px) 50vw, 380px"
-                              />
-                            </div>
-                          </a>
-                          <div class="elementor-post__badge">{category}</div>
-                          <div class="elementor-post__text">
-                            <h3 class="elementor-post__title">
-                              <a href={postUrl}>{post.data.title}</a>
-                            </h3>
-                            <a class="elementor-post__read-more" href={postUrl} aria-label={`Read more about ${post.data.title}`} tabindex="-1">
-                              Read More »
-                            </a>
-                          </div>
-                          <div class="elementor-post__meta-data">
-                            <span class="elementor-post-date">{dateStr}</span>
-                          </div>
-                        </div>
-                      </article>
-                    );
-                  })}
+          return (
+            <article 
+              class="post-card archive-post-card" 
+              data-category={catSlug}
+              data-title={post.data.title.toLowerCase()}
+              role="listitem"
+            >
+              <a class="card-thumb-link" href={postUrl} tabindex="-1">
+                <div class="card-thumb">
+                  <ResponsiveImage 
+                    src={imgUrl} 
+                    alt={post.data.title} 
+                    loading="lazy" 
+                    decoding="async"
+                    width={380} 
+                    height={266} 
+                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;"
+                    sizes="(max-width: 767px) 100vw, (max-width: 1024px) 50vw, 380px"
+                  />
                 </div>
-
-                <!-- Empty State for filtered results -->
-                <div id="no-posts-message" style="display: none; text-align: center; padding: 50px 20px;">
-                  <p style="font-family: 'Quicksand', sans-serif; font-size: 18px; color: #666;">No articles found in this category.</p>
-                </div>
-
-                <!-- Pagination Bar (6 Cards Per Page) -->
-                <nav id="archive-pagination" class="elementor-pagination" aria-label="Pagination" style="display: flex; justify-content: center; align-items: center; gap: 8px; margin-top: 45px;">
-                  <!-- Dynamically populated by JS -->
-                </nav>
+              </a>
+              <div class="card-badge">{category}</div>
+              <div class="card-content">
+                <h3 class="card-title">
+                  <a href={postUrl}>{post.data.title}</a>
+                </h3>
+                <a class="card-read-more" href={postUrl} aria-label={`Read more about ${post.data.title}`} tabindex="-1">
+                  READ MORE »
+                </a>
               </div>
-            </div>
-          </div>
-        </div>
+              <div class="card-meta">
+                <span class="card-date">{dateStr}</span>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+
+      <!-- Empty State -->
+      <div id="no-posts-message" class="empty-state" style="display: none;">
+        <p>No articles found matching your criteria. Try adjusting your search or category filter.</p>
+      </div>
+
+      <!-- Pagination Bar (6 Cards Per Page) -->
+      <nav id="archive-pagination" class="archive-pagination" aria-label="Pagination">
+        <!-- Populated by JavaScript -->
+      </nav>
+    </div>
+  </section>
+
+  <!-- SECTION 3: Bottom CTA Section -->
+  <section class="bottom-cta-section">
+    <div class="bottom-cta-container">
+      <div class="bottom-cta-card">
+        <h2 class="bottom-cta-title">Join the Finance with Flow Journey</h2>
+        <p class="bottom-cta-text">
+          Let’s work together to not only achieve financial goals but to exceed them while staying true to the heart and soul of your business.
+        </p>
+        <p class="bottom-cta-text">
+          We’re here to help – contact us to today, to discuss your requirements and let’s shape your success together.
+        </p>
+        <a class="bottom-cta-btn" href="/contact/">
+          Contact us today
+        </a>
       </div>
     </div>
-
-    <!-- Bottom CTA -->
-    <Fragment set:html={`<div class="elementor-element elementor-element-a192b6a e-flex e-con-boxed e-con e-parent" data-id="a192b6a" data-element_type="container"><div class="e-con-inner"><div class="elementor-element elementor-element-1a1da0a e-flex e-con-boxed e-con e-child" data-id="1a1da0a" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}"><div class="e-con-inner"><div class="elementor-element elementor-element-a61ee83 e-flex e-con-boxed e-con e-child" data-id="a61ee83" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}"><div class="e-con-inner"><div class="elementor-element elementor-element-68ec8da elementor-widget elementor-widget-heading" data-id="68ec8da" data-element_type="widget" data-widget_type="heading.default"><div class="elementor-widget-container"><h2 class="elementor-heading-title elementor-size-default">Join the Finance with Flow Journey</h2></div></div></div></div><div class="elementor-element elementor-element-262e97d e-flex e-con-boxed e-con e-child" data-id="262e97d" data-element_type="container"><div class="e-con-inner"><div class="elementor-element elementor-element-bdec65e  elementor-widget elementor-widget-text-editor" data-id="bdec65e" data-element_type="widget" data-settings="{&quot;_animation&quot;:&quot;fadeInRight&quot;,&quot;_animation_delay&quot;:250}" data-widget_type="text-editor.default"><div class="elementor-widget-container"><p>Let’s work together to not only achieve financial goals but to exceed them while staying true to the heart and soul of your business.</p><p>We’re here to help – contact us to today, to discuss your requirements and let’s shape your success together.</p></div></div><div class="elementor-element elementor-element-ea0040e elementor-align-center elementor-widget elementor-widget-button" data-id="ea0040e" data-element_type="widget" data-widget_type="button.default"><div class="elementor-widget-container"><div class="elementor-button-wrapper"> <a class="elementor-button elementor-button-link elementor-size-md" href="/contact/"> <span class="elementor-button-content-wrapper"> <span class="elementor-button-text">Contact us today</span> </span> </a></div></div></div></div></div></div></div></div></div></div>`} />
-    </div>
-  </div>
+  </section>
 </BaseLayout>
 
 <style>
-  /* Heading with green circle styling matching Featured News & Insights */
-  :global(.elementor-1210 .elementor-element.archive-heading-circle-container),
-  .archive-heading-circle-container,
-  :global(.elementor-1210 .elementor-element.elementor-element-c0f41bb) {
-    background-image: url(/wp-content/uploads/2023/12/circle.png) !important;
-    background-position: center center !important;
-    background-repeat: no-repeat !important;
-    background-size: contain !important;
-    padding-top: 20px !important;
-    padding-bottom: 20px !important;
-    padding-left: 20px !important;
-    padding-right: 0 !important;
+  /* ----------------------------------------------------
+     Section 0: Hero Intro
+     ---------------------------------------------------- */
+  .insights-hero-section {
+    background-color: #FEF9F3;
+    padding: 60px 20px 20px;
+    text-align: center;
   }
 
-  :global(.elementor-1210 .elementor-element.archive-heading-circle-container .elementor-heading-title),
-  :global(.elementor-1210 .elementor-element.elementor-element-44b0776 .elementor-heading-title) {
-    font-family: "Angel", Sans-serif !important;
-    font-size: 4em !important;
-    color: var(--e-global-color-secondary, #160F3F) !important;
-    text-align: center !important;
-    margin: 0 !important;
-    line-height: 1.1 !important;
-  }
-
-  @media (max-width: 767px) {
-    :global(.elementor-1210 .elementor-element.archive-heading-circle-container),
-    .archive-heading-circle-container,
-    :global(.elementor-1210 .elementor-element.elementor-element-c0f41bb) {
-      padding: 0 !important;
-    }
-    :global(.elementor-1210 .elementor-element.archive-heading-circle-container .elementor-heading-title),
-    :global(.elementor-1210 .elementor-element.elementor-element-44b0776 .elementor-heading-title) {
-      font-size: 2.5em !important;
-    }
-  }
-
-  /* Ensure Archive Cards match Featured Cards format & layout (elementor-element-55c78da) */
-  :global(.elementor-1210 .elementor-element.elementor-element-55c78da) {
-    --grid-row-gap: 35px;
+  .insights-hero-container {
+    max-width: 900px;
+    margin: 0 auto;
     width: 100%;
-    max-width: 100%;
-    --grid-column-gap: 30px;
   }
 
-  :global(.elementor-1210 .elementor-element.elementor-element-55c78da .elementor-posts-container .elementor-post__thumbnail) {
-    padding-bottom: calc(0.7 * 100%) !important;
-    position: relative;
-    overflow: hidden;
+  .insights-hero-subtitle {
+    font-family: "Quicksand", sans-serif;
+    font-size: 19px;
+    font-weight: 500;
+    color: #444444;
+    line-height: 1.6;
+    margin: 10px auto 0;
+    max-width: 720px;
   }
 
-  :global(.elementor-1210 .elementor-element.elementor-element-55c78da .elementor-post__thumbnail__link) {
-    width: 100% !important;
-    display: block;
-    position: relative;
+  /* ----------------------------------------------------
+     Section 1 & 2: Base Layout & Badged Script Titles
+     ---------------------------------------------------- */
+  .featured-section {
+    background-color: #FEF9F3;
+    padding: 30px 20px 60px;
   }
 
-  :global(.elementor-1210 .elementor-element.elementor-element-55c78da .elementor-post__card) {
-    background-color: var(--e-global-color-primary, #3456A7) !important;
-    border-radius: 31px !important;
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
-    overflow: hidden !important;
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.15);
-    transition: all 0.25s ease;
+  .archive-section {
+    background-color: #FEF9F3;
+    padding: 50px 20px 80px;
+    border-top: 1px solid rgba(22, 15, 63, 0.08);
   }
 
-  :global(.elementor-1210 .elementor-element.elementor-element-55c78da .elementor-post__card:hover) {
-    box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.15);
+  .featured-container,
+  .archive-container,
+  .bottom-cta-container {
+    max-width: 1140px;
+    margin: 0 auto;
+    width: 100%;
   }
 
-  :global(.elementor-1210 .elementor-element.elementor-element-55c78da .elementor-post__text) {
-    padding: 0 26px !important;
-    margin-top: 20px !important;
+  .heading-badge-wrap {
+    background-image: url(/wp-content/uploads/2023/12/circle.png);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    padding: 25px 20px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 25px;
+  }
+
+  .section-script-title {
+    font-family: "Angel", sans-serif;
+    font-size: 4em;
+    font-weight: 400;
+    color: #160F3F;
+    text-align: center;
+    margin: 0;
+    line-height: 1.1;
+  }
+
+  .archive-subtitle {
+    font-family: "Quicksand", sans-serif;
+    font-size: 17px;
+    font-weight: 500;
+    color: #555555;
+    max-width: 650px;
+    margin: 0 auto 30px;
+    text-align: center;
+  }
+
+  /* ----------------------------------------------------
+     Toolbar: Search Input & Category Filter Pills
+     ---------------------------------------------------- */
+  .archive-toolbar {
     display: flex;
     flex-direction: column;
-    flex-grow: 1;
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 45px;
   }
 
-  :global(.elementor-1210 .elementor-element.elementor-element-55c78da .elementor-post__title),
-  :global(.elementor-1210 .elementor-element.elementor-element-55c78da .elementor-post__title a) {
-    color: var(--e-global-color-8b1134b, #FEF9F3) !important;
-    font-size: 21px !important;
-    font-weight: 600 !important;
-    line-height: 1.3 !important;
-    margin-bottom: 25px !important;
-    text-decoration: none !important;
-    transition: opacity 0.2s ease;
+  .search-input-wrap {
+    position: relative;
+    width: 100%;
+    max-width: 480px;
   }
 
-  :global(.elementor-1210 .elementor-element.elementor-element-55c78da .elementor-post__title a:hover) {
-    opacity: 0.85;
+  .search-icon {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #3456A7;
+    pointer-events: none;
+    opacity: 0.6;
   }
 
-  :global(.elementor-1210 .elementor-element.elementor-element-55c78da .elementor-post__read-more) {
-    color: var(--e-global-color-8b1134b, #FEF9F3) !important;
-    font-size: 12px !important;
-    font-weight: 700 !important;
-    text-transform: uppercase !important;
-    display: inline-block !important;
-    margin-bottom: 20px !important;
-    align-self: flex-start !important;
-    text-decoration: none !important;
-    transition: opacity 0.2s ease;
+  .blog-search-input {
+    width: 100%;
+    padding: 12px 20px 12px 48px;
+    font-family: "Quicksand", sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    color: #160F3F;
+    background: #FFFFFF;
+    border: 1.5px solid rgba(52, 86, 167, 0.25);
+    border-radius: 999px;
+    outline: none;
+    box-shadow: 0 2px 8px rgba(22, 15, 63, 0.04);
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
   }
 
-  :global(.elementor-1210 .elementor-element.elementor-element-55c78da .elementor-post__read-more:hover) {
-    opacity: 0.85;
+  .blog-search-input:focus {
+    border-color: #31CDB0;
+    box-shadow: 0 0 0 3px rgba(49, 205, 176, 0.2);
   }
 
-  :global(.elementor-1210 .elementor-element.elementor-element-55c78da .elementor-post__meta-data) {
-    padding: 10px 26px !important;
-    color: var(--e-global-color-8b1134b, #FEF9F3) !important;
-    font-size: 12px !important;
-    border-top: 1px solid rgba(254, 249, 243, 0.2) !important;
-    margin-top: auto !important;
+  .blog-search-input::placeholder {
+    color: #888888;
   }
 
-  :global(.elementor-1210 .elementor-element.elementor-element-55c78da .elementor-post__badge) {
-    position: absolute !important;
-    top: 0 !important;
-    right: 0 !important;
-    margin: 20px !important;
-    background-color: var(--e-global-color-accent, #31CDB0) !important;
-    color: #ffffff !important;
-    font-weight: 600 !important;
-    font-size: 12px !important;
-    border-radius: 999px !important;
-    padding: 0.6em 1.2em !important;
-    text-transform: uppercase !important;
-    line-height: 1 !important;
-    z-index: 2 !important;
-  }
-
-  /* Category Pill Bar Styling */
   .category-filter-bar {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
     justify-content: center;
     align-items: center;
-    margin-bottom: 40px;
   }
 
   .cat-pill {
@@ -374,19 +379,143 @@ const availableCategories = Array.from(categoriesMap.entries()).map(([slug, coun
     background-color: #31CDB0;
     border-color: #31CDB0;
     color: #FEF9F3;
-    transform: none;
-    box-shadow: none;
+  }
+
+  .cat-pill:focus-visible {
+    outline: 2px solid #31CDB0;
+    outline-offset: 2px;
   }
 
   .cat-pill.active {
     background-color: #3456A7;
     border-color: #3456A7;
-    color: #ffffff;
-    box-shadow: none;
+    color: #FFFFFF;
   }
 
-  /* Pagination Styling */
-  :global(.elementor-pagination .page-numbers) {
+  /* ----------------------------------------------------
+     Cards Grid & Single Card (Subgrid Alignment & Micro-Interactions)
+     ---------------------------------------------------- */
+  .posts-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    width: 100%;
+  }
+
+  .post-card {
+    background-color: #3456A7;
+    border-radius: 31px;
+    overflow: hidden;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  .card-thumb-link {
+    width: 100%;
+    display: block;
+    position: relative;
+    text-decoration: none;
+  }
+
+  .card-thumb {
+    width: 100%;
+    padding-bottom: 70%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 20px;
+    background-color: #31CDB0;
+    color: #FFFFFF;
+    font-family: "Quicksand", sans-serif;
+    font-weight: 600;
+    font-size: 12px;
+    border-radius: 999px;
+    padding: 0.6em 1.2em;
+    text-transform: uppercase;
+    line-height: 1;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .card-content {
+    padding: 24px 26px 16px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+
+  .card-title {
+    margin: 0 0 16px;
+    line-height: 1.35;
+    min-height: 2.7em; /* Guarantees consistent 2-line baseline height across cards */
+  }
+
+  .card-title a {
+    color: #FEF9F3;
+    font-family: "Quicksand", sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.2s ease, opacity 0.2s ease;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .card-title a:hover {
+    color: #31CDB0;
+  }
+
+  .card-read-more {
+    color: #FEF9F3;
+    font-family: "Quicksand", sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: auto;
+    margin-bottom: 12px;
+    align-self: flex-start;
+    text-decoration: none;
+    transition: color 0.2s ease, opacity 0.2s ease;
+  }
+
+  .card-read-more:hover,
+  .post-card:hover .card-read-more {
+    color: #31CDB0;
+  }
+
+  .card-meta {
+    padding: 12px 26px;
+    color: #FEF9F3;
+    font-family: "Quicksand", sans-serif;
+    font-size: 12px;
+    border-top: 1px solid rgba(254, 249, 243, 0.2);
+    margin-top: auto;
+  }
+
+  /* ----------------------------------------------------
+     Pagination Styling
+     ---------------------------------------------------- */
+  .archive-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-top: 50px;
+  }
+
+  :global(.archive-pagination .page-numbers) {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -398,35 +527,161 @@ const availableCategories = Array.from(categoriesMap.entries()).map(([slug, coun
     padding: 0 14px;
     border-radius: 8px;
     border: 1.5px solid #dcdce6;
-    background: #ffffff;
+    background: #FFFFFF;
     color: #3456A7;
     text-decoration: none;
     cursor: pointer;
     transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
     user-select: none;
-    box-shadow: none !important;
   }
 
-  :global(.elementor-pagination .page-numbers:hover:not(.current):not(.disabled)) {
+  :global(.archive-pagination .page-numbers:hover:not(.current):not(.disabled)) {
     background: #31CDB0;
     border-color: #31CDB0;
-    color: #ffffff;
-    transform: none;
-    box-shadow: none;
+    color: #FFFFFF;
   }
 
-  :global(.elementor-pagination .page-numbers.current) {
+  :global(.archive-pagination .page-numbers:focus-visible) {
+    outline: 2px solid #31CDB0;
+    outline-offset: 2px;
+  }
+
+  :global(.archive-pagination .page-numbers.current) {
     background: #31CDB0;
     border-color: #31CDB0;
-    color: #ffffff;
+    color: #FFFFFF;
     font-weight: 700;
-    box-shadow: none;
   }
 
-  :global(.elementor-pagination .page-numbers.disabled) {
+  :global(.archive-pagination .page-numbers.disabled) {
     opacity: 0.4;
     cursor: not-allowed;
     pointer-events: none;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    font-family: "Quicksand", sans-serif;
+    font-size: 18px;
+    color: #666666;
+  }
+
+  /* ----------------------------------------------------
+     Section 3: Bottom CTA Section
+     ---------------------------------------------------- */
+  .bottom-cta-section {
+    background-color: #FEF9F3;
+    padding: 30px 20px 90px;
+  }
+
+  .bottom-cta-card {
+    background-color: #3456A7;
+    border-radius: 24px;
+    padding: 60px 40px;
+    text-align: center;
+  }
+
+  .bottom-cta-title {
+    font-family: "Angel", sans-serif;
+    font-size: 3.8em;
+    font-weight: 400;
+    color: #FEF9F3;
+    margin: 0 0 20px;
+    line-height: 1.15;
+  }
+
+  .bottom-cta-text {
+    font-family: "Quicksand", sans-serif;
+    font-size: 1.25em;
+    font-weight: 500;
+    color: #FEF9F3;
+    max-width: 800px;
+    margin: 0 auto 16px;
+    line-height: 1.6;
+  }
+
+  .bottom-cta-btn {
+    display: inline-block;
+    background-color: #31CDB0;
+    color: #FFFFFF;
+    font-family: "Quicksand", sans-serif;
+    font-size: 1.1em;
+    font-weight: 600;
+    padding: 14px 36px;
+    border-radius: 9999px;
+    text-decoration: none;
+    margin-top: 24px;
+    transition: background-color 0.25s ease, color 0.25s ease;
+  }
+
+  .bottom-cta-btn:hover {
+    background-color: #FEF9F3;
+    color: #160F3F;
+  }
+
+  /* ----------------------------------------------------
+     Responsive Breakpoints
+     ---------------------------------------------------- */
+  @media (max-width: 1024px) {
+    .posts-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .insights-hero-section {
+      padding: 40px 15px 15px;
+    }
+
+    .insights-hero-subtitle {
+      font-size: 16px;
+    }
+
+    .featured-section {
+      padding: 15px 15px 40px;
+    }
+
+    .archive-section {
+      padding: 40px 15px 60px;
+    }
+
+    .section-script-title {
+      font-size: 2.5em;
+    }
+
+    .heading-badge-wrap {
+      padding: 10px 10px 10px;
+    }
+
+    .search-input-wrap {
+      max-width: 100%;
+    }
+
+    .blog-search-input {
+      font-size: 14px;
+      padding: 10px 16px 10px 42px;
+    }
+
+    .posts-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .card-title {
+      min-height: auto;
+    }
+
+    .bottom-cta-card {
+      padding: 40px 20px;
+    }
+
+    .bottom-cta-title {
+      font-size: 2.5em;
+    }
+
+    .bottom-cta-text {
+      font-size: 1.1em;
+    }
   }
 </style>
 
@@ -435,6 +690,7 @@ const availableCategories = Array.from(categoriesMap.entries()).map(([slug, coun
     const CARDS_PER_PAGE = 6;
     const cards = Array.from(document.querySelectorAll('.archive-post-card')) as HTMLElement[];
     const pills = Array.from(document.querySelectorAll('.cat-pill')) as HTMLButtonElement[];
+    const searchInput = document.getElementById('blog-search-input') as HTMLInputElement | null;
     const paginationContainer = document.getElementById('archive-pagination');
     const noPostsMsg = document.getElementById('no-posts-message');
 
@@ -442,17 +698,23 @@ const availableCategories = Array.from(categoriesMap.entries()).map(([slug, coun
 
     let currentCategory = 'all';
     let currentPage = 1;
+    let searchQuery = '';
 
-    // Check URL parameters for initial category or page
+    // Check URL parameters for initial category, page, or search query
     const urlParams = new URLSearchParams(window.location.search);
     const catParam = urlParams.get('category');
     const pageParam = parseInt(urlParams.get('page') || '1', 10);
+    const searchParam = urlParams.get('search');
 
     if (catParam && pills.some(p => p.dataset.category === catParam)) {
       currentCategory = catParam;
     }
     if (!isNaN(pageParam) && pageParam > 0) {
       currentPage = pageParam;
+    }
+    if (searchParam && searchInput) {
+      searchQuery = searchParam.trim().toLowerCase();
+      searchInput.value = searchParam;
     }
 
     function render() {
@@ -463,10 +725,12 @@ const availableCategories = Array.from(categoriesMap.entries()).map(([slug, coun
         p.setAttribute('aria-selected', String(isActive));
       });
 
-      // 2. Filter cards
+      // 2. Filter cards by category AND search query
       const visibleCards = cards.filter(card => {
-        if (currentCategory === 'all') return true;
-        return card.dataset.category === currentCategory;
+        const matchesCategory = currentCategory === 'all' || card.dataset.category === currentCategory;
+        const cardTitle = card.dataset.title || '';
+        const matchesSearch = !searchQuery || cardTitle.includes(searchQuery);
+        return matchesCategory && matchesSearch;
       });
 
       const totalVisible = visibleCards.length;
@@ -566,11 +830,16 @@ const availableCategories = Array.from(categoriesMap.entries()).map(([slug, coun
       } else {
         url.searchParams.set('page', String(currentPage));
       }
+      if (!searchQuery) {
+        url.searchParams.delete('search');
+      } else {
+        url.searchParams.set('search', searchQuery);
+      }
       window.history.replaceState({}, '', url.toString());
     }
 
     function scrollToArchive() {
-      const section = document.querySelector('.elementor-element-archive-section');
+      const section = document.getElementById('archive-section');
       if (section) {
         section.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
@@ -588,6 +857,20 @@ const availableCategories = Array.from(categoriesMap.entries()).map(([slug, coun
         }
       });
     });
+
+    // Attach search input event with debounce
+    if (searchInput) {
+      let debounceTimer: ReturnType<typeof setTimeout>;
+      searchInput.addEventListener('input', () => {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => {
+          searchQuery = searchInput.value.trim().toLowerCase();
+          currentPage = 1;
+          updateUrl();
+          render();
+        }, 150);
+      });
+    }
 
     render();
   }

@@ -17,4 +17,7 @@ export default defineConfig({
       filter: (page) => !page.includes('/keystatic'),
     }),
   ],
+  redirects: {
+    '/faqs': '/about/#faqs',
+  },
 });

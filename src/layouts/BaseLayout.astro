@@ -444,6 +444,25 @@ const gaId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
         transform: none !important;
         box-shadow: none !important;
       }
+
+      /* Full Viewport Width Guarantee: Overrides Hello Elementor boxed constraints */
+      header.site-header,
+      .site-header,
+      .site-header.dynamic-header,
+      .site-header.header-full-width {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        border-radius: 0 !important;
+        box-sizing: border-box !important;
+      }
+
+      .site-main {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+      }
     </style>
   </body>
 </html>

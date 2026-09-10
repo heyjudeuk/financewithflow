@@ -1,0 +1,285 @@
+---
+interface Props {
+  // Optional text customization props
+  helpP1?: string;
+  helpP2?: string;
+  helpP3?: string;
+  helpP4?: string;
+  aimP1?: string;
+  aimP2?: string;
+  aimP3?: string;
+  aimP4?: string;
+  ctaText?: string;
+  ctaHref?: string;
+}
+
+const {
+  helpP1 = "Has your business evolved and expanded? Along with the complexities of your financial in-house knowledge?",
+  helpP2 = "It is likely that you are still heavily involved with the day to day running of the business, which proves hard to come up for air allowing you to focus on strategy and planning. And the financial software packages you have are no longer cutting the mustard…",
+  helpP3 = "This is where Finance with Flow can help!",
+  helpP4 = "We can lift that burden by taking the day to day responsibility of your finance department, and provide you with the tools and knowledge from our team on how to roadmap your business to financial success.",
+  aimP1 = "Our aim is to not only handle your financial worries, but to help you plan your business strategically, avoid financial difficulties and overall, improve your business performance.",
+  aimP2 = "Our integration with your team is seamless!",
+  aimP3 = "We get to know the whole team involved, understand what processes are currently in place and prepare a plan of action. We pride ourselves on strong communication, ensuring that our clients are always kept in the loop and we guide them through all financial decisions.",
+  aimP4 = "We hold your hand every step of the way – your business goals become our goals.",
+  ctaText = "Find out more",
+  ctaHref = "/services/",
+} = Astro.props;
+---
+
+<!-- 1. "How Can We Help?" Split Section -->
+<section class="how-we-help-section" aria-labelledby="heading-how-we-help">
+  <div class="how-we-help-grid">
+    <!-- Left Column: Full-height group photo -->
+    <div class="help-visual">
+      <img
+        src="/wp-content/uploads/2026/01/Group-photo-against-blue-backdrop-1024x683.png"
+        srcset="/wp-content/uploads/2026/01/Group-photo-against-blue-backdrop-1024x683.png 1024w, /wp-content/uploads/2026/01/Group-photo-against-blue-backdrop-300x200.png 300w, /wp-content/uploads/2026/01/Group-photo-against-blue-backdrop-768x512.png 768w, /wp-content/uploads/2026/01/Group-photo-against-blue-backdrop.webp 1536w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        width="800"
+        height="534"
+        alt="Finance with Flow team group photo"
+        loading="lazy"
+        decoding="async"
+      />
+    </div>
+
+    <!-- Right Column: Heading with decorative circle & narrative -->
+    <div class="help-content">
+      <div class="help-heading-wrap" data-settings='{"animation":"fadeInRight"}'>
+        <h2 id="heading-how-we-help" class="script-heading">How Can We Help?</h2>
+      </div>
+
+      <div class="help-body" data-settings='{"animation":"fadeInRight","animation_delay":250}'>
+        <p>{helpP1}</p>
+        <p>{helpP2}</p>
+        <p class="highlight-line">{helpP3}</p>
+        <p>{helpP4}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 2. "Our Aim" Split Section with Portrait Image -->
+<section class="aim-section" aria-label="Our Aim and Service Approach">
+  <div class="aim-grid">
+    <!-- Left Column: Royal blue narrative block + CTA button -->
+    <div class="aim-content">
+      <div class="aim-body">
+        <p>{aimP1}</p>
+        <p class="highlight-line">{aimP2}</p>
+        <p>{aimP3}</p>
+        <p>{aimP4}</p>
+      </div>
+
+      <div class="aim-cta-wrap">
+        <a class="aim-cta-btn" href={ctaHref}>
+          <span>{ctaText}</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Right Column: Tall construction portrait image -->
+    <div class="aim-visual" aria-hidden="true"></div>
+  </div>
+</section>
+
+<style>
+  /* -------------------------------------------------------------
+     1. "How Can We Help?" Styles
+     ------------------------------------------------------------- */
+  .how-we-help-section {
+    background-color: #FEF9F3;
+    overflow: hidden;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .how-we-help-grid {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .help-visual {
+    width: 45%;
+    min-height: 50vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 3%;
+    box-sizing: border-box;
+    flex-shrink: 0;
+  }
+
+  .help-visual img {
+    width: 100%;
+    height: auto;
+    border-radius: 24px;
+    display: block;
+  }
+
+  .help-content {
+    width: 55%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 10%;
+    box-sizing: border-box;
+  }
+
+  .help-heading-wrap {
+    background-image: url('/wp-content/uploads/2023/12/circle.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    padding: 40px 0 20px 20px;
+    box-sizing: border-box;
+  }
+
+  .script-heading {
+    font-family: 'Angel', sans-serif;
+    font-size: 4em;
+    font-weight: 400;
+    color: #160F3F;
+    margin: 0;
+    line-height: 1;
+    text-align: start;
+  }
+
+  .help-body {
+    font-size: 1.3em;
+    color: #160F3F;
+    line-height: 1.5;
+    margin-top: 10px;
+  }
+
+  .help-body p {
+    margin-top: 0;
+    margin-bottom: 1.5em;
+  }
+
+  .help-body p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* -------------------------------------------------------------
+     2. "Our Aim" Split Section Styles
+     ------------------------------------------------------------- */
+  .aim-section {
+    overflow: hidden;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .aim-grid {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .aim-content {
+    width: 60%;
+    background-color: #3456A7;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 3% 10%;
+    box-sizing: border-box;
+  }
+
+  .aim-body {
+    font-size: 1.3em;
+    color: #FFFFFF;
+    line-height: 1.5;
+  }
+
+  .aim-body p {
+    margin-top: 0;
+    margin-bottom: 1.5em;
+  }
+
+  .aim-body p:last-child {
+    margin-bottom: 0;
+  }
+
+  .aim-cta-wrap {
+    margin-top: 20px;
+  }
+
+  .aim-cta-btn {
+    display: inline-block;
+    background-color: #FFFFFF;
+    color: #160F3F;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: 50px;
+    padding: 15px 30px;
+    border: 2px solid #FFFFFF;
+    box-shadow: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  }
+
+  .aim-cta-btn:hover,
+  .aim-cta-btn:focus {
+    background-color: #31CDB0;
+    color: #160F3F;
+    border-color: #31CDB0;
+  }
+
+  .aim-visual {
+    width: 40%;
+    min-height: 80vh;
+    background-image: url('/wp-content/uploads/2025/07/construction-image-portrait-scaled.jpg');
+    background-position: center center;
+    background-size: cover;
+    flex-shrink: 0;
+  }
+
+  /* -------------------------------------------------------------
+     Responsive Breakpoints
+     ------------------------------------------------------------- */
+  @media (max-width: 767px) {
+    .how-we-help-grid {
+      flex-direction: column;
+    }
+
+    .help-visual {
+      width: 100%;
+      min-height: auto;
+      padding: 0 15px;
+    }
+
+    .help-content {
+      width: 100%;
+      padding: 10px 15px 50px 15px;
+    }
+
+    .help-heading-wrap {
+      padding: 0;
+      margin-bottom: 20px;
+    }
+
+    .help-body {
+      font-size: 1.2em;
+    }
+
+    .aim-grid {
+      flex-direction: column;
+    }
+
+    .aim-content {
+      width: 100%;
+      padding: 50px 15px 100px 15px;
+    }
+
+    .aim-visual {
+      width: 100%;
+      min-height: 65vh;
+    }
+  }
+</style>

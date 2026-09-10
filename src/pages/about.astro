@@ -1,35 +1,962 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Why should I consider outsourcing my financial department?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Outsourcing your financial department can save you time, resources, and money. It allows you to access specialised expertise without the need to hire and train in-house staff. This way, you can focus on your core business activities."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Will I still have control over my financial decisions once I start working with Finance with Flow?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Absolutely. While we handle the operational aspects, you retain full control over financial decisions. We provide insights and recommendations, but the final decisions are yours to make."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do collaboration and communication work with Finance with Flow?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "We use varied digital communication tools to stay connected with clients. Regular meetings, email updates, and calls are our most common channels of communication. But if you need us to use a platform specific to your business, we will be happy to do so!"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What are the cost savings associated with outsourcing my financial department?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Outsourcing can lead to significant cost savings compared to maintaining an in-house finance team. You save on hiring, training, benefits, office space, and technology investments while still getting a high-quality service."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What services does Finance with Flow provide?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "We offer a range of services including bookkeeping, payroll, VAT, CIS, corporation tax, year-end accounts, credit control, cash flow forecasts, management accounts, budgeting, strategy consulting, governance, systems and controls review, and more. Our goal is to support your business’s financial needs comprehensively, so don’t hesitate to ask for help!"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is Finance with Flow's approach to business?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "We have a heart-led approach to business that focuses on both individuals and numbers. We aim to empower businesses, owners, and managers to reach their full potential by alleviating financial worries and providing informed decision-making information."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What distinguishes Finance with Flow from other financial services?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "At Finance with Flow, we combine extensive financial expertise with a heart-led approach to business. Our founder, Roz Johnson, brings over 15 years of experience running large corporate finance teams, and our services are designed to empower businesses and individuals alike, helping them fulfil their potential."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How can Finance with Flow help my business grow?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "We provide a comprehensive range of financial services, from day-to-day tasks like bookkeeping to strategic services like cash flow forecasts and management accounts. Our goal is to equip you with the financial insights and support needed to make informed decisions and drive your business’s growth."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can Finance with Flow assist my business during challenging financial situations?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Absolutely. We have experience in handling distressed situations and can provide support and guidance to navigate challenges. Our Finance Director Services include assistance with strategy, governance, systems and controls review, and even attendance at board meetings."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can Finance with Flow help with tax-related matters?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Certainly. Our services extend to helping you with tax-related tasks, including filling out tax forms, preparing year-end returns, self-assessment, company accounts, and corporation tax returns. We aim to simplify complex processes and ensure your compliance."
+      }
+    }
+  ]
+};
 ---
 
 <BaseLayout
-  wrapMain={false}
   title="About | Finance with Flow"
   description="Meet Finance with Flow: an outsourced finance department for construction and SME businesses, founded to give owners clarity, control and confidence over their numbers."
   bodyClass="page-template-default page page-id-22 elementor-default elementor-kit-7 elementor-page elementor-page-22"
+  schema={faqSchema}
 >
-  <div class="page-content">
-    <Fragment set:html={`<main id="content" class="site-main post-22 page type-page status-publish hentry"><div class="page-content"><div data-elementor-type="wp-page" data-elementor-id="22" class="elementor elementor-22" data-elementor-post-type="page"><div class="elementor-element elementor-element-309b5cfa e-flex e-con-boxed e-con e-parent" data-id="309b5cfa" data-element_type="container"><div class="e-con-inner"><div class="elementor-element elementor-element-599c4170 e-con-full e-flex e-con e-child" data-id="599c4170" data-element_type="container"><div class="elementor-element elementor-element-5d8db53 e-flex e-con-boxed  e-con e-child" data-id="5d8db53" data-element_type="container" data-settings="{&quot;animation&quot;:&quot;fadeInRight&quot;}"><div class="e-con-inner"><div class="elementor-element elementor-element-859f216 elementor-widget elementor-widget-heading" data-id="859f216" data-element_type="widget" data-widget_type="heading.default"><div class="elementor-widget-container"><h2 class="elementor-heading-title elementor-size-default">Who We Are</h2></div></div></div></div><div class="elementor-element elementor-element-4c8ecede elementor-hidden-mobile  elementor-widget elementor-widget-image" data-id="4c8ecede" data-element_type="widget" data-settings="{&quot;_animation&quot;:&quot;fadeInLeft&quot;,&quot;_animation_delay&quot;:250}" data-widget_type="image.default"><div class="elementor-widget-container"> <img class="attachment-large size-large wp-image-1776 " src="/wp-content/uploads/2026/01/Group-photo-against-blue-backdrop-1024x683.png" loading="lazy" decoding="async" width="800" height="534"   alt="" srcset="/wp-content/uploads/2026/01/Group-photo-against-blue-backdrop-1024x683.png 1024w, /wp-content/uploads/2026/01/Group-photo-against-blue-backdrop-300x200.png 300w, /wp-content/uploads/2026/01/Group-photo-against-blue-backdrop-768x512.png 768w, /wp-content/uploads/2026/01/Group-photo-against-blue-backdrop.webp 1536w" sizes="(max-width: 800px) 100vw, 800px" /></div></div></div><div class="elementor-element elementor-element-1a8db5d e-con-full e-flex e-con e-child" data-id="1a8db5d" data-element_type="container" data-settings="{&quot;animation_mobile&quot;:&quot;fadeInRight&quot;}"><div class="elementor-element elementor-element-2465c150  elementor-widget elementor-widget-text-editor" data-id="2465c150" data-element_type="widget" data-settings="{&quot;_animation&quot;:&quot;fadeInRight&quot;,&quot;_animation_mobile&quot;:&quot;none&quot;}" data-widget_type="text-editor.default"><div class="elementor-widget-container"><p>Our journey began with Roz. With over 20 years of experience at the helm of large corporate finance teams. Roz’ interest grew after following in her fathers footsteps and joined the family business, which led to a training contract with a Top 10 accountancy practice and became ACA qualified.</p><p>Four years in audit gave a solid grounding for her future career, working across a range of different sized businesses and industries.. Key clients during this time included a £500m revenue construction group, listed entities and family run businesses and has since covered a range of entities from £1bn revenue to PE backed start-ups and turnaround situations.</p><p>This path ultimately led her to the realisation that her knowledge and expertise could have a profound impact with SME businesses seeking to thrive and flourish with a full finance team functionality, which would not be possible to access with in-house personnel.</p></div></div></div></div></div><div class="elementor-element elementor-element-363270e9 e-con-full e-flex e-con e-parent" data-id="363270e9" data-element_type="container"><div class="elementor-element elementor-element-51dace7f e-con-full e-flex e-con e-child" data-id="51dace7f" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}"></div><div class="elementor-element elementor-element-9ea6d70 e-con-full e-flex e-con e-child" data-id="9ea6d70" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}"><div class="elementor-element elementor-element-842aad3 e-flex e-con-boxed  e-con e-child" data-id="842aad3" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;,&quot;animation&quot;:&quot;fadeInRight&quot;}"><div class="e-con-inner"><div class="elementor-element elementor-element-1332083e elementor-widget elementor-widget-heading" data-id="1332083e" data-element_type="widget" data-widget_type="heading.default"><div class="elementor-widget-container"><h2 class="elementor-heading-title elementor-size-default">Meet Roz</h2></div></div></div></div><div class="elementor-element elementor-element-5d7df652 e-flex e-con-boxed e-con e-child" data-id="5d7df652" data-element_type="container"><div class="e-con-inner"><div class="elementor-element elementor-element-672f7cdb  elementor-widget elementor-widget-text-editor" data-id="672f7cdb" data-element_type="widget" data-settings="{&quot;_animation&quot;:&quot;fadeInRight&quot;,&quot;_animation_delay&quot;:250}" data-widget_type="text-editor.default"><div class="elementor-widget-container"><p>Roz never saw herself as an accountant….. a mad scientist, a translator traveling the globe, an astronaut perhaps but not an accountant.</p><p>However, after graduating and returning home for the summer she decided the family business needed some organising….Roz took on all the ‘back office’ tasks of finance, IT, HR and found her calling in Finance.</p><p>She qualified in audit and moved to various roles in industry working for a wide variety of companies in the construction, property development and marine engineering sectors from start-ups to private equity to £1 billion turnover main contractors, managing whole finance teams.</p></div></div><div class="elementor-element elementor-element-d739b9e elementor-widget elementor-widget-button" data-id="d739b9e" data-element_type="widget" data-widget_type="button.default"><div class="elementor-widget-container"><div class="elementor-button-wrapper"> <a class="elementor-button elementor-button-link elementor-size-sm" href="/meet-the-team/"> <span class="elementor-button-content-wrapper"> <span class="elementor-button-text">Meet the team</span> </span> </a></div></div></div></div></div></div></div><div class="elementor-element elementor-element-46af276 e-flex e-con-boxed e-con e-parent" data-id="46af276" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}"><div class="e-con-inner"><div class="elementor-element elementor-element-a89a86b e-flex e-con-boxed e-con e-child" data-id="a89a86b" data-element_type="container"><div class="e-con-inner"><div class="elementor-element elementor-element-2ab6758 e-flex e-con-boxed  e-con e-child" data-id="2ab6758" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;,&quot;animation&quot;:&quot;fadeInRight&quot;}"><div class="e-con-inner"><div class="elementor-element elementor-element-62989e2 elementor-widget elementor-widget-heading" data-id="62989e2" data-element_type="widget" data-widget_type="heading.default"><div class="elementor-widget-container"><h2 class="elementor-heading-title elementor-size-default">Our Purpose</h2></div></div></div></div><div class="elementor-element elementor-element-b7126cb e-flex e-con-boxed e-con e-child" data-id="b7126cb" data-element_type="container"><div class="e-con-inner"><div class="elementor-element elementor-element-93233dc  elementor-widget elementor-widget-text-editor" data-id="93233dc" data-element_type="widget" data-settings="{&quot;_animation&quot;:&quot;fadeInRight&quot;,&quot;_animation_delay&quot;:250}" data-widget_type="text-editor.default"><div class="elementor-widget-container"><p>The heartbeat of our mission is to empower individuals and businesses to navigate the complex world of finance with confidence and ease.</p><p>We want to provide knowledge and power to our clients, ensuring that they are able to take back control of their business and move the company onwards and achieve their goals.</p></div></div></div></div></div></div></div></div><div class="elementor-element elementor-element-55c9ada0 e-con-full e-flex e-con e-parent" data-id="55c9ada0" data-element_type="container"><div class="elementor-element elementor-element-4df73649 e-con-full e-flex e-con e-child" data-id="4df73649" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}"><div class="elementor-element elementor-element-312bbdc6 e-flex e-con-boxed e-con e-child" data-id="312bbdc6" data-element_type="container"><div class="e-con-inner"><div class="elementor-element elementor-element-1c936f2 elementor-widget elementor-widget-heading" data-id="1c936f2" data-element_type="widget" data-widget_type="heading.default"><div class="elementor-widget-container"><h2 class="elementor-heading-title elementor-size-default">Our Approach</h2></div></div><div class="elementor-element elementor-element-385b995d  elementor-widget elementor-widget-text-editor" data-id="385b995d" data-element_type="widget" data-settings="{&quot;_animation&quot;:&quot;fadeInRight&quot;,&quot;_animation_delay&quot;:250}" data-widget_type="text-editor.default"><div class="elementor-widget-container"><p>Our team at Finance with Flow provides clients with a personable approach and a positive can-do attitude and believe that success lies not only in the numbers, but in the people behind them.</p><p>We collaborate seamlessly with your in-house team creating a powerhouse of financial expertise!</p></div></div></div></div></div><div class="elementor-element elementor-element-1be1e415 e-con-full e-flex e-con e-child" data-id="1be1e415" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}"><img class="attachment-large size-large wp-image-our-approach fwf-approach-img" src="/wp-content/uploads/2026/01/financial-analysis-dashboard-laptop.webp" width="1024" height="682" alt="Financial analysis and business performance dashboard displayed on laptop" loading="lazy" decoding="async" srcset="/wp-content/uploads/2026/01/financial-analysis-dashboard-laptop.webp 1024w, /wp-content/uploads/2026/01/financial-analysis-dashboard-laptop-768x512.webp 768w, /wp-content/uploads/2026/01/financial-analysis-dashboard-laptop-300x200.webp 300w" sizes="(max-width: 767px) 100vw, 40vw" /></div></div><div class="elementor-element elementor-element-969e516 e-flex e-con-boxed e-con e-parent" data-id="969e516" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}"><div class="e-con-inner"><div class="elementor-element elementor-element-4ba0e33 e-flex e-con-boxed e-con e-child" data-id="4ba0e33" data-element_type="container"><div class="e-con-inner"><div class="elementor-element elementor-element-9ad0488 e-flex e-con-boxed  e-con e-child" data-id="9ad0488" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;,&quot;animation&quot;:&quot;fadeInRight&quot;}"><div class="e-con-inner"><div class="elementor-element elementor-element-9fcfe09 elementor-widget elementor-widget-heading" data-id="9fcfe09" data-element_type="widget" data-widget_type="heading.default"><div class="elementor-widget-container"><h2 class="elementor-heading-title elementor-size-default">Our Values</h2></div></div></div></div></div></div></div></div><div class="elementor-element elementor-element-5f0aea3 e-flex e-con-boxed e-con e-parent" data-id="5f0aea3" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}"><div class="e-con-inner"><div class="elementor-element elementor-element-5bd7f6b e-con-full e-flex e-con e-child" data-id="5bd7f6b" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}"><div class="elementor-element elementor-element-1fef61b elementor-widget elementor-widget-heading" data-id="1fef61b" data-element_type="widget" data-widget_type="heading.default"><div class="elementor-widget-container"><h2 class="elementor-heading-title elementor-size-default">Making a difference</h2></div></div><div class="elementor-element elementor-element-d4ca0bf elementor-widget elementor-widget-text-editor" data-id="d4ca0bf" data-element_type="widget" data-widget_type="text-editor.default"><div class="elementor-widget-container"><p>We will turn finance from an every day requirement, into the bones that support your business.</p></div></div></div><div class="elementor-element elementor-element-a329e10 e-con-full e-flex e-con e-child" data-id="a329e10" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}"><div class="elementor-element elementor-element-c6fab8c elementor-widget elementor-widget-heading" data-id="c6fab8c" data-element_type="widget" data-widget_type="heading.default"><div class="elementor-widget-container"><h2 class="elementor-heading-title elementor-size-default">Positive</h2></div></div><div class="elementor-element elementor-element-8444d84 elementor-widget elementor-widget-text-editor" data-id="8444d84" data-element_type="widget" data-widget_type="text-editor.default"><div class="elementor-widget-container"> We are proactive in looking at efficiency and deciphering what the numbers mean in a  real world concept.</div></div></div><div class="elementor-element elementor-element-1db4952 e-con-full e-flex e-con e-child" data-id="1db4952" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}"><div class="elementor-element elementor-element-5497f2e elementor-widget elementor-widget-heading" data-id="5497f2e" data-element_type="widget" data-widget_type="heading.default"><div class="elementor-widget-container"><h2 class="elementor-heading-title elementor-size-default">Trust</h2></div></div><div class="elementor-element elementor-element-228fdc9 elementor-widget elementor-widget-text-editor" data-id="228fdc9" data-element_type="widget" data-widget_type="text-editor.default"><div class="elementor-widget-container"> We do things properly, we will have honest conversations when needed, and will be with you every step of the way.</div></div></div><div class="elementor-element elementor-element-c376dd6 e-con-full e-flex e-con e-child" data-id="c376dd6" data-element_type="container"><div class="elementor-element elementor-element-35e021a e-con-full e-flex e-con e-child" data-id="35e021a" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}"><div class="elementor-element elementor-element-efb0005 elementor-widget elementor-widget-heading" data-id="efb0005" data-element_type="widget" data-widget_type="heading.default"><div class="elementor-widget-container"><h2 class="elementor-heading-title elementor-size-default">Empowered</h2></div></div><div class="elementor-element elementor-element-72a296d elementor-widget elementor-widget-text-editor" data-id="72a296d" data-element_type="widget" data-widget_type="text-editor.default"><div class="elementor-widget-container"> We understand that every business is unique. Our collaborative approach ensures that we tailor our strategies to meet the individual needs and aspirations of each client.</div></div></div></div></div></div><div class="elementor-element elementor-element-62d0c1c3 e-con-full e-flex e-con e-parent" data-id="62d0c1c3" data-element_type="container"><div class="elementor-element elementor-element-52d622c5 e-con-full e-flex e-con e-child" data-id="52d622c5" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}"></div><div class="elementor-element elementor-element-1827add5 e-con-full e-flex e-con e-child" data-id="1827add5" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}"><div class="elementor-element elementor-element-2a3f59b6 e-flex e-con-boxed  e-con e-child" data-id="2a3f59b6" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;,&quot;animation&quot;:&quot;fadeInRight&quot;}"><div class="e-con-inner"><div class="elementor-element elementor-element-29eca860 elementor-widget elementor-widget-heading" data-id="29eca860" data-element_type="widget" data-widget_type="heading.default"><div class="elementor-widget-container"><h2 class="elementor-heading-title elementor-size-default">Our Commitment</h2></div></div></div></div><div class="elementor-element elementor-element-4cd9d2b2 e-flex e-con-boxed e-con e-child" data-id="4cd9d2b2" data-element_type="container"><div class="e-con-inner"><div class="elementor-element elementor-element-2e3b7fa1  elementor-widget elementor-widget-text-editor" data-id="2e3b7fa1" data-element_type="widget" data-settings="{&quot;_animation&quot;:&quot;fadeInRight&quot;,&quot;_animation_delay&quot;:250}" data-widget_type="text-editor.default"><div class="elementor-widget-container"><p>Finance with Flow is more than just a service provider; we become a partner on your journey. We are dedicated to delivering unparalleled support, personalised guidance and a roadmap to financial success.</p><p>We create long term relationships by being strong communicators, keeping you in the loop ensuring that you are abreast of all the financial decisions made.</p><p>We are here to help you navigate the financial maze.</p></div></div></div></div></div></div><div class="elementor-element elementor-element-263a9b05 e-flex e-con-boxed e-con e-parent" data-id="263a9b05" data-element_type="container"><div class="e-con-inner"><div class="elementor-element elementor-element-6d2c83c1 e-flex e-con-boxed e-con e-child" data-id="6d2c83c1" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}"><div class="e-con-inner"><div class="elementor-element elementor-element-46f005e2 e-flex e-con-boxed e-con e-child" data-id="46f005e2" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}"><div class="e-con-inner"><div class="elementor-element elementor-element-182652e5 elementor-widget elementor-widget-heading" data-id="182652e5" data-element_type="widget" data-widget_type="heading.default"><div class="elementor-widget-container"><h2 class="elementor-heading-title elementor-size-default">Join the Finance with Flow Journey</h2></div></div></div></div><div class="elementor-element elementor-element-ba74217 e-flex e-con-boxed e-con e-child" data-id="ba74217" data-element_type="container"><div class="e-con-inner"><div class="elementor-element elementor-element-7ed852d  elementor-widget elementor-widget-text-editor" data-id="7ed852d" data-element_type="widget" data-settings="{&quot;_animation&quot;:&quot;fadeInRight&quot;,&quot;_animation_delay&quot;:250}" data-widget_type="text-editor.default"><div class="elementor-widget-container"><p>Let’s work together to not only achieve financial goals but to exceed them while staying true to the heart and soul of your business.</p><p>We’re here to help – contact us to today, to discuss your requirements and let’s shape your success together.</p></div></div><div class="elementor-element elementor-element-e6a1c31 elementor-align-center elementor-widget elementor-widget-button" data-id="e6a1c31" data-element_type="widget" data-widget_type="button.default"><div class="elementor-widget-container"><div class="elementor-button-wrapper"> <a class="elementor-button elementor-button-link elementor-size-md" href="/contact/"> <span class="elementor-button-content-wrapper"> <span class="elementor-button-text">Contact us today</span> </span> </a></div></div></div></div></div></div></div></div></div></div><div class="post-tags"></div></div></main>`} />
-  </div>
+  <!-- Section 1: Who We Are -->
+  <section class="about-hero-section" aria-label="Who We Are">
+    <div class="about-container about-hero-container">
+      <div class="about-hero-left" data-settings='{"animation":"fadeInLeft","animation_delay":250}'>
+        <div class="heading-badge-wrap">
+          <h1 class="script-heading heading-dark">Who We Are</h1>
+        </div>
+        <div class="about-hero-img-box">
+          <img
+            class="about-hero-img"
+            src="/wp-content/uploads/2026/01/Group-photo-against-blue-backdrop-1024x683.png"
+            srcset="/wp-content/uploads/2026/01/Group-photo-against-blue-backdrop-1024x683.png 1024w, /wp-content/uploads/2026/01/Group-photo-against-blue-backdrop-300x200.png 300w, /wp-content/uploads/2026/01/Group-photo-against-blue-backdrop-768x512.png 768w, /wp-content/uploads/2026/01/Group-photo-against-blue-backdrop.webp 1536w"
+            sizes="(max-width: 800px) 100vw, 800px"
+            width="800"
+            height="534"
+            alt="Finance with Flow team group photo"
+            loading="eager"
+            fetchpriority="high"
+            decoding="async"
+          />
+        </div>
+      </div>
+
+      <div class="about-hero-right" data-settings='{"animation":"fadeInRight"}'>
+        <p>
+          Our journey began with Roz. With over 20 years of experience at the helm of large corporate finance teams. Roz’ interest grew after following in her fathers footsteps and joined the family business, which led to a training contract with a Top 10 accountancy practice and became ACA qualified.
+        </p>
+        <p>
+          Four years in audit gave a solid grounding for her future career, working across a range of different sized businesses and industries.. Key clients during this time included a £500m revenue construction group, listed entities and family run businesses and has since covered a range of entities from £1bn revenue to PE backed start-ups and turnaround situations.
+        </p>
+        <p>
+          This path ultimately led her to the realisation that her knowledge and expertise could have a profound impact with SME businesses seeking to thrive and flourish with a full finance team functionality, which would not be possible to access with in-house personnel.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 2: Meet Roz -->
+  <section class="about-split-section roz-split" aria-label="Meet Roz">
+    <div class="split-col-media roz-bg-image" role="img" aria-label="Headshot portrait of Roz Johnson"></div>
+    <div class="split-col-content roz-content-bg">
+      <div class="split-inner-wrap" data-settings='{"animation":"fadeInRight"}'>
+        <div class="heading-badge-wrap">
+          <h2 class="script-heading heading-white">Meet Roz</h2>
+        </div>
+        <div class="split-body-paragraphs">
+          <p>
+            Roz never saw herself as an accountant….. a mad scientist, a translator traveling the globe, an astronaut perhaps but not an accountant.
+          </p>
+          <p>
+            However, after graduating and returning home for the summer she decided the family business needed some organising….Roz took on all the ‘back office’ tasks of finance, IT, HR and found her calling in Finance.
+          </p>
+          <p>
+            She qualified in audit and moved to various roles in industry working for a wide variety of companies in the construction, property development and marine engineering sectors from start-ups to private equity to £1 billion turnover main contractors, managing whole finance teams.
+          </p>
+        </div>
+        <div class="split-button-wrap">
+          <a class="fwf-btn-white" href="/meet-the-team/">Meet the team</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 3: Our Purpose -->
+  <section class="about-purpose-section" aria-label="Our Purpose">
+    <div class="about-container purpose-box" data-settings='{"animation":"fadeInRight"}'>
+      <div class="heading-badge-wrap center-badge">
+        <h2 class="script-heading heading-dark">Our Purpose</h2>
+      </div>
+      <div class="purpose-paragraphs">
+        <p>
+          The heartbeat of our mission is to empower individuals and businesses to navigate the complex world of finance with confidence and ease.
+        </p>
+        <p>
+          We want to provide knowledge and power to our clients, ensuring that they are able to take back control of their business and move the company onwards and achieve their goals.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 4: Our Approach -->
+  <section class="about-split-section approach-split" aria-label="Our Approach">
+    <div class="split-col-content approach-content-bg">
+      <div class="split-inner-wrap" data-settings='{"animation":"fadeInRight"}'>
+        <div class="heading-badge-wrap">
+          <h2 class="script-heading heading-white">Our Approach</h2>
+        </div>
+        <div class="split-body-paragraphs">
+          <p>
+            Our team at Finance with Flow provides clients with a personable approach and a positive can-do attitude and believe that success lies not only in the numbers, but in the people behind them.
+          </p>
+          <p>
+            We collaborate seamlessly with your in-house team creating a powerhouse of financial expertise!
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="split-col-media approach-img-holder">
+      <img
+        class="fwf-approach-img"
+        src="/wp-content/uploads/2026/01/financial-analysis-dashboard-laptop.webp"
+        srcset="/wp-content/uploads/2026/01/financial-analysis-dashboard-laptop.webp 1024w, /wp-content/uploads/2026/01/financial-analysis-dashboard-laptop-768x512.webp 768w, /wp-content/uploads/2026/01/financial-analysis-dashboard-laptop-300x200.webp 300w"
+        sizes="(max-width: 767px) 100vw, 40vw"
+        width="1024"
+        height="682"
+        alt="Financial analysis and business performance dashboard displayed on laptop"
+        loading="lazy"
+        decoding="async"
+      />
+    </div>
+  </section>
+
+  <!-- Section 5: Our Values -->
+  <section class="about-values-section" aria-label="Our Values">
+    <div class="about-container">
+      <div class="heading-badge-wrap" data-settings='{"animation":"fadeInRight"}'>
+        <h2 class="script-heading heading-dark">Our Values</h2>
+      </div>
+
+      <div class="values-flex-wrap">
+        <!-- Row 1: Making a difference (64%) & Positive (32%) -->
+        <div class="value-card card-wide card-blue" data-settings='{"animation":"fadeInLeft"}'>
+          <h3 class="value-card-heading">Making a difference</h3>
+          <p class="value-card-text">
+            We will turn finance from an every day requirement, into the bones that support your business.
+          </p>
+        </div>
+
+        <div class="value-card card-narrow card-teal" data-settings='{"animation":"fadeInRight"}'>
+          <h3 class="value-card-heading">Positive</h3>
+          <p class="value-card-text">
+            We are proactive in looking at efficiency and deciphering what the numbers mean in a real world concept.
+          </p>
+        </div>
+
+        <!-- Row 2: Trust (32%) & Empowered (64%) -->
+        <div class="value-card card-narrow card-teal" data-settings='{"animation":"fadeInLeft"}'>
+          <h3 class="value-card-heading">Trust</h3>
+          <p class="value-card-text">
+            We do things properly, we will have honest conversations when needed, and will be with you every step of the way.
+          </p>
+        </div>
+
+        <div class="value-card card-wide card-blue" data-settings='{"animation":"fadeInRight"}'>
+          <h3 class="value-card-heading">Empowered</h3>
+          <p class="value-card-text">
+            We understand that every business is unique. Our collaborative approach ensures that we tailor our strategies to meet the individual needs and aspirations of each client.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 6: Our Commitment -->
+  <section class="about-split-section commitment-split" aria-label="Our Commitment">
+    <div class="split-col-media commitment-bg-image" role="img" aria-label="Construction paperwork and site plans"></div>
+    <div class="split-col-content commitment-content-bg">
+      <div class="split-inner-wrap" data-settings='{"animation":"fadeInRight"}'>
+        <div class="heading-badge-wrap">
+          <h2 class="script-heading heading-white">Our Commitment</h2>
+        </div>
+        <div class="split-body-paragraphs">
+          <p>
+            Finance with Flow is more than just a service provider; we become a partner on your journey. We are dedicated to delivering unparalleled support, personalised guidance and a roadmap to financial success.
+          </p>
+          <p>
+            We create long term relationships by being strong communicators, keeping you in the loop ensuring that you are abreast of all the financial decisions made.
+          </p>
+          <p>
+            We are here to help you navigate the financial maze.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 7: Join the Journey CTA -->
+  <section class="about-cta-section" aria-label="Join the Finance with Flow Journey">
+    <div class="about-container cta-box" data-settings='{"animation":"fadeInRight"}'>
+      <div class="heading-badge-wrap center-badge">
+        <h2 class="script-heading heading-dark cta-title">Join the Finance with Flow Journey</h2>
+      </div>
+      <div class="cta-paragraphs">
+        <p>
+          Let’s work together to not only achieve financial goals but to exceed them while staying true to the heart and soul of your business.
+        </p>
+        <p>
+          We’re here to help – contact us to today, to discuss your requirements and let’s shape your success together.
+        </p>
+      </div>
+      <div class="cta-button-holder">
+        <a class="fwf-btn-teal" href="/contact/">Contact us today</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 8: Frequently Asked Questions (Accordion) -->
+  <section class="about-faqs-section" id="faqs" aria-label="Frequently Asked Questions">
+    <div class="about-container faqs-container">
+      <div class="heading-badge-wrap center-badge" data-settings='{"animation":"fadeInRight"}'>
+        <h2 class="script-heading heading-dark">Frequently Asked Questions</h2>
+      </div>
+      <p class="faqs-subtitle">
+        Everything you need to know about working with Finance with Flow and outsourcing your finance department.
+      </p>
+
+      <div class="faqs-list" role="region" aria-label="Frequently Asked Questions List">
+        {faqSchema.mainEntity.map((item, index) => (
+          <div class="faq-item">
+            <button
+              type="button"
+              class="faq-trigger"
+              id={`faq-title-${index}`}
+              aria-expanded="false"
+              aria-controls={`faq-content-${index}`}
+            >
+              <span class="faq-question">{item.name}</span>
+              <span class="faq-icon" aria-hidden="true">
+                <svg class="icon-caret" viewBox="0 0 192 512" xmlns="http://www.w3.org/2000/svg" width="14" height="14">
+                  <path fill="currentColor" d="M0 384.662V127.338c0-17.818 21.543-26.741 34.142-14.142l128.662 128.662c7.81 7.81 7.81 20.474 0 28.284L34.142 398.804C21.543 411.404 0 402.48 0 384.662z"></path>
+                </svg>
+              </span>
+            </button>
+            <div
+              id={`faq-content-${index}`}
+              class="faq-content"
+              role="region"
+              aria-labelledby={`faq-title-${index}`}
+              hidden
+            >
+              <p class="faq-answer">{item.acceptedAnswer.text}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
 </BaseLayout>
 
 <style>
-  :global(.elementor-22 .elementor-element.elementor-element-1be1e415) {
-    background-image: none !important;
+  /* -------------------------------------------------------------
+     Shared Layout & Typography
+     ------------------------------------------------------------- */
+  .about-container {
+    width: 100%;
+    max-width: 1140px;
+    margin: 0 auto;
+    padding-left: 20px;
+    padding-right: 20px;
+    box-sizing: border-box;
+  }
+
+  /* Decorative Circle Behind Script Headings */
+  .heading-badge-wrap {
+    position: relative;
+    display: inline-block;
+    background-image: url('/wp-content/uploads/2023/12/circle.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center left;
+    padding: 25px 30px 15px 15px;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+  }
+
+  .heading-badge-wrap.center-badge {
+    background-position: center center;
+    padding: 25px 40px 15px 40px;
+    margin-left: auto;
+    margin-right: auto;
+    display: table;
+    text-align: center;
+  }
+
+  .heading-badge-wrap.center-badge .script-heading {
+    text-align: center;
+  }
+
+  .script-heading {
+    font-family: 'Angel', sans-serif !important;
+    font-size: 4rem;
+    font-weight: 400;
+    line-height: 1;
+    margin: 0;
+    padding: 0;
+  }
+
+  .heading-dark {
+    color: #160F3F !important;
+  }
+
+  .heading-white {
+    color: #FFFFFF !important;
+  }
+
+  /* Shared Buttons (Zero shadow, zero lift, color transition only) */
+  .fwf-btn-white {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #FFFFFF;
+    color: #160F3F;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: 50px;
+    padding: 15px 34px;
+    cursor: pointer;
+    box-shadow: none !important;
+    transform: none !important;
+    transition: background-color 0.2s ease, color 0.2s ease !important;
+  }
+
+  .fwf-btn-white:hover,
+  .fwf-btn-white:focus {
+    background-color: #31CDB0;
+    color: #160F3F;
+    box-shadow: none !important;
+    transform: none !important;
+  }
+
+  .fwf-btn-teal {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #31CDB0;
+    color: #FFFFFF;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: 35px;
+    padding: 14px 34px;
+    cursor: pointer;
+    box-shadow: none !important;
+    transform: none !important;
+    transition: background-color 0.2s ease, color 0.2s ease !important;
+  }
+
+  .fwf-btn-teal:hover,
+  .fwf-btn-teal:focus {
+    background-color: #3456A7;
+    color: #FFFFFF;
+    box-shadow: none !important;
+    transform: none !important;
+  }
+
+  /* -------------------------------------------------------------
+     Section 1: Who We Are
+     ------------------------------------------------------------- */
+  .about-hero-section {
+    background-color: #FFFFFF;
+    padding-top: 80px;
+    padding-bottom: 80px;
+    box-sizing: border-box;
+  }
+
+  .about-hero-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 48px;
+  }
+
+  .about-hero-left {
+    width: 48%;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+  }
+
+  .about-hero-img-box {
+    width: 100%;
     overflow: hidden;
-    padding: 0 !important;
+    border-radius: 24px;
   }
-  :global(.fwf-approach-img) {
-    width: 100% !important;
-    height: 100% !important;
+
+  .about-hero-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 24px;
+  }
+
+  .about-hero-right {
+    width: 52%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    box-sizing: border-box;
+  }
+
+  .about-hero-right p {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 1.15rem;
+    line-height: 1.6;
+    color: #160F3F;
+    margin: 0;
+    font-weight: 500;
+  }
+
+  /* -------------------------------------------------------------
+     Split Sections: Meet Roz, Our Approach, Our Commitment
+     ------------------------------------------------------------- */
+  .about-split-section {
+    display: flex;
+    width: 100%;
+    min-height: 60vh;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  .split-col-media {
+    width: 40%;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    min-height: 480px;
+    box-sizing: border-box;
+  }
+
+  .split-col-content {
+    width: 60%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 75px 60px;
+    box-sizing: border-box;
+  }
+
+  .split-inner-wrap {
+    width: 100%;
+    max-width: 540px;
+  }
+
+  .split-body-paragraphs {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-bottom: 30px;
+  }
+
+  .split-body-paragraphs p {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 1.15rem;
+    line-height: 1.6;
+    color: #FFFFFF;
+    margin: 0;
+    font-weight: 500;
+  }
+
+  /* Roz Section */
+  .roz-bg-image {
+    background-image: url('/wp-content/uploads/2023/12/Headshot-of-Roz.-About.jpg');
+  }
+
+  .roz-content-bg {
+    background-color: #3456A7;
+  }
+
+  /* Approach Section */
+  .approach-content-bg {
+    background-color: #31CDB0;
+  }
+
+  .approach-img-holder {
+    position: relative;
+    overflow: hidden;
+    padding: 0;
+    background-color: transparent;
+  }
+
+  .fwf-approach-img {
+    width: 100%;
+    height: 100%;
     min-height: 55vh;
-    object-fit: cover !important;
-    object-position: center center !important;
-    display: block !important;
+    object-fit: cover;
+    object-position: center center;
+    display: block;
   }
+
   @media (min-width: 1025px) {
-    :global(.fwf-approach-img) {
-      min-height: 80vh;
+    .fwf-approach-img {
+      min-height: 75vh;
     }
   }
+
+  /* Commitment Section */
+  .commitment-bg-image {
+    background-image: url('/wp-content/uploads/2025/07/construction-paperwork-scaled.jpg');
+  }
+
+  .commitment-content-bg {
+    background-color: #3456A7;
+  }
+
+  /* -------------------------------------------------------------
+     Section 3: Our Purpose
+     ------------------------------------------------------------- */
+  .about-purpose-section {
+    background-color: #FEF9F3;
+    padding-top: 80px;
+    padding-bottom: 90px;
+    box-sizing: border-box;
+  }
+
+  .purpose-box {
+    text-align: center;
+    max-width: 900px;
+  }
+
+  .purpose-paragraphs {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 10px;
+  }
+
+  .purpose-paragraphs p {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: #160F3F;
+    margin: 0;
+    font-weight: 500;
+  }
+
+  /* -------------------------------------------------------------
+     Section 5: Our Values (Checkerboard 64% / 32%)
+     ------------------------------------------------------------- */
+  .about-values-section {
+    background-color: #FEF9F3;
+    padding-top: 50px;
+    padding-bottom: 90px;
+    box-sizing: border-box;
+  }
+
+  .values-flex-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    margin-top: 12px;
+  }
+
+  .value-card {
+    border-radius: 24px;
+    padding: 40px 32px 36px 32px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .card-wide {
+    flex: 1 1 calc(64% - 16px);
+    min-width: 320px;
+  }
+
+  .card-narrow {
+    flex: 1 1 calc(36% - 16px);
+    min-width: 280px;
+  }
+
+  .card-blue {
+    background-color: #3456A7;
+  }
+
+  .card-blue .value-card-heading,
+  .card-blue .value-card-text {
+    color: #FFFFFF;
+  }
+
+  .card-teal {
+    background-color: #31CDB0;
+  }
+
+  .card-teal .value-card-heading,
+  .card-teal .value-card-text {
+    color: #160F3F;
+  }
+
+  .value-card-heading {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0;
+    padding: 0;
+    line-height: 1.2;
+  }
+
+  .value-card-text {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 1.1rem;
+    line-height: 1.5;
+    margin: 0;
+    padding: 0;
+    font-weight: 500;
+  }
+
+  /* -------------------------------------------------------------
+     Section 7: Join the Journey CTA
+     ------------------------------------------------------------- */
+  .about-cta-section {
+    background-color: #FEF9F3;
+    padding-top: 50px;
+    padding-bottom: 100px;
+    box-sizing: border-box;
+  }
+
+  .cta-box {
+    text-align: center;
+    max-width: 860px;
+  }
+
+  .cta-title {
+    font-size: 3.2rem;
+  }
+
+  .cta-paragraphs {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-top: 8px;
+    margin-bottom: 32px;
+  }
+
+  .cta-paragraphs p {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: #160F3F;
+    margin: 0;
+    font-weight: 500;
+  }
+
+  .cta-button-holder {
+    display: flex;
+    justify-content: center;
+  }
+
+  /* -------------------------------------------------------------
+     Responsive Breakpoints
+     ------------------------------------------------------------- */
+  @media (max-width: 1024px) {
+    .about-split-section {
+      min-height: auto;
+    }
+
+    .split-col-content {
+      padding: 50px 36px;
+    }
+
+    .script-heading {
+      font-size: 3rem;
+    }
+
+    .cta-title {
+      font-size: 2.6rem;
+    }
+  }
+
+  @media (max-width: 860px) {
+    .about-hero-container {
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .about-hero-left,
+    .about-hero-right {
+      width: 100%;
+    }
+
+    .about-split-section {
+      flex-direction: column;
+    }
+
+    .split-col-media,
+    .split-col-content {
+      width: 100% !important;
+    }
+
+    .split-col-media {
+      min-height: 360px;
+    }
+
+    .fwf-approach-img {
+      min-height: 360px;
+    }
+
+    .split-col-content {
+      padding: 48px 24px;
+    }
+
+    .card-wide,
+    .card-narrow {
+      flex: 1 1 100%;
+      width: 100%;
+    }
+
+    .about-hero-section {
+      padding-top: 50px;
+      padding-bottom: 50px;
+    }
+
+    .about-purpose-section,
+    .about-values-section,
+    .about-cta-section {
+      padding-top: 40px;
+      padding-bottom: 60px;
+    }
+
+    .about-faqs-section {
+      padding-top: 40px;
+      padding-bottom: 70px;
+    }
+
+    .faq-trigger {
+      padding: 18px 0;
+    }
+
+    .faq-question {
+      font-size: 1.05em;
+      padding-right: 16px;
+      line-height: 1.35;
+    }
+
+    .faq-answer {
+      font-size: 0.98em;
+    }
+  }
+
+  /* -------------------------------------------------------------
+     Section 8: FAQs Accordion Section
+     ------------------------------------------------------------- */
+  .about-faqs-section {
+    background-color: #FFFFFF;
+    padding: 60px 20px 100px;
+    border-top: 1px solid rgba(22, 15, 63, 0.08);
+  }
+
+  .faqs-container {
+    max-width: 680px;
+  }
+
+  .faqs-subtitle {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 1.15em;
+    font-weight: 500;
+    color: #555555;
+    text-align: center;
+    margin: 0 auto 40px;
+    max-width: 680px;
+    line-height: 1.5;
+  }
+
+  .faqs-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .faq-item {
+    border-bottom: 1.5px solid rgba(49, 205, 176, 0.4);
+  }
+
+  .faq-trigger {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 0;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    outline: none;
+    white-space: normal; /* Overrides global button { white-space: nowrap } from site-bundle */
+    transition: color 0.2s ease;
+  }
+
+  .faq-question {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 1.2em;
+    font-weight: 600;
+    color: #3456A7;
+    transition: color 0.2s ease;
+    padding-right: 24px;
+    line-height: 1.4;
+    white-space: normal;
+    word-break: normal;
+    overflow-wrap: break-word;
+    text-wrap: pretty;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .faq-trigger:hover .faq-question,
+  .faq-trigger[aria-expanded="true"] .faq-question {
+    color: #31CDB0;
+  }
+
+  .faq-trigger:focus-visible {
+    outline: 2px solid #31CDB0;
+    outline-offset: 4px;
+  }
+
+  .faq-icon {
+    color: #3456A7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-left: 8px;
+    transition: transform 0.25s ease, color 0.2s ease;
+  }
+
+  .faq-trigger:hover .faq-icon,
+  .faq-trigger[aria-expanded="true"] .faq-icon {
+    color: #31CDB0;
+  }
+
+  .faq-trigger[aria-expanded="true"] .faq-icon {
+    transform: rotate(90deg);
+  }
+
+  .faq-content {
+    padding: 0 0 24px 0;
+  }
+
+  .faq-answer {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 1.05em;
+    font-weight: 500;
+    color: #160F3F;
+    line-height: 1.65;
+    margin: 0;
+  }
 </style>
+
+<script>
+  function initAboutFaqs() {
+    const triggers = document.querySelectorAll<HTMLButtonElement>('.about-faqs-section .faq-trigger');
+
+    triggers.forEach(trigger => {
+      trigger.addEventListener('click', () => {
+        const isExpanded = trigger.getAttribute('aria-expanded') === 'true';
+        const contentId = trigger.getAttribute('aria-controls');
+        if (!contentId) return;
+        const content = document.getElementById(contentId);
+        if (!content) return;
+
+        if (isExpanded) {
+          trigger.setAttribute('aria-expanded', 'false');
+          content.hidden = true;
+        } else {
+          trigger.setAttribute('aria-expanded', 'true');
+          content.hidden = false;
+        }
+      });
+    });
+  }
+
+  initAboutFaqs();
+  document.addEventListener('astro:page-load', initAboutFaqs);
+</script>

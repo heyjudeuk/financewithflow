@@ -1,0 +1,328 @@
+---
+interface Props {
+  // Optional text customization props
+  introP1?: string;
+  introP2?: string;
+  packageP1?: string;
+  packageP2?: string;
+  packageP3?: string;
+  visionStatement?: string;
+}
+
+const {
+  introP1 = "At Finance with Flow we specialise in providing comprehensive outsourced finance department services that empower businesses and allow them to thrive.",
+  introP2 = "Our team of experts cover many different skill sets, meaning you have all of the benefits of an in-house finance department, yet with the cost efficiency of not employing a whole team directly.",
+  packageP1 = "We don’t just balance your books and take care of your taxes – we cover all of your financial needs and we come as a package.",
+  packageP2 = "We’re a forward thinking team involving a combination of strategic planning, embracing new technology and have ongoing training to keep on top of the industry and any emerging trends.",
+  packageP3 = "Our goal is to take away the fear of finance and become a linchpin for all finance matters.",
+  visionStatement = "Finance with Flow’s vision is to support, empower and alleviate stress for businesses by helping them navigate through the financial maze.",
+} = Astro.props;
+---
+
+<!-- 1. What We Do Overview Section -->
+<section class="what-we-do-section" aria-labelledby="heading-what-we-do">
+  <div class="section-container">
+    <div class="what-we-do-grid">
+      <!-- Left Column: Graphic and Team Photo -->
+      <div class="what-we-do-visuals">
+        <h2 id="heading-what-we-do" class="sr-only">What we do</h2>
+        <div class="visual-badge" data-settings='{"animation":"fadeInLeft"}'>
+          <img
+            src="/wp-content/uploads/2023/12/what-we-do.png"
+            srcset="/wp-content/uploads/2023/12/what-we-do.png 1000w, /wp-content/uploads/2023/12/what-we-do-300x210.png 300w, /wp-content/uploads/2023/12/what-we-do-768x538.png 768w"
+            sizes="(max-width: 800px) 100vw, 800px"
+            width="800"
+            height="560"
+            alt="What we do"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+        <div class="visual-photo hidden-mobile" data-settings='{"animation":"fadeInLeft","animation_delay":250}'>
+          <img
+            src="/wp-content/uploads/2025/07/construction-accountants-1-1024x683.jpg"
+            srcset="/wp-content/uploads/2025/07/construction-accountants-1-1024x683.jpg 1024w, /wp-content/uploads/2025/07/construction-accountants-1-300x200.jpg 300w, /wp-content/uploads/2025/07/construction-accountants-1-768x512.jpg 768w, /wp-content/uploads/2025/07/construction-accountants-1-1536x1024.jpg 1536w, /wp-content/uploads/2025/07/construction-accountants-1-2048x1365.jpg 2048w"
+            sizes="(max-width: 800px) 100vw, 800px"
+            width="800"
+            height="534"
+            alt="Finance with Flow team discussing client finance"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+      </div>
+
+      <!-- Right Column: Introductory Text -->
+      <div class="what-we-do-content" data-settings='{"animation":"fadeInRight"}'>
+        <p>{introP1}</p>
+        <p>{introP2}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 2. "We come as a package" Blue Band -->
+<section class="package-band" aria-label="Our Complete Package Approach">
+  <div class="section-container">
+    <div class="package-band-grid">
+      <!-- Left Column: Copy -->
+      <div class="package-band-content">
+        <p>{packageP1}</p>
+        <p>{packageP2}</p>
+        <p>{packageP3}</p>
+      </div>
+
+      <!-- Right Column: Collaboration Photo -->
+      <div class="package-band-visual hidden-mobile">
+        <img
+          src="/wp-content/uploads/2026/01/Professional-collaboration-against-a-blue-backdrop-1024x683.png"
+          srcset="/wp-content/uploads/2026/01/Professional-collaboration-against-a-blue-backdrop-1024x683.png 1024w, /wp-content/uploads/2026/01/Professional-collaboration-against-a-blue-backdrop-300x200.png 300w, /wp-content/uploads/2026/01/Professional-collaboration-against-a-blue-backdrop-768x512.png 768w, /wp-content/uploads/2026/01/Professional-collaboration-against-a-blue-backdrop.webp 1536w"
+          sizes="(max-width: 800px) 100vw, 800px"
+          width="800"
+          height="534"
+          alt="Professional collaboration against blue backdrop"
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. Vision Statement Banner -->
+<section class="vision-banner" aria-label="Company Vision">
+  <div class="section-container">
+    <div class="vision-content">
+      <p class="vision-text">{visionStatement}</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Common Container Setup matching Elementor max-width */
+  .section-container {
+    width: 100%;
+    max-width: 1140px;
+    margin: 0 auto;
+    box-sizing: border-box;
+  }
+
+  /* Accessible Screen Reader Only Utility */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  /* -------------------------------------------------------------
+     1. What We Do Section Styles
+     ------------------------------------------------------------- */
+  .what-we-do-section {
+    padding: 100px 15px;
+    background-color: transparent;
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+
+  .what-we-do-grid {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 0;
+    width: 100%;
+  }
+
+  .what-we-do-visuals {
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    flex-shrink: 0;
+  }
+
+  .visual-badge img {
+    width: 65%;
+    height: auto;
+    display: block;
+  }
+
+  .visual-photo img {
+    width: 100%;
+    height: auto;
+    border-radius: 24px;
+    display: block;
+  }
+
+  .what-we-do-content {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 10%;
+    font-size: 1.3em;
+    color: #160F3F;
+    box-sizing: border-box;
+  }
+
+  .what-we-do-content p {
+    margin-top: 0;
+    margin-bottom: 1.5em;
+    line-height: 1.5;
+  }
+
+  .what-we-do-content p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* -------------------------------------------------------------
+     2. "We Come As A Package" Blue Band Styles
+     ------------------------------------------------------------- */
+  .package-band {
+    background-color: #3456A7;
+    padding: 100px 15px;
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+
+  .package-band-grid {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 0;
+    width: 100%;
+  }
+
+  .package-band-content {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-right: 10%;
+    font-size: 1.3em;
+    color: #FFFFFF;
+    box-sizing: border-box;
+  }
+
+  .package-band-content p {
+    margin-top: 0;
+    margin-bottom: 1.5em;
+    line-height: 1.5;
+  }
+
+  .package-band-content p:last-child {
+    margin-bottom: 0;
+  }
+
+  .package-band-visual {
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .package-band-visual img {
+    width: 100%;
+    height: auto;
+    border-radius: 24px;
+    display: block;
+  }
+
+  /* -------------------------------------------------------------
+     3. Vision Banner Styles
+     ------------------------------------------------------------- */
+  .vision-banner {
+    background-color: #FFFFFF;
+    padding: 100px 15px;
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+
+  .vision-content {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .vision-text {
+    margin: 0 10%;
+    text-align: center;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 2.2em;
+    font-weight: 500;
+    color: #160F3F;
+    line-height: 1.4;
+  }
+
+  /* -------------------------------------------------------------
+     Responsive Breakpoints
+     ------------------------------------------------------------- */
+  @media (max-width: 1366px) {
+    .what-we-do-section {
+      padding: 100px 20px;
+    }
+    .package-band {
+      padding: 100px 20px 50px 20px;
+    }
+    .vision-banner {
+      padding: 100px 20px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .what-we-do-section {
+      padding: 50px 15px;
+    }
+
+    .what-we-do-grid {
+      flex-direction: column;
+    }
+
+    .what-we-do-visuals {
+      width: 100%;
+    }
+
+    .visual-badge img {
+      width: 60%;
+    }
+
+    .what-we-do-content {
+      width: 100%;
+      padding-left: 0;
+      margin-top: 10%;
+    }
+
+    .hidden-mobile {
+      display: none !important;
+    }
+
+    .package-band {
+      padding: 25px 15px 50px 15px;
+    }
+
+    .package-band-grid {
+      flex-direction: column;
+    }
+
+    .package-band-content {
+      width: 100%;
+      padding-right: 0;
+      margin-top: 10%;
+    }
+
+    .vision-banner {
+      padding: 50px 15px;
+    }
+
+    .vision-text {
+      margin: 0;
+      font-size: 1.8em;
+    }
+  }
+</style>

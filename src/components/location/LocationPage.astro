@@ -1,0 +1,559 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export interface FeatureItem {
+  title: string;
+  text: string;
+}
+
+export interface Props {
+  title: string;
+  description: string;
+  area: string;
+  intro: string;
+  supportH2: string;
+  supportItems: FeatureItem[];
+  whyH2: string;
+  whyItems: FeatureItem[];
+  ctaText: string;
+  schema?: Record<string, any>;
+}
+
+const {
+  title,
+  description,
+  area,
+  intro,
+  supportH2,
+  supportItems,
+  whyH2,
+  whyItems,
+  ctaText,
+  schema,
+} = Astro.props;
+---
+
+<BaseLayout title={title} description={description} schema={schema}>
+  <!-- Hero Section -->
+  <section class="location-hero" aria-label="Hero">
+    <div class="location-container hero-inner">
+      <div class="hero-content" data-settings='{"animation":"fadeInLeft"}'>
+        <div class="heading-badge-wrap">
+          <span class="script-heading heading-dark">Welcome to Finance with Flow</span>
+        </div>
+        <h1 class="hero-h1">
+          Beyond being just accountants, we proudly stand as your dedicated finance team.
+        </h1>
+        <p class="hero-intro">
+          {intro}
+        </p>
+        <div class="hero-cta-group">
+          <a href="/contact/" class="fwf-btn-primary">Book a Discovery Call</a>
+          <a href="/services/" class="fwf-btn-outline">Explore Our Services</a>
+        </div>
+      </div>
+      <div class="hero-media" data-settings='{"animation":"fadeInRight"}'>
+        <div class="image-card">
+          <img
+            src="/wp-content/uploads/2023/12/Finance-with-Flow-Roz-Johnson4177-1024x683.jpg"
+            alt={`Finance with Flow payroll services in ${area}`}
+            width="800"
+            height="534"
+            loading="eager"
+            decoding="async"
+            class="hero-img"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 1: Support Section -->
+  <section class="support-section" aria-label="How we support your payroll needs">
+    <div class="location-container">
+      <div class="section-header-wrap" data-settings='{"animation":"fadeInUp"}'>
+        <div class="heading-badge-wrap center-badge">
+          <h2 class="script-heading heading-dark">{supportH2}</h2>
+        </div>
+      </div>
+
+      <div class="cards-grid">
+        {supportItems.map((item, idx) => (
+          <div class="feature-card" data-settings={`{"animation":"fadeInUp","animation_delay":${idx * 100}}`}>
+            <div class="card-icon-wrap">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <circle cx="12" cy="12" r="10" fill="#31CDB0" fill-opacity="0.2" />
+                <path d="M8 12.5L10.5 15L16 9.5" stroke="#160F3F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">{item.title}</h3>
+              <p class="card-text">{item.text}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 2: Why Choose Us Section -->
+  <section class="why-choose-section" aria-label={`Why choose Finance with Flow in ${area}`}>
+    <div class="location-container">
+      <div class="section-header-wrap" data-settings='{"animation":"fadeInUp"}'>
+        <div class="heading-badge-wrap center-badge">
+          <h2 class="script-heading heading-dark">{whyH2}</h2>
+        </div>
+      </div>
+
+      <div class="why-split-inner">
+        <div class="why-cards-col">
+          {whyItems.map((item, idx) => (
+            <div class="why-card" data-settings={`{"animation":"fadeInLeft","animation_delay":${idx * 100}}`}>
+              <div class="why-badge-num">{idx + 1}</div>
+              <div class="why-card-content">
+                <h3 class="why-card-title">{item.title}</h3>
+                <p class="why-card-text">{item.text}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div class="why-media-col" data-settings='{"animation":"fadeInRight"}'>
+          <div class="image-card sticky-card">
+            <img
+              src="/wp-content/uploads/2024/01/Bronze-package-A-1024x683.jpg"
+              alt={`Payroll outsourcing packages in ${area}`}
+              width="800"
+              height="534"
+              loading="lazy"
+              decoding="async"
+              class="why-img"
+            />
+            <div class="image-caption-pill">
+              <span>Tailored Packages for {area} Businesses</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 3: Bottom CTA -->
+  <section class="location-cta-section" aria-label="Contact us today">
+    <div class="location-container">
+      <div class="cta-banner" data-settings='{"animation":"fadeInUp"}'>
+        <div class="heading-badge-wrap center-badge badge-cream">
+          <h2 class="script-heading heading-light">Get in touch with our team</h2>
+        </div>
+        <p class="cta-text">
+          {ctaText}
+        </p>
+        <div class="cta-btn-wrap">
+          <a href="/contact/" class="fwf-btn-teal">Contact Us Today</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* -------------------------------------------------------------
+     Shared Layout & Containers
+     ------------------------------------------------------------- */
+  .location-container {
+    width: 100%;
+    max-width: 1140px;
+    margin: 0 auto;
+    padding-left: 20px;
+    padding-right: 20px;
+    box-sizing: border-box;
+  }
+
+  /* -------------------------------------------------------------
+     Typography & Badges
+     ------------------------------------------------------------- */
+  .heading-badge-wrap {
+    position: relative;
+    display: inline-block;
+    background-image: url('/wp-content/uploads/2023/12/circle.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    padding: 16px 36px;
+    margin-bottom: 12px;
+  }
+
+  .heading-badge-wrap.center-badge {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .heading-badge-wrap.badge-cream {
+    background-image: url('/wp-content/uploads/2023/12/cream_circle.png');
+  }
+
+  .script-heading {
+    font-family: 'Angel', cursive, sans-serif;
+    font-size: 3.2em;
+    font-weight: 400;
+    line-height: 1.2;
+    margin: 0;
+  }
+
+  .heading-dark {
+    color: #160F3F;
+  }
+
+  .heading-light {
+    color: #FFFFFF;
+  }
+
+  .section-header-wrap {
+    text-align: center;
+    margin-bottom: 45px;
+  }
+
+  /* -------------------------------------------------------------
+     Buttons
+     ------------------------------------------------------------- */
+  .fwf-btn-primary {
+    display: inline-block;
+    background-color: #160F3F;
+    color: #FFFFFF;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: 9999px;
+    padding: 14px 30px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  .fwf-btn-primary:hover {
+    background-color: #31CDB0;
+    color: #160F3F;
+  }
+
+  .fwf-btn-outline {
+    display: inline-block;
+    background-color: transparent;
+    color: #160F3F;
+    border: 2px solid #160F3F;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: 9999px;
+    padding: 12px 28px;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  }
+
+  .fwf-btn-outline:hover {
+    background-color: #160F3F;
+    color: #FFFFFF;
+  }
+
+  .fwf-btn-teal {
+    display: inline-block;
+    background-color: #31CDB0;
+    color: #160F3F;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: 9999px;
+    padding: 15px 36px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  .fwf-btn-teal:hover {
+    background-color: #FFFFFF;
+    color: #160F3F;
+  }
+
+  /* -------------------------------------------------------------
+     Hero Section
+     ------------------------------------------------------------- */
+  .location-hero {
+    background-color: #FEF9F3;
+    padding: 70px 0 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-inner {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 50px;
+    align-items: center;
+  }
+
+  .hero-h1 {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 2.3em;
+    font-weight: 700;
+    color: #160F3F;
+    line-height: 1.35;
+    margin: 12px 0 20px;
+  }
+
+  .hero-intro {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 1.08em;
+    line-height: 1.75;
+    color: #444F5A;
+    margin: 0 0 30px;
+  }
+
+  .hero-cta-group {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .image-card {
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(22, 15, 63, 0.08);
+    background-color: #FFFFFF;
+  }
+
+  .hero-img,
+  .why-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+  }
+
+  /* -------------------------------------------------------------
+     Section 1: Support Grid
+     ------------------------------------------------------------- */
+  .support-section {
+    background-color: #FFFFFF;
+    padding: 90px 0 100px;
+  }
+
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px;
+  }
+
+  .feature-card {
+    display: flex;
+    gap: 20px;
+    background-color: #FEF9F3;
+    border-radius: 20px;
+    padding: 32px 28px;
+    border: 1px solid rgba(22, 15, 63, 0.05);
+    transition: border-color 0.2s ease;
+  }
+
+  .feature-card:hover {
+    border-color: #31CDB0;
+  }
+
+  .card-icon-wrap {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background-color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  }
+
+  .card-title {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 1.25em;
+    font-weight: 700;
+    color: #160F3F;
+    margin: 0 0 10px;
+  }
+
+  .card-text {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 0.98em;
+    line-height: 1.7;
+    color: #444F5A;
+    margin: 0;
+  }
+
+  /* -------------------------------------------------------------
+     Section 2: Why Choose Us Split
+     ------------------------------------------------------------- */
+  .why-choose-section {
+    background-color: #FEF9F3;
+    padding: 90px 0 100px;
+  }
+
+  .why-split-inner {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 45px;
+    align-items: flex-start;
+  }
+
+  .why-cards-col {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .why-card {
+    display: flex;
+    gap: 20px;
+    background-color: #FFFFFF;
+    border-radius: 18px;
+    padding: 26px 24px;
+    box-shadow: 0 4px 18px rgba(22, 15, 63, 0.04);
+    border: 1px solid transparent;
+    transition: border-color 0.2s ease;
+  }
+
+  .why-card:hover {
+    border-color: #31CDB0;
+  }
+
+  .why-badge-num {
+    flex-shrink: 0;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background-color: #3456A7;
+    color: #FFFFFF;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .why-card-title {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 1.18em;
+    font-weight: 700;
+    color: #160F3F;
+    margin: 0 0 8px;
+  }
+
+  .why-card-text {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 0.96em;
+    line-height: 1.68;
+    color: #444F5A;
+    margin: 0;
+  }
+
+  .sticky-card {
+    position: sticky;
+    top: 100px;
+    border-radius: 24px;
+    overflow: hidden;
+  }
+
+  .image-caption-pill {
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+    right: 16px;
+    background: rgba(22, 15, 63, 0.88);
+    backdrop-filter: blur(8px);
+    color: #FFFFFF;
+    padding: 12px 18px;
+    border-radius: 14px;
+    text-align: center;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  /* -------------------------------------------------------------
+     Section 3: Bottom CTA Banner
+     ------------------------------------------------------------- */
+  .location-cta-section {
+    background-color: #FEF9F3;
+    padding: 0 0 90px;
+  }
+
+  .cta-banner {
+    background: linear-gradient(135deg, #160F3F 0%, #3456A7 100%);
+    border-radius: 28px;
+    padding: 60px 40px;
+    text-align: center;
+    color: #FFFFFF;
+    box-shadow: 0 12px 35px rgba(22, 15, 63, 0.12);
+  }
+
+  .cta-text {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 1.15em;
+    line-height: 1.8;
+    color: #FEF9F3;
+    max-width: 800px;
+    margin: 15px auto 35px;
+  }
+
+  .cta-btn-wrap {
+    margin-top: 10px;
+  }
+
+  /* -------------------------------------------------------------
+     Responsive Breakpoints
+     ------------------------------------------------------------- */
+  @media (max-width: 960px) {
+    .hero-inner {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+
+    .cards-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .why-split-inner {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+
+    .hero-h1 {
+      font-size: 1.9em;
+    }
+
+    .script-heading {
+      font-size: 2.6em;
+    }
+
+    .cta-banner {
+      padding: 45px 24px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .heading-badge-wrap {
+      padding: 12px 24px;
+    }
+
+    .script-heading {
+      font-size: 2.2em;
+    }
+
+    .hero-h1 {
+      font-size: 1.6em;
+    }
+
+    .hero-cta-group {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .hero-cta-group a {
+      text-align: center;
+    }
+  }
+</style>
