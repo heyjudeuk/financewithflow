@@ -763,6 +763,7 @@ const availableCategories = Array.from(categoriesMap.entries()).map(([slug, coun
       });
 
       // 5. Render pagination buttons
+      if (!paginationContainer) return;
       paginationContainer.innerHTML = '';
       if (totalPages <= 1) {
         paginationContainer.style.display = 'none';

@@ -3,7 +3,7 @@
  * Update this URL when booking links or calendars change.
  */
 export const BOOKING_URL =
-  'https://outlook.office.com/bookwithme/user/e66f1fa05852426c9a0aa1ad594ec8e8%40financewithflow.com/meetingtype/uf9p26YqMUW5YWrcBvZsCQ2?bookingcode=c9d7db13-65ef-43ea-86d4-0b87226ad9ab&anonymous';
+  'https://outlook.office.com/book/FinanceWithFlowBookings@financewithflow.com/?ismsaljsauthenabled';
 
 export const HEALTH_CHECK_CONFIG = {
   badge: 'Finance Health Check',
