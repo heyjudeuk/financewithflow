@@ -14,6 +14,25 @@ import HealthCheckModal from "../components/HealthCheckModal.astro";
   description="At Finance with Flow we specialise in providing comprehensive outsourced finance services that empower businesses and allow them to thrive."
   bodyClass="home page-template-default page"
 >
+  <Fragment slot="head">
+    <link
+      rel="preload"
+      as="image"
+      href="/wp-content/uploads/2023/12/Finance-with-Flow-Roz-Johnson4212-1-600x400.webp"
+      media="(max-width: 600px)"
+      type="image/webp"
+      fetchpriority="high"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="/wp-content/uploads/2023/12/logo-white-360w.webp"
+      media="(max-width: 600px)"
+      type="image/webp"
+      fetchpriority="high"
+    />
+  </Fragment>
+
   <HomeHero />
   <HomeWhatWeDo />
   <HomeHowWeHelp />

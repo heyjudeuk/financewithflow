@@ -6,7 +6,9 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "postinstall": "node scripts/patch-keystatic.mjs",
+    "prebuild": "node scripts/patch-keystatic.mjs && node scripts/prebuild-optimize-posts.mjs",
+    "build": "node scripts/patch-keystatic.mjs && node scripts/prebuild-optimize-posts.mjs && astro build",
     "preview": "astro preview",
     "astro": "astro",
     "optimize:images": "node scripts/optimize-images.mjs",

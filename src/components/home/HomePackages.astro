@@ -4,6 +4,7 @@ export interface PackageItem {
   name: string;
   description: string;
   imageSrc: string;
+  imageSrcset?: string;
   imageAlt: string;
   animationDelay?: number;
 }
@@ -20,7 +21,8 @@ const defaultPackages: PackageItem[] = [
     id: "sunstone",
     name: "Sunstone",
     description: "For businesses that are reaching the end of being able to manage finance themselves.",
-    imageSrc: "/wp-content/uploads/2024/01/Bronze-package-A-1024x683.webp",
+    imageSrc: "/wp-content/uploads/2024/01/Bronze-package-A-600x400.webp",
+    imageSrcset: "/wp-content/uploads/2024/01/Bronze-package-A-300x200.webp 300w, /wp-content/uploads/2024/01/Bronze-package-A-600x400.webp 600w, /wp-content/uploads/2024/01/Bronze-package-A-768x512.webp 768w, /wp-content/uploads/2024/01/Bronze-package-A-1024x683.webp 1024w",
     imageAlt: "Sunstone payroll outsourcing package",
     animationDelay: 0,
   },
@@ -28,7 +30,8 @@ const defaultPackages: PackageItem[] = [
     id: "carnelian",
     name: "Carnelian",
     description: "The Carnelian Package is the ideal choice for businesses looking to elevate their operations and utilise the insights the numbers can provide.",
-    imageSrc: "/wp-content/uploads/2024/01/Silver-package-B-1024x683.webp",
+    imageSrc: "/wp-content/uploads/2024/01/Silver-package-B-600x400.webp",
+    imageSrcset: "/wp-content/uploads/2024/01/Silver-package-B-600x400.webp 600w, /wp-content/uploads/2024/01/Silver-package-B-1024x683.webp 1024w",
     imageAlt: "Carnelian outsourced bookkeeping package",
     animationDelay: 250,
   },
@@ -36,7 +39,8 @@ const defaultPackages: PackageItem[] = [
     id: "agate",
     name: "Agate",
     description: "Our Agate Package is designed for businesses seeking a transformative financial partner. Ideal for businesses aiming to strategically enhance their financial operations.",
-    imageSrc: "/wp-content/uploads/2024/01/Gold-Package-C-1024x683.webp",
+    imageSrc: "/wp-content/uploads/2024/01/Gold-Package-C-600x400.webp",
+    imageSrcset: "/wp-content/uploads/2024/01/Gold-Package-C-600x400.webp 600w, /wp-content/uploads/2024/01/Gold-Package-C-1024x683.webp 1024w",
     imageAlt: "Agate accounting outsourcing package",
     animationDelay: 500,
   },
@@ -59,7 +63,7 @@ const {
       </div>
     </div>
 
-    <!-- 3 Package Cards Grid -->
+    <!-- 3-Column Card Grid -->
     <div class="packages-grid">
       {packages.map((pkg) => (
         <div
@@ -72,9 +76,11 @@ const {
           <div class="card-image-wrap">
             <img
               src={pkg.imageSrc}
+              srcset={pkg.imageSrcset}
+              sizes="(max-width: 600px) 90vw, (max-width: 1024px) 45vw, 360px"
               alt={pkg.imageAlt}
-              width="800"
-              height="534"
+              width="600"
+              height="400"
               loading="lazy"
               decoding="async"
               class="card-image"

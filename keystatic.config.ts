@@ -25,7 +25,7 @@ export default config({
             { label: 'Published', value: 'published' },
             { label: 'Draft', value: 'draft' },
           ],
-          defaultValue: 'published',
+          defaultValue: 'draft',
         }),
         isFeatured: fields.checkbox({
           label: 'Featured Article',
