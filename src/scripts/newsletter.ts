@@ -16,10 +16,10 @@ function clearMessage(form: HTMLFormElement) {
 function showMessage(form: HTMLFormElement, text: string, type: 'success' | 'danger') {
   clearMessage(form);
   const msgDiv = document.createElement('div');
-  msgDiv.className = `fwf-form-message elementor-message elementor-message-${type}`;
+  msgDiv.className = `fwf-form-message fwf-form-message--${type}`;
   msgDiv.setAttribute('role', 'alert');
 
-  const isFooter = !!form.closest('.elementor-site-footer');
+  const isFooter = !!form.closest('.site-footer, .fwf-site-footer, footer');
   const isSuccess = type === 'success';
 
   let colorsCss = '';
@@ -59,7 +59,7 @@ function attachNewsletterHandler(form: HTMLFormElement) {
       'input[type="email"], input[name="form_fields[email]"], input[name="email"]'
     );
     const submitBtn = form.querySelector<HTMLButtonElement>('button[type="submit"]');
-    const buttonTextSpan = submitBtn?.querySelector('.elementor-button-text') || submitBtn;
+    const buttonTextSpan = submitBtn?.querySelector('.fwf-btn-text') || submitBtn;
 
     if (!emailInput) return;
 
@@ -175,7 +175,7 @@ function attachContactFormHandler(form: HTMLFormElement) {
     if (form.hasAttribute('data-netlify') || formNameAttr === 'contact form') {
       e.preventDefault();
       const submitBtn = form.querySelector<HTMLButtonElement>('button[type="submit"]');
-      const buttonTextSpan = submitBtn?.querySelector('.elementor-button-text') || submitBtn;
+      const buttonTextSpan = submitBtn?.querySelector('.fwf-btn-text') || submitBtn;
       const originalText = buttonTextSpan ? buttonTextSpan.textContent : 'Send';
 
       if (submitBtn) {

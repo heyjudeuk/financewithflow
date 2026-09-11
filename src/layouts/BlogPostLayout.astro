@@ -1,92 +1,114 @@
 ---
 import BaseLayout from './BaseLayout.astro';
-import { getCategoryDisplayName } from '../utils/categories';
 import ResponsiveImage from '../components/ResponsiveImage.astro';
+import { getCollection } from 'astro:content';
 
 interface Props {
   title: string;
+  category: string;
   publishedDate: string | Date;
-  author?: string;
-  category?: string;
   featuredImage?: string;
   excerpt?: string;
+  metaDescription?: string;
+  canonicalUrl?: string;
   slug?: string;
-  prevPost?: {
-    id: string;
-    data: {
-      title: string;
-    };
-  } | null;
-  nextPost?: {
-    id: string;
-    data: {
-      title: string;
-    };
-  } | null;
-  relatedPosts?: Array<{
-    id: string;
-    data: {
-      title: string;
-      category?: string;
-      publishedDate: string | Date;
-      featuredImage?: string;
-    };
-  }>;
+  author?: string;
+  prevPost?: any;
+  nextPost?: any;
+  relatedPosts?: any[];
 }
 
-const { 
-  title, 
-  publishedDate, 
-  author = 'Roz Johnson', 
-  category = 'Blogs from the MD', 
-  featuredImage, 
+const {
+  title,
+  category,
+  publishedDate,
+  featuredImage,
   excerpt,
-  slug = '',
-  prevPost,
-  nextPost,
-  relatedPosts = []
+  metaDescription,
+  canonicalUrl = `https://financewithflow.com/blog/${Astro.props.slug || ''}/`,
+  slug,
+  prevPost: passedPrev,
+  nextPost: passedNext,
+  relatedPosts: passedRelated,
 } = Astro.props;
 
-const SITE_URL = Astro.site ?? new URL('https://financewithflow.com');
-const d = new Date(publishedDate);
-const dateStr = d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
-const isoDate = Number.isNaN(d.getTime()) ? undefined : d.toISOString();
-const canonicalUrl = new URL(Astro.url.pathname, SITE_URL).href;
+const dateObj = new Date(publishedDate);
+const dateStr = dateObj.toLocaleDateString('en-US', {
+  month: 'long',
+  day: 'numeric',
+  year: 'numeric'
+});
+const isoDate = dateObj.toISOString();
 
-const shareImage = featuredImage
-  ? new URL(featuredImage, SITE_URL).href
-  : undefined;
+// Helper for category display
+function getCategoryDisplayName(cat: string) {
+  if (!cat) return 'Uncategorized';
+  const c = cat.toLowerCase();
+  if (c === 'blogs-from-the-md' || c === 'blogs from the md') return 'Blogs from the MD';
+  if (c === 'case-studies' || c === 'case studies') return 'Case Studies';
+  if (c === 'news') return 'News';
+  if (c === 'outsourcing') return 'Outsourcing';
+  if (c === 'social-mobility' || c === 'social mobility') return 'Social Mobility';
+  return cat.charAt(0).toUpperCase() + cat.slice(1);
+}
 
-// Fall back to a trimmed excerpt so social cards and search results are never blank.
-const metaDescription =
-  excerpt?.trim() || `${title} - insights from the Finance with Flow team.`;
+// Fetch posts collection as fallback if not passed directly
+const allPosts = await getCollection('posts');
+const sortedPosts = allPosts
+  .filter(p => p.data.status === 'published')
+  .sort((a, b) => new Date(b.data.publishedDate).getTime() - new Date(a.data.publishedDate).getTime());
 
+const currentIndex = slug ? sortedPosts.findIndex(p => p.id === slug) : -1;
+const prevPost = passedPrev !== undefined ? passedPrev : (currentIndex > 0 ? sortedPosts[currentIndex - 1] : null);
+const nextPost = passedNext !== undefined ? passedNext : (currentIndex >= 0 && currentIndex < sortedPosts.length - 1 ? sortedPosts[currentIndex + 1] : null);
+
+let relatedPosts = passedRelated;
+if (!relatedPosts || relatedPosts.length === 0) {
+  const otherPosts = sortedPosts.filter(p => p.id !== slug);
+  const sameCat = otherPosts.filter(p => p.data.category === category);
+  const diffCat = otherPosts.filter(p => p.data.category !== category);
+  relatedPosts = [...sameCat, ...diffCat].slice(0, 3);
+}
+
+
+// JSON-LD Schemas
 const articleSchema = {
   '@context': 'https://schema.org',
   '@type': 'BlogPosting',
   headline: title,
   description: metaDescription,
-  ...(shareImage ? { image: shareImage } : {}),
-  ...(isoDate ? { datePublished: isoDate, dateModified: isoDate } : {}),
-  author: { '@type': 'Person', name: author },
+  ...(featuredImage ? { image: new URL(featuredImage, 'https://financewithflow.com').toString() } : {}),
+  datePublished: isoDate,
+  dateModified: isoDate,
+  author: {
+    '@type': 'Person',
+    name: 'Roz Johnson',
+    jobTitle: 'Managing Director',
+    worksFor: {
+      '@type': 'Organization',
+      name: 'Finance with Flow',
+    },
+  },
   publisher: {
     '@type': 'Organization',
     name: 'Finance with Flow',
     logo: {
       '@type': 'ImageObject',
-      url: new URL('/wp-content/uploads/2023/12/logo-colour-1024x279.png', SITE_URL).href,
+      url: 'https://financewithflow.com/wp-content/uploads/2023/12/logo-white-1024x279-2.webp',
     },
   },
-  mainEntityOfPage: { '@type': 'WebPage', '@id': canonicalUrl },
-  articleSection: getCategoryDisplayName(category),
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': canonicalUrl,
+  },
 };
 
 const breadcrumbSchema = {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
   itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL.href },
-    { '@type': 'ListItem', position: 2, name: 'Insights', item: new URL('/blog', SITE_URL).href },
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://financewithflow.com/' },
+    { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://financewithflow.com/blog/' },
     { '@type': 'ListItem', position: 3, name: title, item: canonicalUrl },
   ],
 };
@@ -98,292 +120,201 @@ const breadcrumbSchema = {
   ogType="article"
   {...(featuredImage ? { ogImage: featuredImage } : {})}
   schema={[articleSchema, breadcrumbSchema]}
-  bodyClass="wp-singular post-template-default single single-post elementor-default elementor-kit-7 elementor-page-1191"
 >
-  <div data-elementor-type="single-post" data-elementor-id="1191" class="elementor elementor-1191 elementor-location-single post type-post status-publish format-standard has-post-thumbnail hentry">
+  <div class="blog-single-page">
     
     <!-- CONTAINER 1: Hero Header (Category, Date, Title, Featured Image) -->
-    <div class="elementor-element elementor-element-51204308 e-flex e-con-boxed e-con e-parent" data-id="51204308" data-element_type="container">
-      <div class="e-con-inner">
+    <header class="post-hero">
+      <div class="post-hero-container">
         <!-- Left Column: Category, Date, Title -->
-        <div class="elementor-element elementor-element-c71fc7c e-flex e-con-boxed e-con e-child" data-id="c71fc7c" data-element_type="container">
-          <div class="e-con-inner">
-            <!-- Category -->
-            <div class="elementor-element elementor-element-3d6d4fc3 elementor-align-left elementor-widget elementor-widget-post-info" data-id="3d6d4fc3" data-element_type="widget" data-widget_type="post-info.default">
-              <div class="elementor-widget-container">
-                <ul class="elementor-inline-items elementor-icon-list-items elementor-post-info">
-                  <li class="elementor-icon-list-item elementor-repeater-item-0d5851b elementor-inline-item" itemprop="about">
-                    <span class="elementor-icon-list-text elementor-post-info__item elementor-post-info__item--type-terms">
-                      <span class="elementor-post-info__terms-list">
-                        <span class="elementor-post-info__terms-list-item">{getCategoryDisplayName(category)}</span>
-                      </span>
-                    </span>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <!-- Date -->
-            <div class="elementor-element elementor-element-5e3b2311 elementor-widget elementor-widget-post-info" data-id="5e3b2311" data-element_type="widget" data-widget_type="post-info.default">
-              <div class="elementor-widget-container">
-                <ul class="elementor-inline-items elementor-icon-list-items elementor-post-info">
-                  <li class="elementor-icon-list-item elementor-repeater-item-85ee600 elementor-inline-item" itemprop="datePublished">
-                    <span class="elementor-icon-list-text elementor-post-info__item elementor-post-info__item--type-date">
-                      <time>{dateStr}</time>
-                    </span>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <!-- Title -->
-            <div class="elementor-element elementor-element-edeb076 elementor-widget elementor-widget-heading" data-id="edeb076" data-element_type="widget" data-widget_type="heading.default">
-              <div class="elementor-widget-container">
-                <h1 class="elementor-heading-title elementor-size-default">{title}</h1>
-              </div>
-            </div>
-          </div>
+        <div class="post-hero-text">
+          <div class="post-hero-category">{getCategoryDisplayName(category)}</div>
+          <time class="post-hero-date" datetime={isoDate}>{dateStr}</time>
+          <h1 class="post-hero-title">{title}</h1>
         </div>
 
         <!-- Right Column: Featured Image -->
         {featuredImage && (
-          <div class="elementor-element elementor-element-347757f e-flex e-con-boxed e-con e-child" data-id="347757f" data-element_type="container">
-            <div class="e-con-inner">
-              <div class="elementor-element elementor-element-1e0218e elementor-widget elementor-widget-image" data-id="1e0218e" data-element_type="widget" data-widget_type="image.default">
-                <div class="elementor-widget-container">
-                  <ResponsiveImage 
-                    class="attachment-large size-large wp-image-1862" 
-                    src={featuredImage} 
-                    alt={title} 
-                    width={800} 
-                    height={534} 
-                    loading="eager" 
-                    fetchpriority="high"
-                    decoding="async" 
-                    sizes="(max-width: 767px) 100vw, (max-width: 1200px) 50vw, 800px"
-                  />
-                </div>
-              </div>
-            </div>
+          <div class="post-hero-media">
+            <ResponsiveImage 
+              class="post-featured-img" 
+              src={featuredImage} 
+              alt={title} 
+              width={800} 
+              height={534} 
+              loading="eager" 
+              fetchpriority="high"
+              decoding="async" 
+              sizes="(max-width: 767px) 100vw, (max-width: 1200px) 50vw, 800px"
+            />
           </div>
         )}
       </div>
-    </div>
+    </header>
 
     <!-- CONTAINER 2: Royal Blue Excerpt Banner -->
     {excerpt && (
-      <div class="elementor-element elementor-element-c23cd70 e-flex e-con-boxed e-con e-parent" data-id="c23cd70" data-element_type="container">
-        <div class="e-con-inner">
-          <div class="elementor-element elementor-element-4b627a32 elementor-widget elementor-widget-theme-post-excerpt" data-id="4b627a32" data-element_type="widget" data-widget_type="theme-post-excerpt.default">
-            <div class="elementor-widget-container">
-              {excerpt}
-            </div>
-          </div>
+      <aside class="post-excerpt-banner">
+        <div class="post-narrow-container">
+          <p class="post-excerpt-text">{excerpt}</p>
         </div>
-      </div>
+      </aside>
     )}
 
     <!-- CONTAINER 3: Post Content + Share Buttons + Prev/Next Navigation -->
-    <div class="elementor-element elementor-element-be8f559 e-flex e-con-boxed e-con e-parent" data-id="be8f559" data-element_type="container">
-      <div class="e-con-inner">
-        <!-- Post Body -->
-        <div class="elementor-element elementor-element-29fc17c elementor-widget elementor-widget-theme-post-content" data-id="29fc17c" data-element_type="widget" data-widget_type="theme-post-content.default">
-          <div class="elementor-widget-container post-article-body">
-            <slot />
-          </div>
-        </div>
+    <div class="post-body-section">
+      <div class="post-narrow-container">
+        <!-- Post Body (Slotted Markdown Content) -->
+        <article class="post-article-body">
+          <slot />
+        </article>
 
-        <!-- Share Heading -->
-        <div class="elementor-element elementor-element-873c77f elementor-widget elementor-widget-heading" data-id="873c77f" data-element_type="widget" data-widget_type="heading.default">
-          <div class="elementor-widget-container">
-            <span class="elementor-heading-title elementor-size-default">Share the Post:</span>
-          </div>
-        </div>
-
-        <!-- Share Buttons -->
-        <div class="elementor-element elementor-element-fa0528a elementor-share-buttons--view-icon elementor-share-buttons--skin-minimal elementor-share-buttons--color-custom elementor-widget__width-inherit elementor-share-buttons--shape-square elementor-grid-0 elementor-widget elementor-widget-share-buttons" data-id="fa0528a" data-element_type="widget" data-widget_type="share-buttons.default">
-          <div class="elementor-widget-container">
-            <div class="elementor-grid" role="list">
-              <div class="elementor-grid-item" role="listitem">
-                <a class="elementor-share-btn elementor-share-btn_facebook" href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(canonicalUrl)}`} target="_blank" rel="noopener noreferrer" aria-label="Share on facebook">
-                  <span class="elementor-share-btn__icon">
-                    <svg aria-hidden="true" class="e-font-icon-svg e-fab-facebook" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path d="M504 256C504 119 393 8 256 8S8 119 8 256c0 123.78 90.69 226.38 209.25 245V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14 0 55.52 4.84 55.52 4.84v61h-31.28c-30.8 0-40.41 19.12-40.41 38.73V256h68.78l-11 71.69h-57.78V501C413.31 482.38 504 379.78 504 256z"></path></svg>
-                  </span>
-                </a>
-              </div>
-              <div class="elementor-grid-item" role="listitem">
-                <a class="elementor-share-btn elementor-share-btn_twitter" href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(canonicalUrl)}`} target="_blank" rel="noopener noreferrer" aria-label="Share on twitter">
-                  <span class="elementor-share-btn__icon">
-                    <svg aria-hidden="true" class="e-font-icon-svg e-fab-twitter" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"></path></svg>
-                  </span>
-                </a>
-              </div>
-              <div class="elementor-grid-item" role="listitem">
-                <a class="elementor-share-btn elementor-share-btn_linkedin" href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(canonicalUrl)}`} target="_blank" rel="noopener noreferrer" aria-label="Share on linkedin">
-                  <span class="elementor-share-btn__icon">
-                    <svg aria-hidden="true" class="e-font-icon-svg e-fab-linkedin" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"></path></svg>
-                  </span>
-                </a>
-              </div>
-            </div>
+        <!-- Share Section -->
+        <div class="post-share-section">
+          <span class="post-share-label">Share the Post:</span>
+          <div class="post-share-buttons" role="list">
+            <a class="post-share-btn share-facebook" href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(canonicalUrl)}`} target="_blank" rel="noopener noreferrer" aria-label="Share on facebook" role="listitem">
+              <svg aria-hidden="true" class="share-icon" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path d="M504 256C504 119 393 8 256 8S8 119 8 256c0 123.78 90.69 226.38 209.25 245V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14 0 55.52 4.84 55.52 4.84v61h-31.28c-30.8 0-40.41 19.12-40.41 38.73V256h68.78l-11 71.69h-57.78V501C413.31 482.38 504 379.78 504 256z"></path></svg>
+            </a>
+            <a class="post-share-btn share-twitter" href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(canonicalUrl)}`} target="_blank" rel="noopener noreferrer" aria-label="Share on twitter" role="listitem">
+              <svg aria-hidden="true" class="share-icon" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"></path></svg>
+            </a>
+            <a class="post-share-btn share-linkedin" href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(canonicalUrl)}`} target="_blank" rel="noopener noreferrer" aria-label="Share on linkedin" role="listitem">
+              <svg aria-hidden="true" class="share-icon" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"></path></svg>
+            </a>
           </div>
         </div>
 
         <!-- Post Navigation (Previous / Next) -->
-        <div class="elementor-element elementor-element-9b631fc elementor-widget elementor-widget-post-navigation" data-id="9b631fc" data-element_type="widget" data-widget_type="post-navigation.default">
-          <div class="elementor-widget-container">
-            <div class="elementor-post-navigation" role="navigation" aria-label="Post Navigation">
-              {prevPost ? (
-                <div class="elementor-post-navigation__prev elementor-post-navigation__link">
-                  <a href={`/blog/${prevPost.id}/`} rel="prev">
-                    <span class="post-navigation__arrow-wrapper post-navigation__arrow-prev">
-                      <svg aria-hidden="true" class="e-font-icon-svg e-fas-angle-left" viewBox="0 0 256 512" xmlns="http://www.w3.org/2000/svg"><path d="M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9L127.9 256l96.4 96.4c9.4 9.4 9.4 24.6 0 33.9L201.7 409c-9.4 9.4-24.6 9.4-33.9 0l-136-136c-9.5-9.4-9.5-24.6-.1-34z"></path></svg>
-                      <span class="elementor-screen-only">Prev</span>
-                    </span>
-                    <span class="elementor-post-navigation__link__prev">
-                      <span class="post-navigation__prev--label">Previous</span>
-                      <span class="post-navigation__prev--title">{prevPost.data.title}</span>
-                    </span>
-                  </a>
-                </div>
-              ) : (
-                <div class="elementor-post-navigation__prev elementor-post-navigation__link"></div>
-              )}
-              {nextPost ? (
-                <div class="elementor-post-navigation__next elementor-post-navigation__link">
-                  <a href={`/blog/${nextPost.id}/`} rel="next">
-                    <span class="elementor-post-navigation__link__next">
-                      <span class="post-navigation__next--label">Next</span>
-                      <span class="post-navigation__next--title">{nextPost.data.title}</span>
-                    </span>
-                    <span class="post-navigation__arrow-wrapper post-navigation__arrow-next">
-                      <svg aria-hidden="true" class="e-font-icon-svg e-fas-angle-right" viewBox="0 0 256 512" xmlns="http://www.w3.org/2000/svg"><path d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"></path></svg>
-                      <span class="elementor-screen-only">Next</span>
-                    </span>
-                  </a>
-                </div>
-              ) : (
-                <div class="elementor-post-navigation__next elementor-post-navigation__link"></div>
-              )}
+        <nav class="post-pagination" aria-label="Post Navigation">
+          {prevPost ? (
+            <div class="post-nav-col post-nav-prev">
+              <a href={`/blog/${prevPost.id}/`} rel="prev" class="post-nav-link">
+                <span class="post-nav-arrow" aria-hidden="true">
+                  <svg width="14" height="14" viewBox="0 0 256 512" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9L127.9 256l96.4 96.4c9.4 9.4 9.4 24.6 0 33.9L201.7 409c-9.4 9.4-24.6 9.4-33.9 0l-136-136c-9.5-9.4-9.5-24.6-.1-34z"></path></svg>
+                </span>
+                <span class="post-nav-meta">
+                  <span class="post-nav-label">Previous</span>
+                  <span class="post-nav-title">{prevPost.data.title}</span>
+                </span>
+              </a>
             </div>
-          </div>
-        </div>
+          ) : (
+            <div class="post-nav-col post-nav-prev"></div>
+          )}
+          {nextPost ? (
+            <div class="post-nav-col post-nav-next">
+              <a href={`/blog/${nextPost.id}/`} rel="next" class="post-nav-link">
+                <span class="post-nav-meta">
+                  <span class="post-nav-label">Next</span>
+                  <span class="post-nav-title">{nextPost.data.title}</span>
+                </span>
+                <span class="post-nav-arrow" aria-hidden="true">
+                  <svg width="14" height="14" viewBox="0 0 256 512" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"></path></svg>
+                </span>
+              </a>
+            </div>
+          ) : (
+            <div class="post-nav-col post-nav-next"></div>
+          )}
+        </nav>
 
       </div>
     </div>
 
     <!-- CONTAINER 4: Related Posts Section -->
     {relatedPosts && relatedPosts.length > 0 && (
-      <div class="elementor-element elementor-element-11a102c e-flex e-con-boxed e-con e-parent" data-id="11a102c" data-element_type="container">
-        <div class="e-con-inner">
-          <div class="elementor-element elementor-element-1bec514 e-flex e-con-boxed e-con e-child" data-id="1bec514" data-element_type="container">
-            <div class="e-con-inner">
-              <div class="elementor-element elementor-element-44bca78 elementor-widget elementor-widget-heading" data-id="44bca78" data-element_type="widget" data-widget_type="heading.default">
-                <div class="elementor-widget-container">
-                  <h2 class="elementor-heading-title elementor-size-default">Related Posts</h2>
-                </div>
-              </div>
-            </div>
-          </div>
+      <section class="post-related-section">
+        <div class="post-related-container">
+          <h2 class="post-related-heading">Related Posts</h2>
+          <div class="post-related-grid" role="list">
+            {relatedPosts.map(rPost => {
+              const rD = new Date(rPost.data.publishedDate);
+              const rDateStr = rD.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
+              const rImgUrl = rPost.data.featuredImage || "/wp-content/uploads/2023/12/what-we-do.webp";
+              const rCat = getCategoryDisplayName(rPost.data.category);
+              const rUrl = `/blog/${rPost.id}/`;
 
-          <div class="elementor-element elementor-element-1690f857 elementor-widget__width-inherit elementor-grid-3 elementor-grid-tablet-2 elementor-grid-mobile-1 elementor-posts--thumbnail-top elementor-card-shadow-yes elementor-posts__hover-gradient elementor-widget elementor-widget-posts" data-id="1690f857" data-element_type="widget" data-widget_type="posts.cards">
-            <div class="elementor-widget-container">
-              <div class="elementor-posts-container elementor-posts elementor-posts--skin-cards elementor-grid elementor-has-item-ratio" role="list">
-                {relatedPosts.map(rPost => {
-                  const rD = new Date(rPost.data.publishedDate);
-                  const rDateStr = rD.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
-                  const rImgUrl = rPost.data.featuredImage || "/wp-content/uploads/2023/12/what-we-do.png";
-                  const rCat = getCategoryDisplayName(rPost.data.category);
-                  const rUrl = `/blog/${rPost.id}/`;
-
-                  return (
-                    <article class="elementor-post elementor-grid-item post type-post status-publish format-standard has-post-thumbnail hentry" role="listitem">
-                      <div class="elementor-post__card">
-                        <a class="elementor-post__thumbnail__link" href={rUrl} tabindex="-1">
-                          <div class="elementor-post__thumbnail">
-                            <ResponsiveImage 
-                              src={rImgUrl} 
-                              alt={rPost.data.title} 
-                              loading="lazy" 
-                              decoding="async" 
-                              width={300} 
-                              height={200} 
-                              style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transform: none;"
-                              sizes="(max-width: 767px) 100vw, (max-width: 1024px) 50vw, 380px"
-                            />
-                          </div>
-                        </a>
-                        <div class="elementor-post__badge">{rCat}</div>
-                        <div class="elementor-post__text">
-                          <h3 class="elementor-post__title">
-                            <a href={rUrl}>{rPost.data.title}</a>
-                          </h3>
-                          <a class="elementor-post__read-more" href={rUrl} aria-label={`Read more about ${rPost.data.title}`} tabindex="-1">
-                            Read More »
-                          </a>
-                        </div>
-                        <div class="elementor-post__meta-data">
-                          <span class="elementor-post-date">{rDateStr}</span>
-                        </div>
-                      </div>
-                    </article>
-                  );
-                })}
-              </div>
-            </div>
+              return (
+                <article class="post-related-card" role="listitem">
+                  <a class="post-card-thumb-link" href={rUrl} tabindex="-1">
+                    <div class="post-card-thumb-wrap">
+                      <ResponsiveImage 
+                        src={rImgUrl} 
+                        alt={rPost.data.title} 
+                        loading="lazy" 
+                        decoding="async" 
+                        width={380} 
+                        height={240} 
+                        class="post-card-thumb-img"
+                        sizes="(max-width: 767px) 100vw, (max-width: 1024px) 50vw, 380px"
+                      />
+                    </div>
+                  </a>
+                  <div class="post-card-badge">{rCat}</div>
+                  <div class="post-card-body">
+                    <h3 class="post-card-title">
+                      <a href={rUrl}>{rPost.data.title}</a>
+                    </h3>
+                    <a class="post-card-read-more" href={rUrl} aria-label={`Read more about ${rPost.data.title}`}>
+                      Read More »
+                    </a>
+                  </div>
+                  <div class="post-card-meta">
+                    <span class="post-card-date">{rDateStr}</span>
+                  </div>
+                </article>
+              );
+            })}
           </div>
         </div>
-      </div>
+      </section>
     )}
 
     <!-- CONTAINER 5: Join the Finance with Flow Journey CTA -->
-    <div class="elementor-element elementor-element-0a45516 e-flex e-con-boxed e-con e-parent" data-id="0a45516" data-element_type="container">
-      <div class="e-con-inner">
-        <div class="elementor-element elementor-element-9cc5a69 e-flex e-con-boxed e-con e-child" data-id="9cc5a69" data-element_type="container">
-          <div class="e-con-inner">
-            <div class="elementor-element elementor-element-bad1245 e-flex e-con-boxed e-con e-child" data-id="bad1245" data-element_type="container">
-              <div class="e-con-inner">
-                <div class="elementor-element elementor-element-07ec824 elementor-widget elementor-widget-heading" data-id="07ec824" data-element_type="widget" data-widget_type="heading.default">
-                  <div class="elementor-widget-container">
-                    <h2 class="elementor-heading-title elementor-size-default">Join the Finance with Flow Journey</h2>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="elementor-element elementor-element-e68702b e-flex e-con-boxed e-con e-child" data-id="e68702b" data-element_type="container">
-              <div class="e-con-inner">
-                <div class="elementor-element elementor-element-25a0278 elementor-widget elementor-widget-text-editor" data-id="25a0278" data-element_type="widget" data-widget_type="text-editor.default">
-                  <div class="elementor-widget-container">
-                    <p>Let’s work together to not only achieve financial goals but to exceed them while staying true to the heart and soul of your business.</p>
-                    <p>We’re here to help – contact us to today, to discuss your requirements and let’s shape your success together.</p>
-                  </div>
-                </div>
-                <div class="elementor-element elementor-element-8d9f049 elementor-align-center elementor-widget elementor-widget-button" data-id="8d9f049" data-element_type="widget" data-widget_type="button.default">
-                  <div class="elementor-widget-container">
-                    <div class="elementor-button-wrapper">
-                      <a class="elementor-button elementor-button-link elementor-size-md" href="/contact/">
-                        <span class="elementor-button-content-wrapper">
-                          <span class="elementor-button-text">Contact us today</span>
-                        </span>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+    <section class="post-cta-section">
+      <div class="post-cta-container">
+        <div class="post-cta-card">
+          <div class="post-cta-heading-wrap">
+            <h2 class="post-cta-heading">Join the Finance with Flow Journey</h2>
+          </div>
+          <div class="post-cta-body">
+            <p>Let’s work together to not only achieve financial goals but to exceed them while staying true to the heart and soul of your business.</p>
+            <p>We’re here to help – contact us to today, to discuss your requirements and let’s shape your success together.</p>
+          </div>
+          <div class="post-cta-btn-wrap">
+            <a class="post-cta-btn" href="/contact/">
+              Contact us today
+            </a>
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
   </div>
 </BaseLayout>
 
 <style is:global>
-  /* Container 1 Hero Header */
-  .elementor-1191 .elementor-element.elementor-element-51204308 {
-    background-color: var(--e-global-color-8b1134b, #FEF9F3);
-    padding: 6% 4%;
+  /* ==========================================================================
+     Single Post Layout Styles (Clean Semantic Tokens)
+     ========================================================================== */
+
+  .blog-single-page {
+    width: 100%;
+    overflow-x: hidden;
   }
-  .elementor-1191 .elementor-element.elementor-element-51204308 > .e-con-inner {
+
+  /* --------------------------------------------------------------------------
+     Container 1: Hero Header
+     -------------------------------------------------------------------------- */
+  .post-hero {
+    background-color: var(--color-cream, #FEF9F3);
+    padding: 6% 4%;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .post-hero-container {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -392,32 +323,22 @@ const breadcrumbSchema = {
     max-width: 1140px;
     margin: 0 auto;
     width: 100%;
-  }
-  @media (min-width: 1025px) {
-    .elementor-1191 .elementor-element.elementor-element-c71fc7c {
-      flex: 1 1 50%;
-      width: 50%;
-      max-width: 50%;
-    }
-    .elementor-1191 .elementor-element.elementor-element-347757f {
-      flex: 1 1 50%;
-      width: 50%;
-      max-width: 50%;
-    }
-  }
-  @media (max-width: 1024px) {
-    .elementor-1191 .elementor-element.elementor-element-51204308 > .e-con-inner {
-      flex-direction: column;
-    }
-    .elementor-1191 .elementor-element.elementor-element-c71fc7c,
-    .elementor-1191 .elementor-element.elementor-element-347757f {
-      width: 100%;
-      max-width: 100%;
-    }
+    box-sizing: border-box;
   }
 
-  /* Hero Typography */
-  .elementor-1191 .elementor-element.elementor-element-3d6d4fc3 .elementor-post-info__terms-list-item {
+  .post-hero-text {
+    flex: 1 1 50%;
+    width: 50%;
+    max-width: 50%;
+  }
+
+  .post-hero-media {
+    flex: 1 1 50%;
+    width: 50%;
+    max-width: 50%;
+  }
+
+  .post-hero-category {
     font-family: "Poppins", sans-serif;
     font-size: 16px;
     font-weight: 300;
@@ -425,34 +346,30 @@ const breadcrumbSchema = {
     letter-spacing: 10px;
     text-transform: uppercase;
     color: #324A6D;
+    margin-bottom: 8px;
   }
-  .elementor-1191 .elementor-element.elementor-element-5e3b2311 time {
+
+  .post-hero-date {
     font-family: "Poppins", sans-serif;
     font-size: 16px;
     font-weight: 300;
     line-height: 24px;
     color: #324A6D;
+    margin-bottom: 12px;
+    display: block;
   }
-  .elementor-1191 .elementor-element.elementor-element-edeb076 .elementor-heading-title {
+
+  .post-hero-title {
     font-family: "Voga", sans-serif;
     font-size: 64px;
     font-weight: 500;
     line-height: 1em;
     color: #160F3F;
     letter-spacing: normal;
-  }
-  @media (max-width: 1024px) {
-    .elementor-1191 .elementor-element.elementor-element-edeb076 .elementor-heading-title {
-      font-size: 48px;
-    }
-  }
-  @media (max-width: 767px) {
-    .elementor-1191 .elementor-element.elementor-element-edeb076 .elementor-heading-title {
-      font-size: 34px;
-    }
+    margin: 0;
   }
 
-  .elementor-1191 .elementor-element.elementor-element-1e0218e img {
+  .post-featured-img {
     width: 100%;
     height: 450px;
     object-fit: cover;
@@ -460,54 +377,93 @@ const breadcrumbSchema = {
     border-radius: 24px;
     display: block;
   }
+
+  @media (max-width: 1024px) {
+    .post-hero-container {
+      flex-direction: column;
+    }
+    .post-hero-text,
+    .post-hero-media {
+      width: 100%;
+      max-width: 100%;
+      flex: 1 1 100%;
+    }
+    .post-hero-title {
+      font-size: 48px;
+    }
+  }
+
   @media (max-width: 767px) {
-    .elementor-1191 .elementor-element.elementor-element-1e0218e img {
+    .post-hero {
+      padding: 12% 4% 8%;
+    }
+    .post-hero-title {
+      font-size: 34px;
+      line-height: 1.2em;
+    }
+    .post-featured-img {
       height: 260px;
     }
   }
 
-  /* Excerpt Container 2 */
-  .elementor-1191 .elementor-element.elementor-element-c23cd70 {
-    background-color: var(--e-global-color-primary, #3456A7);
+  /* --------------------------------------------------------------------------
+     Container 2: Royal Blue Excerpt Banner
+     -------------------------------------------------------------------------- */
+  .post-excerpt-banner {
+    background-color: var(--color-primary, #3456A7);
     padding: 4% 4%;
+    width: 100%;
+    box-sizing: border-box;
   }
-  .elementor-1191 .elementor-element.elementor-element-c23cd70 > .e-con-inner {
+
+  .post-narrow-container {
     max-width: 856px;
     margin: 0 auto;
     width: 100%;
+    box-sizing: border-box;
   }
-  .elementor-1191 .elementor-element.elementor-element-4b627a32 .elementor-widget-container {
+
+  .post-excerpt-text {
     font-family: "Poppins", sans-serif;
     font-size: 22px;
     font-weight: 400;
-    color: var(--e-global-color-8b1134b, #FEF9F3);
+    color: var(--color-cream, #FEF9F3);
     line-height: 1.5em;
     text-transform: capitalize;
+    margin: 0;
+    text-align: start;
   }
+
   @media (max-width: 767px) {
-    .elementor-1191 .elementor-element.elementor-element-4b627a32 .elementor-widget-container {
+    .post-excerpt-banner {
+      padding: 6% 4%;
+    }
+    .post-excerpt-text {
       font-size: 18px;
     }
   }
 
-  /* Content Container 3 */
-  .elementor-1191 .elementor-element.elementor-element-be8f559 {
-    background-color: var(--e-global-color-8b1134b, #FEF9F3);
+  /* --------------------------------------------------------------------------
+     Container 3: Post Content, Share, Pagination
+     -------------------------------------------------------------------------- */
+  .post-body-section {
+    background-color: var(--color-cream, #FEF9F3);
     padding: 6% 4%;
-  }
-  .elementor-1191 .elementor-element.elementor-element-be8f559 > .e-con-inner {
-    max-width: 856px;
-    margin: 0 auto;
     width: 100%;
+    box-sizing: border-box;
   }
-  .elementor-1191 .elementor-element.elementor-element-29fc17c {
+
+  /* Markdown Article Body Typography */
+  .post-article-body {
     color: #324A6D;
     font-family: "Poppins", sans-serif;
     font-size: 18px;
     font-weight: 400;
     line-height: 1.5em;
+    margin-bottom: 40px;
   }
-  .elementor-1191 .elementor-element.elementor-element-29fc17c p {
+
+  .post-article-body p {
     font-family: "Poppins", sans-serif;
     font-size: 18px;
     font-weight: 400;
@@ -515,7 +471,8 @@ const breadcrumbSchema = {
     line-height: 1.5em;
     margin: 0 0 24px;
   }
-  .elementor-1191 .elementor-element.elementor-element-29fc17c h2 {
+
+  .post-article-body h2 {
     font-family: "Poppins", sans-serif;
     font-size: 32px;
     font-weight: 500;
@@ -523,7 +480,8 @@ const breadcrumbSchema = {
     line-height: 1.2em;
     margin: 36px 0 16px;
   }
-  .elementor-1191 .elementor-element.elementor-element-29fc17c h3 {
+
+  .post-article-body h3 {
     font-family: "Poppins", sans-serif;
     font-size: 24px;
     font-weight: 500;
@@ -531,18 +489,21 @@ const breadcrumbSchema = {
     line-height: 1.2em;
     margin: 28px 0 14px;
   }
-  .elementor-1191 .elementor-element.elementor-element-29fc17c a {
+
+  .post-article-body a {
     color: #3456A7;
     text-decoration: underline;
   }
-  .elementor-1191 .elementor-element.elementor-element-29fc17c strong,
-  .elementor-1191 .elementor-element.elementor-element-29fc17c b {
+
+  .post-article-body strong,
+  .post-article-body b {
     font-family: "Poppins", sans-serif;
     font-weight: 600;
     color: #160F3F;
   }
-  .elementor-1191 .elementor-element.elementor-element-29fc17c ul,
-  .elementor-1191 .elementor-element.elementor-element-29fc17c ol {
+
+  .post-article-body ul,
+  .post-article-body ol {
     margin: 0 0 24px 24px;
     color: #324A6D;
     font-family: "Poppins", sans-serif;
@@ -550,7 +511,8 @@ const breadcrumbSchema = {
     font-weight: 400;
     line-height: 1.5em;
   }
-  .elementor-1191 .elementor-element.elementor-element-29fc17c li {
+
+  .post-article-body li {
     font-family: "Poppins", sans-serif;
     font-size: 18px;
     font-weight: 400;
@@ -559,97 +521,403 @@ const breadcrumbSchema = {
     margin-bottom: 8px;
   }
 
-  /* Share Heading */
-  .elementor-1191 .elementor-element.elementor-element-873c77f .elementor-heading-title {
+  @media (max-width: 767px) {
+    .post-body-section {
+      padding: 10% 4% 8%;
+    }
+    .post-article-body,
+    .post-article-body p,
+    .post-article-body li {
+      font-size: 16px;
+    }
+    .post-article-body h2 {
+      font-size: 26px;
+    }
+    .post-article-body h3 {
+      font-size: 20px;
+    }
+  }
+
+  /* Share Section */
+  .post-share-section {
+    margin-top: 20px;
+    margin-bottom: 40px;
+  }
+
+  .post-share-label {
     font-family: "Poppins", sans-serif;
     font-size: 16px;
     font-weight: 300;
     color: #324A6D;
     line-height: 24px;
+    margin-bottom: 12px;
+    display: block;
   }
 
-  /* Post Navigation */
-  .elementor-post-navigation__prev--label,
-  .elementor-post-navigation__next--label {
+  .post-share-buttons {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .post-share-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    color: #FFFFFF;
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+  }
+
+  .post-share-btn:hover {
+    opacity: 0.85;
+  }
+
+  .share-facebook {
+    background-color: #3b5998;
+  }
+
+  .share-twitter {
+    background-color: #1da1f2;
+  }
+
+  .share-linkedin {
+    background-color: #0077b5;
+  }
+
+  .share-icon {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+  }
+
+  /* Pagination Navigation */
+  .post-pagination {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    padding-top: 30px;
+    border-top: 1px solid rgba(50, 74, 109, 0.15);
+  }
+
+  .post-nav-col {
+    flex: 1 1 50%;
+  }
+
+  .post-nav-prev .post-nav-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+  }
+
+  .post-nav-next .post-nav-link {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    text-align: right;
+    gap: 12px;
+    text-decoration: none;
+  }
+
+  .post-nav-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #324A6D;
+  }
+
+  .post-nav-meta {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .post-nav-label {
     font-family: "Poppins", sans-serif;
     font-size: 14px;
     font-weight: 300;
     color: #324A6D;
   }
-  .elementor-post-navigation__prev--title,
-  .elementor-post-navigation__next--title {
+
+  .post-nav-title {
     font-family: "Poppins", sans-serif;
     font-size: 15px;
     font-weight: 500;
     color: #160F3F;
+    line-height: 1.35;
   }
 
-  /* Related Posts Container 4 */
-  .elementor-1191 .elementor-element.elementor-element-11a102c {
-    background-color: var(--e-global-color-primary, #3456A7);
-    padding: 6% 4%;
+  .post-nav-link:hover .post-nav-title {
+    color: #3456A7;
   }
-  .elementor-1191 .elementor-element.elementor-element-11a102c > .e-con-inner {
+
+  @media (max-width: 640px) {
+    .post-pagination {
+      flex-direction: column;
+      gap: 16px;
+    }
+    .post-nav-next .post-nav-link {
+      justify-content: flex-start;
+      text-align: left;
+    }
+  }
+
+  /* --------------------------------------------------------------------------
+     Container 4: Related Posts Section
+     -------------------------------------------------------------------------- */
+  .post-related-section {
+    background-color: var(--color-primary, #3456A7);
+    padding: 6% 4%;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .post-related-container {
     max-width: 1140px;
     margin: 0 auto;
     width: 100%;
+    box-sizing: border-box;
   }
-  .elementor-1191 .elementor-element.elementor-element-44bca78 .elementor-heading-title {
+
+  .post-related-heading {
     font-family: "Angel", sans-serif;
     font-size: 64px;
     font-weight: 500;
     line-height: 64px;
     color: #FEF9F3;
+    margin: 0 0 36px;
+    text-align: start;
   }
-  .elementor-1191 .elementor-post__title a {
+
+  .post-related-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .post-related-card {
+    background-color: var(--color-cream, #FEF9F3);
+    border-radius: 31px;
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.15);
+    transition: box-shadow 0.25s ease;
+    box-sizing: border-box;
+  }
+
+  .post-related-card:hover {
+    box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.15);
+  }
+
+  .post-card-thumb-link {
+    display: block;
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .post-card-thumb-wrap {
+    position: relative;
+    width: 100%;
+    padding-bottom: calc(0.42 * 100%);
+    overflow: hidden;
+  }
+
+  .post-card-thumb-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .post-card-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 20px;
+    background-color: var(--color-teal, #31CDB0);
+    color: var(--color-navy, #160F3F);
+    border-radius: 999px;
+    font-family: "Quicksand", sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1;
+    padding: 0.6em 1.2em;
+    text-transform: uppercase;
+    z-index: 2;
+  }
+
+  .post-card-body {
+    padding: 20px 30px 0;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    box-sizing: border-box;
+  }
+
+  .post-card-title {
     font-family: "Quicksand", sans-serif;
     font-size: 21px;
     font-weight: 500;
     line-height: 1.2em;
-    color: #160F3F;
+    margin: 0 0 20px;
   }
-  .elementor-1191 .elementor-post-date {
+
+  .post-card-title a {
+    color: var(--color-navy, #160F3F);
+    text-decoration: none;
+  }
+
+  .post-card-title a:hover {
+    color: var(--color-primary, #3456A7);
+  }
+
+  .post-card-read-more {
+    font-family: "Quicksand", sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--color-secondary, #160F3F);
+    text-decoration: none;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    align-self: flex-start;
+  }
+
+  .post-card-meta {
+    border-top: 1px solid rgba(22, 15, 63, 0.08);
+    padding: 15px 30px;
+    margin-top: auto;
+    box-sizing: border-box;
+  }
+
+  .post-card-date {
     font-family: "Quicksand", sans-serif;
     font-size: 12px;
     font-weight: 400;
     color: #324A6D;
   }
 
-  /* CTA Container 5 */
-  .elementor-1191 .elementor-element.elementor-element-0a45516 {
-    background-color: var(--e-global-color-8b1134b, #FEF9F3);
-    padding: 80px 20px 100px;
+  @media (max-width: 1024px) {
+    .post-related-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
-  .elementor-1191 .elementor-element.elementor-element-0a45516 > .e-con-inner {
+
+  @media (max-width: 767px) {
+    .post-related-section {
+      padding: 12% 4% 8%;
+    }
+    .post-related-heading {
+      font-size: 42px;
+      line-height: 1.1;
+      margin-bottom: 24px;
+    }
+    .post-related-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* --------------------------------------------------------------------------
+     Container 5: Join the Journey CTA
+     -------------------------------------------------------------------------- */
+  .post-cta-section {
+    background-color: var(--color-cream, #FEF9F3);
+    padding: 80px 20px 100px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .post-cta-container {
     max-width: 1140px;
     margin: 0 auto;
     width: 100%;
+    box-sizing: border-box;
   }
-  .elementor-1191 .elementor-element.elementor-element-9cc5a69 {
-    background-color: #ffffff;
+
+  .post-cta-card {
+    background-color: #FFFFFF;
     border-radius: 24px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
     padding: 40px 30px;
+    text-align: center;
+    box-sizing: border-box;
   }
-  .elementor-1191 .elementor-element.elementor-element-07ec824 .elementor-heading-title {
+
+  .post-cta-heading-wrap {
+    background-image: url('/wp-content/uploads/2023/12/circle.webp');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    padding: 20px 0;
+    margin: 0 auto 10px;
+  }
+
+  .post-cta-heading {
     font-family: "Angel", sans-serif;
     font-size: 64px;
     font-weight: 500;
     line-height: 64px;
     color: #160F3F;
+    margin: 0;
   }
-  .elementor-1191 .elementor-element.elementor-element-25a0278 p {
+
+  .post-cta-body p {
     font-family: "Quicksand", sans-serif;
     font-size: 20.8px;
     font-weight: 500;
     line-height: 31.2px;
     color: #160F3F;
+    max-width: 820px;
+    margin: 0 auto 16px;
   }
-  .elementor-1191 .elementor-element.elementor-element-8d9f049 .elementor-button {
+
+  .post-cta-btn-wrap {
+    margin-top: 24px;
+  }
+
+  .post-cta-btn {
+    background-color: var(--color-teal, #31CDB0);
+    color: var(--color-secondary, #160F3F);
     font-family: "Quicksand", sans-serif;
     font-size: 17.6px;
     font-weight: 600;
     line-height: 17.6px;
+    padding: 14px 36px;
+    border-radius: 35px;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  .post-cta-btn:hover {
+    background-color: var(--color-primary, #3456A7);
+    color: #FFFFFF;
+  }
+
+  @media (max-width: 767px) {
+    .post-cta-section {
+      padding: 50px 15px 70px;
+    }
+    .post-cta-card {
+      padding: 30px 20px;
+    }
+    .post-cta-heading {
+      font-size: 40px;
+      line-height: 1.1;
+    }
+    .post-cta-body p {
+      font-size: 16px;
+      line-height: 1.5;
+    }
   }
 </style>
-

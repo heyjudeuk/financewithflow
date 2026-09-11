@@ -2,7 +2,7 @@
   {
     "name": "Sunstone",
     "tagline": "Best for smaller businesses seeking financial clarity & compliance",
-    "image": "/images/branding/package-bronze.jpg",
+    "image": "/images/branding/package-bronze.webp",
     "features": [
       "Dedicated Bookkeeping & Bank Reconciliation",
       "Payroll & Pension Processing",
@@ -17,7 +17,7 @@
   {
     "name": "Carnelian",
     "tagline": "Businesses looking to elevate their operations & profitability",
-    "image": "/images/branding/package-silver.jpg",
+    "image": "/images/branding/package-silver.webp",
     "features": [
       "All Sunstone Services Included",
       "Supplier Invoice Management & Payment Runs",
@@ -32,7 +32,7 @@
   {
     "name": "Agate",
     "tagline": "Designed for established businesses scaling up with full CFO direction",
-    "image": "/images/branding/package-gold.jpg",
+    "image": "/images/branding/package-gold.webp",
     "features": [
       "All Carnelian Services Included",
       "Complete Virtual Finance Director (FD) Leadership",

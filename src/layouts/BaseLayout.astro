@@ -16,7 +16,7 @@ interface Props {
   /** Extra JSON-LD emitted alongside the sitewide Organization schema. */
   schema?: Record<string, any> | Record<string, any>[];
   /**
-   * Pages whose copied Elementor markup already contains its own
+   * Pages that already contain their own
    * `<main id="content">` set this false, so we don't nest <main> inside <main>
    * (invalid HTML, and it duplicates id="content").
    */
@@ -26,8 +26,8 @@ interface Props {
 const {
   title = "Home | Outsourced Finance | Finance with Flow",
   description = "At Finance with Flow we specialise in providing comprehensive outsourced finance services that empower businesses and allow them to thrive.",
-  bodyClass = "page-template-default page elementor-default elementor-kit-7",
-  ogImage = '/wp-content/uploads/2025/07/construction-accountants-1-1024x683.jpg',
+  bodyClass = "page-template-default page",
+  ogImage = '/wp-content/uploads/2025/07/construction-accountants-1-1024x683.webp',
   ogType = 'website',
   noindex = false,
   schema,
@@ -44,7 +44,7 @@ const organizationSchema = {
   '@id': new URL('/#organization', SITE_URL).href,
   name: 'Finance with Flow',
   url: SITE_URL.href,
-  logo: new URL('/wp-content/uploads/2023/12/logo-colour-1024x279.png', SITE_URL).href,
+  logo: new URL('/wp-content/uploads/2023/12/logo-colour-1024x279.webp', SITE_URL).href,
   image: ogImageURL.href,
   description:
     'Outsourced finance department services for construction and SME businesses across Essex, Suffolk and the East of England.',
@@ -73,7 +73,7 @@ const gaId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/png" href="/wp-content/uploads/2023/12/cropped-cropped-logo-colour-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="/wp-content/uploads/2023/12/cropped-cropped-logo-colour-32x32.webp" sizes="32x32" />
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalURL} />
@@ -106,15 +106,12 @@ const gaId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
     <!-- Preload custom script font and decorative assets -->
     <link rel="preload" href="/wp-content/uploads/2023/12/Angel-Heart-Regular.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="preload" href="/wp-content/uploads/2023/12/Voga-Medium-2.woff" as="font" type="font/woff" crossorigin />
-    <link rel="preload" href="/wp-content/uploads/2023/12/circle.png" as="image" />
+    <link rel="preload" href="/wp-content/uploads/2023/12/circle.webp" as="image" />
 
-    <!-- Google Fonts as used by Elementor kit -->
+    <!-- Google Fonts used by site -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Quicksand:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&family=Roboto+Slab:wght@400;700&display=swap" rel="stylesheet" />
-
-    <!-- Exact 1:1 Elementor CSS Bundle -->
-    <link rel="stylesheet" href="/styles/site-bundle.css" />
 
     <style is:global>
       @font-face {
@@ -130,6 +127,26 @@ const gaId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
         font-weight: 400;
         font-display: swap;
         src: url('/wp-content/uploads/2023/12/Voga-Medium-2.woff') format('woff');
+      }
+
+      :root {
+        /* Native Design Tokens */
+        --color-primary: #3456A7;
+        --color-secondary: #160F3F;
+        --color-navy: #160F3F;
+        --color-cream: #FEF9F3;
+        --color-teal: #31CDB0;
+        --color-accent: #31CDB0;
+        --color-text: #160F3F;
+        --color-white: #FFFFFF;
+
+        /* Backward Compatibility Aliases */
+        --e-global-color-primary: var(--color-primary);
+        --e-global-color-secondary: var(--color-secondary);
+        --e-global-color-8b1134b: var(--color-cream);
+        --e-global-color-accent: var(--color-teal);
+        --e-global-color-text: var(--color-text);
+        --e-global-color-af7a151: var(--color-white);
       }
 
       html {
@@ -148,11 +165,6 @@ const gaId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
         -moz-osx-font-smoothing: grayscale;
       }
 
-      .elementor-kit-7 {
-        font-family: "Quicksand", sans-serif;
-        font-weight: 500;
-      }
-
       /* Global Headings default to Quicksand */
       h1, h2, h3, h4, h5, h6 {
         font-family: "Quicksand", sans-serif;
@@ -162,43 +174,8 @@ const gaId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
       p {
         font-family: "Quicksand", sans-serif;
       }
-      .e-font-icon-svg {
-        display: inline-block;
-        width: 1em;
-        height: 1em;
-        fill: currentColor;
-      }
-      .elementor-menu-toggle__icon--close {
-        display: none;
-      }
-      .elementor-menu-toggle.elementor-active .elementor-menu-toggle__icon--close {
-        display: block;
-      }
-      .elementor-menu-toggle.elementor-active .elementor-menu-toggle__icon--open {
-        display: none;
-      }
-      .elementor-nav-menu--dropdown {
-        display: none;
-      }
-      .elementor-nav-menu--dropdown.elementor-active {
-        display: block;
-      }
 
-      .elementor-widget-image {
-        text-align: center;
-      }
-      .elementor-widget-image a {
-        display: inline-block;
-      }
-      .elementor-widget-image a img[src$=".svg"] {
-        width: 48px;
-      }
-      .elementor-widget-image img {
-        display: inline-block;
-        vertical-align: middle;
-      }
-
-      /* Elementor Keyframe Animations */
+      /* Keyframe Scroll Animations */
       @keyframes fadeIn {
         from {
           opacity: 0;
@@ -281,7 +258,6 @@ const gaId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
         }
       }
 
-      /* Ensure all Elementor background images and circles render reliably */
       /* Keyboard skip link: hidden until focused, so the visual design is unchanged. */
       .skip-link {
         position: absolute;
@@ -298,11 +274,6 @@ const gaId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
       }
       .skip-link:focus {
         left: 0;
-      }
-
-      .e-con.e-parent:not(.e-lazyloaded),
-      .e-con.e-parent:not(.e-lazyloaded) * {
-        background-image: revert;
       }
     </style>
 
@@ -353,17 +324,9 @@ const gaId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
     )}
     <Footer />
 
-    <!-- Elementor Animation and Container Initialization Script -->
+    <!-- Scroll Animation Initialization Script -->
     <script>
-      function initElementorContainers() {
-        // Ensure all Elementor containers are marked as loaded so background images display immediately
-        document.querySelectorAll('.e-con').forEach(el => {
-          el.classList.add('e-lazyloaded', 'e-no-lazyload');
-        });
-      }
-
-      function initElementorAnimations() {
-        initElementorContainers();
+      function initScrollAnimations() {
         const animatedElements = document.querySelectorAll('[data-settings*="animation"]');
         if (!animatedElements.length) return;
 
@@ -399,9 +362,9 @@ const gaId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
       }
 
       if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initElementorAnimations);
+        document.addEventListener('DOMContentLoaded', initScrollAnimations);
       } else {
-        initElementorAnimations();
+        initScrollAnimations();
       }
     </script>
     <script src="../scripts/newsletter.ts"></script>
@@ -411,13 +374,13 @@ const gaId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
       button,
       input[type="button"],
       input[type="submit"],
-      .elementor-button,
-      .elementor-price-table__button,
       .fwf-event-cta,
       .fwf-compact-cta,
       .fwf-cookie-btn,
       .fwf-cookie-trigger,
-      a.elementor-button,
+      .fwf-btn,
+      .fwf-btn-primary,
+      .fwf-btn-outline,
       .cat-pill,
       .page-numbers {
         box-shadow: none !important;
@@ -429,23 +392,20 @@ const gaId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
       button:focus,
       input[type="button"]:hover,
       input[type="submit"]:hover,
-      .elementor-button:hover,
-      .elementor-button:active,
-      .elementor-button:focus,
-      .elementor-price-table__button:hover,
       .fwf-event-cta:hover,
       .fwf-compact-cta:hover,
       .fwf-cookie-btn:hover,
       .fwf-cookie-trigger:hover,
-      a.elementor-button:hover,
-      a.elementor-button:active,
+      .fwf-btn:hover,
+      .fwf-btn-primary:hover,
+      .fwf-btn-outline:hover,
       .cat-pill:hover,
       .page-numbers:hover {
         transform: none !important;
         box-shadow: none !important;
       }
 
-      /* Full Viewport Width Guarantee: Overrides Hello Elementor boxed constraints */
+      /* Full Viewport Width Guarantee */
       header.site-header,
       .site-header,
       .site-header.dynamic-header,
