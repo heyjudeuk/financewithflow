@@ -94,6 +94,7 @@ export default async (req: Request) => {
     let firstName = '';
     let lastName = '';
     let honeypot: unknown = '';
+    let turnstileToken = '';
 
     const contentType = req.headers.get('content-type') || '';
 
@@ -103,6 +104,7 @@ export default async (req: Request) => {
       firstName = body.firstName || body['form_fields[firstname]'] || '';
       lastName = body.lastName || body['form_fields[lastname]'] || '';
       honeypot = body.website || body['form_fields[website]'] || '';
+      turnstileToken = body['cf-turnstile-response'] || body.turnstileToken || '';
     } else if (
       contentType.includes('application/x-www-form-urlencoded') ||
       contentType.includes('multipart/form-data')
@@ -117,6 +119,7 @@ export default async (req: Request) => {
       firstName = get('firstName', 'form_fields[firstname]') || '';
       lastName = get('lastName', 'form_fields[lastname]') || '';
       honeypot = get('website', 'form_fields[website]') || '';
+      turnstileToken = get('cf-turnstile-response', 'turnstileToken') || '';
     } else {
       const rawText = await req.text().catch(() => '');
       try {
@@ -125,6 +128,7 @@ export default async (req: Request) => {
         firstName = parsed.firstName || parsed['form_fields[firstname]'] || '';
         lastName = parsed.lastName || parsed['form_fields[lastname]'] || '';
         honeypot = parsed.website || parsed['form_fields[website]'] || '';
+        turnstileToken = parsed['cf-turnstile-response'] || parsed.turnstileToken || '';
       } catch {
         email = '';
       }
@@ -133,6 +137,7 @@ export default async (req: Request) => {
     email = asString(email);
     firstName = asString(firstName);
     lastName = asString(lastName);
+    turnstileToken = asString(turnstileToken);
 
     // Honeypot: hidden to users, irresistible to bots. Report success so the bot
     // does not learn it was filtered, but do not touch Mailchimp. A non-string
@@ -155,6 +160,99 @@ export default async (req: Request) => {
       return json(
         { success: false, message: 'Please enter a valid email address.' },
         400
+      );
+    }
+
+    // Canonical Cloudflare Turnstile siteverify
+    const turnstileSecret = (
+      process.env.TURNSTILE_SECRET || process.env.TURNSTILE_SECRET_KEY
+    )?.trim();
+
+    if (turnstileSecret) {
+      const expectedActions = new Set(['newsletter', 'contact']);
+      const defaultHostnames =
+        process.env.NODE_ENV === 'development'
+          ? 'localhost,127.0.0.1,financewithflow.com,www.financewithflow.com'
+          : 'financewithflow.com,www.financewithflow.com';
+
+      const expectedHostnames = new Set(
+        (process.env.TURNSTILE_HOSTNAMES || defaultHostnames)
+          .split(',')
+          .map((h) => h.trim())
+          .filter(Boolean)
+      );
+
+      if (
+        typeof turnstileToken !== 'string' ||
+        turnstileToken.length === 0 ||
+        turnstileToken.length > 2048 ||
+        expectedHostnames.size === 0
+      ) {
+        console.warn(
+          '[newsletter] Turnstile token missing, too long, or expectedHostnames empty.'
+        );
+        return json(
+          {
+            success: false,
+            message: 'Bot verification failed. Please refresh and try again.',
+          },
+          403
+        );
+      }
+
+      let turnstileResult: any;
+      try {
+        const verifyRes = await fetch(
+          'https://challenges.cloudflare.com/turnstile/v0/siteverify',
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            signal: AbortSignal.timeout(10_000),
+            body: new URLSearchParams({
+              secret: turnstileSecret,
+              response: turnstileToken,
+              remoteip: ip,
+            }),
+          }
+        );
+
+        if (!verifyRes.ok) {
+          throw new Error(`siteverify HTTP ${verifyRes.status}`);
+        }
+        turnstileResult = await verifyRes.json();
+      } catch (err) {
+        console.error('[newsletter] Turnstile verification request failed:', err);
+        return json(
+          {
+            success: false,
+            message: 'Verification service error. Please try again shortly.',
+          },
+          403
+        );
+      }
+
+      if (
+        !turnstileResult.success ||
+        !expectedActions.has(turnstileResult.action) ||
+        !expectedHostnames.has(turnstileResult.hostname)
+      ) {
+        console.warn('[newsletter] Turnstile verification rejected:', {
+          success: turnstileResult.success,
+          action: turnstileResult.action,
+          hostname: turnstileResult.hostname,
+          errorCodes: turnstileResult['error-codes'],
+        });
+        return json(
+          {
+            success: false,
+            message: 'Bot verification failed. Please refresh and try again.',
+          },
+          403
+        );
+      }
+    } else {
+      console.warn(
+        '[newsletter] TURNSTILE_SECRET is not configured; skipping siteverify.'
       );
     }
 

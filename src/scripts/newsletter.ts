@@ -74,6 +74,9 @@ function attachNewsletterHandler(form: HTMLFormElement) {
       return;
     }
 
+    const turnstileInput = form.querySelector<HTMLInputElement>('input[name="cf-turnstile-response"]');
+    const turnstileToken = turnstileInput?.value || '';
+
     const originalText = buttonTextSpan ? buttonTextSpan.textContent : 'Join';
 
     // Set loading state
@@ -94,7 +97,11 @@ function attachNewsletterHandler(form: HTMLFormElement) {
           'Content-Type': 'application/json',
           Accept: 'application/json',
         },
-        body: JSON.stringify({ email, website }),
+        body: JSON.stringify({
+          email,
+          website,
+          'cf-turnstile-response': turnstileToken,
+        }),
       });
 
       const data = await res.json().catch(() => ({}));
@@ -121,6 +128,15 @@ function attachNewsletterHandler(form: HTMLFormElement) {
         'danger'
       );
     } finally {
+      // Single-use token: reset the widget so subsequent submissions get a fresh token
+      const turnstileWidget = form.querySelector('.cf-turnstile');
+      if (typeof (window as any).turnstile !== 'undefined' && turnstileWidget) {
+        try {
+          (window as any).turnstile.reset(turnstileWidget);
+        } catch (e) {
+          console.warn('[Turnstile] Widget reset error:', e);
+        }
+      }
       if (submitBtn) {
         submitBtn.disabled = false;
         submitBtn.style.opacity = '';
@@ -156,6 +172,10 @@ function attachContactFormHandler(form: HTMLFormElement) {
     const lastNameInput = form.querySelector<HTMLInputElement>(
       'input[name="lastname"], input[name="form_fields[lastname]"]'
     );
+    const turnstileInput = form.querySelector<HTMLInputElement>(
+      'input[name="cf-turnstile-response"]'
+    );
+    const turnstileToken = turnstileInput?.value || '';
 
     const email = emailInput?.value.trim();
     const firstName = firstNameInput?.value.trim() || '';
@@ -166,7 +186,7 @@ function attachContactFormHandler(form: HTMLFormElement) {
     const shouldEnrol = Boolean(optInCheckbox?.checked);
 
     if (shouldEnrol && email) {
-      // Send enrollment to Mailchimp in background
+      // Send enrollment to Mailchimp in background with Turnstile token
       fetch('/api/newsletter', {
         method: 'POST',
         headers: {
@@ -177,6 +197,7 @@ function attachContactFormHandler(form: HTMLFormElement) {
           email,
           firstName,
           lastName,
+          'cf-turnstile-response': turnstileToken,
         }),
       }).catch((err) => {
         console.warn('[Mailchimp] Contact opt-in enrollment error:', err);
@@ -249,6 +270,12 @@ function attachContactFormHandler(form: HTMLFormElement) {
           'danger'
         );
       } finally {
+        const turnstileWidget = form.querySelector('.cf-turnstile');
+        if (typeof (window as any).turnstile !== 'undefined' && turnstileWidget) {
+          try {
+            (window as any).turnstile.reset(turnstileWidget);
+          } catch {}
+        }
         if (submitBtn) {
           submitBtn.disabled = false;
           submitBtn.style.opacity = '';

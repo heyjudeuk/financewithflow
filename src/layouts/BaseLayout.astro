@@ -310,6 +310,8 @@ const gaId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
         </script>
       </>
     )}
+    <!-- Cloudflare Turnstile -->
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     <slot name="head" />
   </head>
   <body class={bodyClass}>
