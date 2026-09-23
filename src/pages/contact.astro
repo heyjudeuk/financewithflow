@@ -174,11 +174,12 @@ import { BOOKING_URL } from '../data/bookingConfig';
                 name="newsletter_opt_in"
                 id="form-field-field_a44fdac"
                 class="form-checkbox"
-                required
-                checked
               />
-              <span>By submitting this form you agree to sign up to our newsletter (opt-out possible by unsubscribing) and agree to our terms and conditions and privacy policy.</span>
+              <span>I would like to receive the Finance with Flow newsletter with industry insights and tips (opt-out anytime).</span>
             </label>
+            <p class="privacy-notice">
+              By submitting this form you agree to our <a href="/terms-conditions/">Terms &amp; Conditions</a> and <a href="/privacy-policy/">Privacy Policy</a>.
+            </p>
           </div>
 
           <div class="form-group col-full submit-group">
@@ -490,6 +491,24 @@ import { BOOKING_URL } from '../data/bookingConfig';
     margin-top: 3px;
     flex-shrink: 0;
     cursor: pointer;
+  }
+
+  .privacy-notice {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 0.85em;
+    color: #666666;
+    margin: 10px 0 0 30px;
+    line-height: 1.4;
+  }
+
+  .privacy-notice a {
+    color: #160F3F;
+    text-decoration: underline;
+    transition: color 0.2s ease;
+  }
+
+  .privacy-notice a:hover {
+    color: #31CDB0;
   }
 
   .submit-group {

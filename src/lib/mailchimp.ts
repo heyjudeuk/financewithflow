@@ -151,8 +151,7 @@ export async function subscribeToMailchimp({
 
   const payload: Record<string, any> = {
     email_address: cleanEmail,
-    status_if_new: 'subscribed',
-    status: 'subscribed',
+    status_if_new: 'pending',
   };
 
   if (Object.keys(mergeFields).length > 0) {
@@ -203,10 +202,20 @@ export async function subscribeToMailchimp({
       };
     }
 
+    const isExisting = data.status === 'subscribed' && response.status === 200;
+    const isPending = data.status === 'pending';
+
+    let message = 'Thank you for subscribing! Please check your inbox to confirm your subscription.';
+    if (isExisting) {
+      message = 'You are already subscribed to our newsletter. Thank you!';
+    } else if (!isPending && data.status === 'subscribed') {
+      message = 'Thank you for subscribing! You have been successfully added to our mailing list.';
+    }
+
     return {
       success: true,
-      message: 'Thank you for subscribing! You have been successfully added to our mailing list.',
-      isExisting: data.status === 'subscribed' && response.status === 200,
+      message,
+      isExisting,
     };
   } catch (error: any) {
     console.error('[Mailchimp] Network / unexpected error:', error);

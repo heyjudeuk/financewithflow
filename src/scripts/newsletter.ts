@@ -102,7 +102,7 @@ function attachNewsletterHandler(form: HTMLFormElement) {
       if (res.ok && data.success) {
         showMessage(
           form,
-          data.message || 'Thank you for subscribing! You have been enrolled in our newsletter.',
+          data.message || 'Thank you for subscribing! Please check your inbox to confirm your subscription.',
           'success'
         );
         emailInput.value = '';
@@ -135,6 +135,14 @@ function attachNewsletterHandler(form: HTMLFormElement) {
 
 function attachContactFormHandler(form: HTMLFormElement) {
   form.addEventListener('submit', async (e) => {
+    // Check if bot honeypot was filled
+    const honeypotInput = form.querySelector<HTMLInputElement>(
+      'input[name="bot-field"], input[name="website"], input[name="form_fields[website]"]'
+    );
+    if (honeypotInput && honeypotInput.value.trim() !== '') {
+      return;
+    }
+
     // Check if user opted into newsletter
     const optInCheckbox = form.querySelector<HTMLInputElement>(
       'input[name="newsletter_opt_in"], input[name="form_fields[field_a44fdac]"]'

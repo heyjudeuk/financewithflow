@@ -145,7 +145,7 @@ export default async (req: Request) => {
         {
           success: true,
           message:
-            'Thank you for subscribing! You have been successfully added to our mailing list.',
+            'Thank you for subscribing! Please check your inbox to confirm your subscription.',
         },
         200
       );
