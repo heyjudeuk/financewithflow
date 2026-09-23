@@ -39,6 +39,14 @@ function isRateLimited(ip: string): boolean {
   return entry.count > RATE_LIMIT_MAX;
 }
 
+/**
+ * Request fields arrive as untyped JSON, so a crafted body can send objects or
+ * numbers. Anything that is not a string is treated as absent.
+ */
+function asString(value: unknown): string {
+  return typeof value === 'string' ? value : '';
+}
+
 function json(body: unknown, status: number): Response {
   return new Response(JSON.stringify(body), {
     status,
@@ -85,7 +93,7 @@ export default async (req: Request) => {
     let email = '';
     let firstName = '';
     let lastName = '';
-    let honeypot = '';
+    let honeypot: unknown = '';
 
     const contentType = req.headers.get('content-type') || '';
 
@@ -122,9 +130,16 @@ export default async (req: Request) => {
       }
     }
 
+    email = asString(email);
+    firstName = asString(firstName);
+    lastName = asString(lastName);
+
     // Honeypot: hidden to users, irresistible to bots. Report success so the bot
-    // does not learn it was filtered, but do not touch Mailchimp.
-    if (honeypot && honeypot.trim()) {
+    // does not learn it was filtered, but do not touch Mailchimp. A non-string
+    // value can only come from a crafted request, so it counts as filled.
+    const honeypotFilled =
+      typeof honeypot === 'string' ? honeypot.trim() !== '' : Boolean(honeypot);
+    if (honeypotFilled) {
       console.warn('[newsletter] Honeypot triggered; discarding submission.');
       return json(
         {
