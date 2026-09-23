@@ -63,6 +63,11 @@ function attachNewsletterHandler(form: HTMLFormElement) {
 
     if (!emailInput) return;
 
+    const honeypotInput = form.querySelector<HTMLInputElement>(
+      'input[name="website"], input[name="form_fields[website]"]'
+    );
+    const website = honeypotInput?.value || '';
+
     const email = emailInput.value.trim();
     if (!email) {
       showMessage(form, 'Please enter your email address.', 'danger');
@@ -89,7 +94,7 @@ function attachNewsletterHandler(form: HTMLFormElement) {
           'Content-Type': 'application/json',
           Accept: 'application/json',
         },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, website }),
       });
 
       const data = await res.json().catch(() => ({}));

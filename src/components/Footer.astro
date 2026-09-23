@@ -36,6 +36,11 @@ const currentYear = new Date().getFullYear();
         >
           <input type="hidden" name="post_id" value="220" />
           <input type="hidden" name="form_id" value="909080d" />
+          <!-- Honeypot: off-screen and hidden from assistive tech; bots fill it, people don't. -->
+          <div aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;">
+            <label for="footer-website-input">Website</label>
+            <input type="text" name="form_fields[website]" id="footer-website-input" tabindex="-1" autocomplete="off" />
+          </div>
           <div class="form-fields-wrap">
             <label for="footer-email-input" class="visually-hidden">Email</label>
             <input

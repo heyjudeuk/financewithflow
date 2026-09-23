@@ -15,6 +15,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         </p>
 
         <form class="newsletter-form" name="Newsletter Sign-up" data-newsletter-form>
+          <!-- Honeypot: off-screen and hidden from assistive tech; bots fill it, people don't. -->
+          <div aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;">
+            <label for="newsletter-website">Website</label>
+            <input type="text" name="website" id="newsletter-website" tabindex="-1" autocomplete="off" />
+          </div>
           <div class="form-group">
             <input
               type="email"
